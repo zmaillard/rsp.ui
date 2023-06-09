@@ -1,0 +1,20 @@
+{{define "main"}}
+
+{{ $target := printf "%s/%s/%s/%s" "state" .Params.stateslug .Params.countyslug .Params.slug  }}
+
+{{ $pages := where .Site.RegularPages ".Params.placePages" "!=" nil }}
+{{ $newPages := where $pages ".Params.placePages" "intersect"  ( slice ( $target )) }}
+
+
+<div class="columns body-columns">
+    <div class="column is-half infinite-scroll is-offset-one-quarter">
+        <h3 class="title is-3 has-text-centered">Signs From {{ .Page.Params.name }}</h1>
+            <div class="image-list">
+                {{ range  (.Paginate ($newPages)).Pages }}
+                {{ .Render "summary" }}
+                {{ end }}
+            </div>
+            {{ template "partials/widgets/pagination.html" . }}
+    </div>
+</div>
+{{ end }}

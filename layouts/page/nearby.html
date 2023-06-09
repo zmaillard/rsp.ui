@@ -1,0 +1,35 @@
+{{ define "main" }}
+<p id="status"></p>
+{{ end }}
+
+{{ define "footer" }}
+<script type="module">
+import Geohash from 'https://cdn.jsdelivr.net/npm/latlon-geohash@2.0.0';
+
+const status = document.querySelector("#status");
+
+if (!navigator.geolocation) {
+    status.textContent = "Geolocation Not Supported By Your Browser";
+} else {
+    status.textContent = "Locating…";
+    navigator.geolocation.getCurrentPosition(success, error);
+}
+
+
+function success(position) {
+    const lat = position.coords.latitude;
+    const lng = position.coords.longitude;
+
+    const geohash = Geohash.encode(lat, lng, 5);
+
+
+    window.location.replace('/geohash/' + geohash);
+
+}
+
+function error() {
+    status.textContent = "Unable to retrieve your location";
+}
+
+</script>
+{{ end }}

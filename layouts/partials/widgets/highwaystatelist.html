@@ -1,0 +1,10 @@
+{{ with .Params.states }}
+    {{ range $i, $s := sort . }}
+    {{ $stateSlug := $s }}
+    {{ $path := printf "/%s/%s" "state" $stateSlug }}
+    {{ with $.Site.GetPage $path }}
+    {{ if gt $i 0 }} | {{ end }}
+    <a class="is-text is-marginless is-paddingless is-small" href="{{.RelPermalink}}">{{ .Params.name }}</a>
+    {{ end }}
+    {{ end }}
+{{ end }}

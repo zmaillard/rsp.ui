@@ -1,0 +1,27 @@
+        {{ $link := .RelPermalink }}
+        {{ $featureName := .Params.name }}
+        {{ with .Params.signs }}
+
+        {{ $sign := index (first 1 . ) 0 }}
+        {{ $signCount := len . }}
+        
+        {{ with $sign }}
+        <div class="column is-one-quarter">
+            <div class="card">
+              <div class="card-image">
+                <figure class="image is-4by3">
+                  <a href="{{$link}}">
+                  <img src="https://sign.sagebrushgis.com/{{ .}}/{{ .}}_s.jpg" alt="Placeholder image" >
+                  </a>
+                </figure>
+              </div>
+              <div class="card-content">
+                <div class="content">
+                  <h4 class="is-title">{{$featureName}}</h4>
+                  <p>{{$signCount}} {{ if eq $signCount 1 }} sign {{ else }} signs {{end}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        {{ end }}
+        {{ end }}

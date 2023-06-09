@@ -1,0 +1,31 @@
+{{ define "main" }}
+{{ $signCount := len .Pages }}
+
+
+<article class="media">
+    <figure class="media-left">
+        <p class="image is-32x32">
+        <a href="{{.RelPermalink}}">
+        <img onerror="this.onerror=null; this.remove();" src="https://shield.sagebrushgis.com/Shields/{{.Params.imageName}}">
+        </a>
+        </p>
+</figure>
+<div class="media-content">
+<div class="content">
+<p>
+<strong><a href="{{.RelPermalink}}">{{.Params.name}}</a></strong> <small>{{ $signCount  }} Signs</small>
+{{ $hasState := isset .Params "states" }}
+{{ if $hasState }}
+{{ if gt (len .Params.states ) 1 }}
+<br /> <strong>States:</strong> {{ partial "widgets/highwaystatelist.html" . }}
+{{ else }}
+<br /> <strong>State:</strong> {{ partial "widgets/highwaystatelist.html" . }}
+<br /> <strong>Counties:</strong> {{ partial "widgets/highwaycountylist.html" . }}
+<br /> <strong>Places:</strong> {{ partial "widgets/highwayplacelist.html" . }}
+{{ end }}
+{{ end }}
+</p>
+</div>
+</div>
+</article>
+{{ end }}

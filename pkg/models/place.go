@@ -1,0 +1,30 @@
+package models
+
+import (
+	"highway-sign-portal-builder/pkg/dto"
+	"highway-sign-portal-builder/pkg/generator"
+)
+
+type HugoPlace struct {
+	ID         uint   `gorm:"primaryKey:column:id"`
+	Name       string `gorm:"column:place_name"`
+	Slug       string `gorm:"column:place_slug"`
+	ImageCount int    `gorm:"image_count"`
+	StateName  string `gorm:"column:state_name"`
+	StateSlug  string `gorm:"column:state_slug"`
+}
+
+func (HugoPlace) TableName() string {
+	return "vwhugoplace"
+}
+
+func (s HugoPlace) ConvertToDto() generator.Generator {
+	placeDto := dto.AdminAreaPlaceDto{
+		Name:       s.Name,
+		Slug:       s.Slug,
+		ImageCount: s.ImageCount,
+		StateSlug:  s.StateSlug,
+	}
+
+	return placeDto
+}

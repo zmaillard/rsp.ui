@@ -1,0 +1,28 @@
+{{ with .Params.place }}
+{{ $placeSlug := . }}
+{{ $path := printf "/%s/%s" "place" $placeSlug }}
+{{ with $.Site.GetPage $path }}
+<a class="button is-text is-marginless is-paddingless is-small" href="{{.RelPermalink}}">{{ .Params.name }}</a>
+{{ end }}
+{{ end }}
+
+{{ with .Params.county }}
+{{ $countySlug := . }}
+{{ $path := printf "/%s/%s" "county" $countySlug  }}
+{{ with $.Site.GetPage $path }}
+<a class="button is-text is-marginless is-paddingless is-small" href="{{.RelPermalink}}">{{ .Params.name }}</a>
+{{ end }}
+{{ end }}
+
+{{ $stateSlug := .Params.state }}
+{{ $path := printf "/%s/%s" "state" $stateSlug }}
+{{ with $.Site.GetPage $path }}
+<a class="button is-text is-marginless is-paddingless is-small" href="{{.RelPermalink}}">{{ .Params.name }}</a>
+{{ end }}
+
+
+{{ $countrySlug := .Params.country }}
+{{ $path := printf "/%s/%s" "country" $countrySlug }}
+{{ with $.Site.GetPage $path }}
+<a class="button is-text is-marginless is-paddingless is-small" href="{{.RelPermalink}}">{{ .Params.name }}</a>
+{{ end }}

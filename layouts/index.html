@@ -1,0 +1,126 @@
+{{ define "main" }}
+<section>
+    <div class="container">
+        <div class="columns is-multiline">
+            <div class="column is-12">
+                <h1 class="title has-text-centered">roadsign.pictures</h1>
+                <hr>
+                <h2 class="subtitle has-text-centered">A gallery of road sign photographs taken across North America
+                </h2>
+            </div>
+</div>
+</div>
+</section>
+<section>
+
+<div class="browse-page">
+        {{ $path := printf "/%s/%s" "country" "united-states" }}
+        {{ with $.Site.GetPage $path }}
+        <h3 class="title is-3">United States</h3>
+        <h2 class="subtitle">Browse By State</h2>
+        <div class="columns is-multiline is-mobile">
+        {{ range sort .Params.states "name" "asc" }}
+        {{ $name := .slug }}
+        {{ $statePath := printf "/%s/%s" "state" $name }}
+        {{ with $.Site.GetPage $statePath }}
+        <div class="column is-one-quarter browse-grid-text">
+            <div class="thumbnail">
+                <a href="{{.RelPermalink}}">
+                    <img src="https://sign.sagebrushgis.com/{{.Params.featured}}/{{.Params.featured}}_m.jpg">
+                </a>
+                <div class="caption is-text-overflow">{{.Params.name}}<span class="is-size-7 tag is-rounded">{{.Params.imageCount}}</span></div>
+            </div>
+        </div>
+        {{ end }}
+        {{ end }}
+        </div>
+        <div class="is-divider"></div>
+        <h2 class="subtitle">Browse By Highway</h2>
+        <div class="columns is-multiline is-mobile">
+        {{ range sort .Params.highwayTypes "name" "asc" }}
+        {{ $name := .slug }}
+        {{ $hwyTypePath := printf "/%s/%s" "highwaytype" $name }}
+        {{ with $.Site.GetPage $hwyTypePath }}
+        <div class="column is-one-quarter browse-grid-text">
+            <div class="thumbnail">
+                <a href="{{.RelPermalink}}">
+                    <img src="https://sign.sagebrushgis.com/{{.Params.featured}}/{{.Params.featured}}_m.jpg">
+                </a>
+                <div class="caption is-text-overflow">{{.Params.name}}<span class="is-size-7 tag is-rounded">{{.Params.imageCount}}</span></div>
+            </div>
+        </div>
+        {{ end }}
+        {{ end }}
+        </div>
+        {{ end }}
+        {{ $path := printf "/%s/%s" "country" "canada" }}
+        {{ with $.Site.GetPage $path }}
+        <h3 class="title is-3">Canada</h3>
+        <h2 class="subtitle">Browse By Province</h2>
+        <div class="columns is-multiline is-mobile">
+        {{ range sort .Params.states "name" "asc" }}
+        {{ $name := .slug }}
+        {{ $statePath := printf "/%s/%s" "state" $name }}
+        {{ with $.Site.GetPage $statePath }}
+        <div class="column is-one-quarter browse-grid-text">
+            <div class="thumbnail">
+                <a href="{{.RelPermalink}}">
+                    <img src="https://sign.sagebrushgis.com/{{.Params.featured}}/{{.Params.featured}}_m.jpg">
+                </a>
+                <div class="caption is-text-overflow">{{.Params.name}}<span class="is-size-7 tag is-rounded">{{.Params.imageCount}}</span></div>
+            </div>
+        </div>
+        {{ end }}
+        {{ end }}
+        </div>
+        <div class="is-divider"></div>
+        <h2 class="subtitle">Browse By Highway</h2>
+        <div class="columns is-multiline is-mobile">
+        {{ range sort .Params.highwayTypes "name" "asc" }}
+        {{ $name := .slug }}
+        {{ $hwyTypePath := printf "/%s/%s" "highwaytype" $name }}
+        {{ with $.Site.GetPage $hwyTypePath }}
+        <div class="column is-one-quarter browse-grid-text">
+            <div class="thumbnail">
+                <a href="{{.RelPermalink}}">
+                    <img src="https://sign.sagebrushgis.com/{{.Params.featured}}/{{.Params.featured}}_m.jpg">
+                </a>
+                <div class="caption is-text-overflow">{{.Params.name}}<span class="is-size-7 tag is-rounded">{{.Params.imageCount}}</span></div>
+            </div>
+        </div>
+        {{ end }}
+        {{ end }}
+        </div>
+        {{ end }}
+        {{ $path := printf "/%s/%s" "country" "costa-rica" }}
+        {{ with $.Site.GetPage $path }}
+        <h3 class="title is-3">Costa Rica</h3>
+        <div class="columns is-multiline is-mobile">
+        <div class="column is-one-quarter browse-grid-text">
+            <div class="thumbnail">
+                <a href="{{.RelPermalink}}">
+                    <img src="https://sign.sagebrushgis.com/{{.Params.featured}}/{{.Params.featured}}_m.jpg">
+                </a>
+                <div class="caption is-text-overflow">{{.Params.name}}<span class="is-size-7 tag is-rounded">{{.Params.imagecount}}</span></div>
+            </div>
+        </div>
+        </div>
+        {{ end }}
+        {{ $path := printf "/%s/%s" "country" "mexico" }}
+        {{ with $.Site.GetPage $path }}
+        <h3 class="title is-3">México</h3>
+        <div class="columns is-multiline is-mobile">
+        <div class="column is-one-quarter browse-grid-text">
+            <div class="thumbnail">
+                <a href="{{.RelPermalink}}">
+                    <img src="https://sign.sagebrushgis.com/{{.Params.featured}}/{{.Params.featured}}_m.jpg">
+                </a>
+                <div class="caption is-text-overflow">{{.Params.name}}<span class="is-size-7 tag is-rounded">{{.Params.imagecount}}</span></div>
+            </div>
+        </div>
+        {{ end }}
+</div>
+</section>
+
+
+{{ end }}

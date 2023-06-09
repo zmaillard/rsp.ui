@@ -1,0 +1,54 @@
+{{ define "main" }}
+
+{{ $pageCount := len .Pages }}
+
+{{ if le $pageCount 50 }}
+{{ .Render "all" }}
+{{ else }}
+<h3 class="title is-3">{{.Params.name}}</h3>
+<h2 class="subtitle">Browse By State</h2>
+<div class="columns is-multiline is-mobile">
+    {{ with .Params.states }}
+    {{ range sort . "name" "asc" }}
+    {{ $name := .slug }}
+    {{ $statePath := printf "/%s/%s" "state" $name }}
+    {{ with $.Site.GetPage $statePath }}
+    {{ if .Params.featured }}
+    <div class="column is-one-quarter browse-grid-text">
+        <div class="thumbnail">
+            <a href="{{.RelPermalink}}">
+                <img src="https://sign.sagebrushgis.com/{{.Params.featured}}/{{.Params.featured}}.jpg">
+            </a>
+            <div class="caption is-text-overflow">{{.Params.name}}<span
+                    class="is-size-7 tag is-rounded">{{.Params.imageCount}}</span></div>
+        </div>
+    </div>
+    {{ else }}
+    {{.Params.name}}
+    {{ end }}
+    {{ end }}
+    {{ end }}
+    {{ end }}
+</div>
+<div class="is-divider"></div>
+<h2 class="subtitle">Browse By Highway</h2>
+<div class="columns is-multiline is-mobile">
+    {{ with .Params.highwayTypes }}
+    {{ range sort . "name" "asc" }}
+    {{ $name := .slug }}
+    {{ $hwyTypePath := printf "/%s/%s" "highwaytype" $name }}
+    {{ with $.Site.GetPage $hwyTypePath }}
+    <div class="column is-one-quarter browse-grid-text">
+        <div class="thumbnail">
+            <a href="{{.RelPermalink}}">
+                <img src="https://sign.sagebrushgis.com/{{.Params.featured}}/{{.Params.featured}}.jpg">
+            </a>
+            <div class="caption is-text-overflow">{{.Params.name}}<span
+                    class="is-size-7 tag is-rounded">{{.Params.imageCount}}</span></div>
+        </div>
+    </div>
+    {{ end }}
+    {{ end }}
+    {{ end }}
+    {{ end }}
+    {{ end }}

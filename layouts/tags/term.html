@@ -1,0 +1,13 @@
+{{ define "main"}}
+<div class="columns body-columns">
+    <div class="column is-half infinite-scroll is-offset-one-quarter">
+        <h3 class="title is-3 has-text-centered">Signs Tagged With {{ .Title }}</h1>
+            <div class="image-list">
+                {{ range .Paginator.Pages }}
+                {{ .Render "summary" }}
+                {{ end }}
+            </div>
+            {{ template "partials/widgets/pagination.html" . }}
+    </div>
+</div>
+{{ end }}

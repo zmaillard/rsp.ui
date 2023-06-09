@@ -1,0 +1,20 @@
+<title>Highway Signs</title>
+<meta content="text/html; charset=utf-8" http-equiv="content-type">
+<meta content="width=device-width, initial-scale=1" name="viewport">
+<link href="https://fonts.googleapis.com/css?family=Rubik|Trirong|Overpass+Mono|Overpass" rel="stylesheet">
+<noscript>Javascript Is Required To Use This Page</noscript>
+<link href="/favicon.ico" rel="icon shortcut">
+<link href="https://api.mapbox.com/mapbox-gl-js/v2.6.0/mapbox-gl.css" rel="stylesheet">
+
+{{ $options := (dict "includePaths" (slice "node_modules")) }}
+
+{{ $sass := resources.Get "scss/main.scss" }}
+{{ $style := $sass | resources.ToCSS }}
+
+<link rel="stylesheet" href="{{ $style.RelPermalink }}">
+
+<link rel="canonical" href="{{ .Permalink }}">
+<!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+<meta name="theme-color" content="#008000">

@@ -1,0 +1,91 @@
+@charset "utf-8";
+$dimensions: 16 20 24 32 48 64 96 128;
+$family-primary: Rubik BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+
+$fa-font-path: "../webfonts";
+@import "../../node_modules/@fortawesome/fontawesome-free/scss/fontawesome";
+@import "../../node_modules/@fortawesome/fontawesome-free/scss/solid";
+@import '../../node_modules/bulma/bulma';
+
+@import './signlist';
+@import './w3w';
+// @import './select';
+// @import './freeway';
+// @import './slideshow';
+// @import './signdetails';
+
+@function headings($from:1, $to:6) {
+    @if $from == $to {
+        @return 'h#{$from}';
+    } @else {
+        @return 'h#{$from},' + headings($from+1, $to);
+    }
+}
+
+.body-columns {
+    margin-top: 6vh;
+}
+
+#{headings(1,6)} {
+    font-family: 'Trirong', serif;
+}
+
+.shield-padding{
+    padding: 0.1em;
+}
+
+.shield-flat-list-vertical {
+    vertical-align: middle;
+}
+
+ul.browse-flat-list li:first-child a:before { content: ''; }
+ul.browse-flat-list { list-style-type: none; }
+ul.browse-flat-list li {
+    display: inline;
+}
+
+
+ul.browse-flat-list li a:before {
+    content: '\2022';
+    font-weight: bold;
+    text-decoration: none;
+    color: black;
+}
+
+.is-underline {
+    text-decoration: underline;
+}
+
+
+.navbar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 2;
+    background-color: white;
+    justify-content: space-around;
+    width: 100%;
+    border-bottom: 1px solid lightgray;
+}
+
+.body-columns {
+    margin-top: 6vh;
+}
+
+/*
+html *
+{
+    font-family: 'Rubik', sans-serif;
+}*/
+
+#{headings(1,6)} {
+    font-family: 'Trirong', serif;
+}
+
+.rsp-menu {
+    z-index: 10000;
+}
+
+.wrapper {
+    padding-top: 0.3em;
+}

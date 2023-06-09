@@ -1,0 +1,18 @@
+{{ define "main" }}
+<article class="media">
+    <figure class="media-left">
+      <p class="image is-32x32">
+        <a href="{{.RelPermalink}}">
+        <img src="https://shield.sagebrushgis.com/Shields/{{.Page.Params.imageName}}">
+        </a>
+      </p>
+    </figure>
+    <div class="media-content">
+      <div class="content">
+        <p>
+          <strong>{{.Page.Params.name}}</strong> <small>{{len .Page.Pages }} Signs</small> 
+        </p>
+      </div>
+    </div>
+  </article> 
+{{ end }}

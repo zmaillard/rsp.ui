@@ -1,0 +1,114 @@
+{{ define "main" }}
+<div class="columns has-same-height is-gapless is-centered">
+    <div class="column is-two-thirds image-list">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-header-title">
+                    <h3 class="title has-text-centered has-text-weight-medium is-4">{{ .Title}}</h3>
+                </div>
+            </div>
+            <div class="card-image">
+
+                {{ $signpage := printf "/%s/%s" "sign" .Params.imageid }}
+                {{ $imageid := .Params.imageid }}
+                {{ $title := .Title }}
+                {{with .GetPage $signpage}}
+                <figure class="image widthis-4by3"><a href="/sign/{{ .Params.imageid}}">
+                        <img class="lazy-initial lazy-complete"
+                            data-src="https://sign.sagebrushgis.com/{{ $imageid}}/{{ $imageid}}_l.jpg"
+                            src="https://sign.sagebrushgis.com/{{ $imageid}}/{{ $imageid}}_l.jpg"
+                            alt="{{ .Title }}" style="opacity: 1; transition: opacity 0.15s linear 0s;"></a></figure>
+                {{ end }}
+            </div>
+            <div class="card-content">
+                <div class="content">
+                    <p class="is-size-6">{{ .Content }}</p>
+                </div>
+                <div class="content">
+                    {{ with .Params.date}}
+                    <div class="is-size-7">Taken {{ .Format "01-02-2006"}}</div>
+                    {{ end }}
+
+
+                    {{ with .Params.point }}
+                    <img
+                        src="https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/geojson(%7B%22type%22%3A%22Point%22%2C%22coordinates%22%3A%5B{{.longitude}}%2C{{.latitude}}%20%5D%7D)/{{.longitude}},{{.latitude}},11/1024x200?access_token=pk.eyJ1Ijoic2FnZWJydXNoZ2lzIiwiYSI6ImNqZnQxMjdodDA0Y28zNHB0OXpvNnMyYjQifQ.ut3IkXblOzLoHDYQzymKhQ">
+                    {{ end }}
+                    <div class="level">
+                        <div class="level-left" id="w3wbody">
+
+                        </div>
+                        <div class="level-right">
+                        {{ $geohashpage := printf "/%s/%s" "geohash" .Params.geohash }}
+                        {{ with .GetPage $geohashpage}}
+                            <span class="is-size-7">
+                            <a href="{{.RelPermalink}}">Nearby Signs</a>
+                            </span>
+                            {{end}}
+                        </div>
+                    </div>
+                    {{ with .Params.tags }}
+                    <div class="block">
+                    <div class="tagList">
+                        {{ range . }}
+                        {{ $tagName := . }}
+                        {{ $path := printf "/%s/%s" "tags" $tagName }}
+                        {{ with $.Site.GetPage $path }}
+                        <a href="{{.RelPermalink}}">
+                            <span class="is-size-7 tag is-rounded">{{ $tagName }}</span>
+                        </a>
+                        {{ end }}
+                        {{ end }}
+                    </div>
+                    </div>
+                    {{ end }}
+
+                    {{ with .Params.featureid }}
+                    {{ $name := . }}
+                    {{ $path := printf "/%s/%v" "feature" $name }}
+                    {{ with $.Site.GetPage $path }}
+                    <div class="has-background-light">
+                    {{ .Render "embed" }}
+                    </div>
+                    {{ end }}
+                    {{ end }}
+
+                </div>
+            </div>
+            <nav class="card-footer level">
+                <div class="level-left">
+                    <div class="level-item">
+                        {{ partial "widgets/shieldlist.html" . }}
+                        <span class="fa fa-map-marker-alt fa-w-12"></span>
+                        {{ partial "widgets/locationlist.html" . }}
+                    </div>
+                </div>
+                <div class="level-left">
+
+                </div>
+
+    </div>
+</div>
+{{ end }}
+
+{{ define "footer" }}
+
+<script>
+{{$apiKey := .Site.Params.W3WAPIKEY}}
+{{ with .Params.point }}
+
+(function(lat, lng, apiKey) {
+    fetch("https://api.what3words.com/v3/convert-to-3wa?key=" + apiKey + "&coordinates=" + lat + "%2C" + lng + "&language=en&format=json")
+        .then(f=>f.json())
+        .then(f=> {
+            var words = f.words;
+            var place = f.nearestPlace;
+            var link = f.map;
+
+            var node = '<span class="w3wIcon is-size-6">///</span><span class="is-size-7 w3wWords"><a href="' + link +  '">' + words + '</a></span><span class="is-size-7"> Near ' + place + '</span>';
+            document.getElementById('w3wbody').innerHTML = node;
+        });
+})( "{{.latitude}}", "{{.longitude}}", "{{$apiKey}}" );
+{{ end }}
+</script>
+{{ end }}

@@ -1,0 +1,10 @@
+{{ with .Params.counties }}
+    {{ range $i, $s := sort . }}
+    {{ $countySlug := $s }}
+    {{ $path := printf "/%s/%s" "county" $countySlug }}
+    {{ with $.Site.GetPage $path }}
+    {{ if gt $i 0 }} | {{ end }}
+    <a class="is-text is-marginless is-paddingless is-small" href="{{.RelPermalink}}">{{ .Params.name }}</a>
+    {{ end }}
+    {{ end }}
+{{ end }}

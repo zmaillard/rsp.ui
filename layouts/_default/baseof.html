@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html class="has-navbar-fixed-top" lang="en">
+
+<head>
+    {{- partial "head.html" . -}}
+    {{- block "header" . }}{{- end }}
+</head>
+
+<body>
+    {{- partial "header.html" . -}}
+    <div class="container wrapper">
+        {{- block "main" . }}{{- end }}
+    </div>
+    {{- partial "footer.html" . -}}
+    {{- block "footer" . }}{{- end }}
+</body>
+
+</html>

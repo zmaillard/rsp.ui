@@ -1,0 +1,120 @@
+{{ define "main" }}
+
+{{ $allHighways := newScratch }}
+{{ $highwayTypeMapScratch := newScratch }}
+
+{{ $highwayTypesAll := slice }}
+
+{{ range .Params.highways }}
+{{ $path := printf "/%s/%s" "highway" . }}
+{{ with $.Site.GetPage $path }}
+{{ $highwayTypesAll = $highwayTypesAll | append .Params.highwayType.name }}
+{{ if $allHighways.Get .Params.highwayType.name }}
+{{ $allHighways.Add .Params.highwayType.name . }}
+{{ $highwayTypeMapScratch.SetInMap "highway-type-lookup" .Params.highwayType.name .Params.highwayType.slug }}
+{{ else }}
+{{ $allHighways.Set .Params.highwayType.name ( slice . ) }}
+{{ $highwayTypeMapScratch.SetInMap "highway-type-lookup" .Params.highwayType.name .Params.highwayType.slug }}
+{{ end }}
+{{ end }}
+{{ end }}
+
+{{ $highwayTypes := uniq $highwayTypesAll }}
+
+
+{{ range $highwayTypes }}
+    {{ $name := . }}
+    {{ $slug := index ( $highwayTypeMapScratch.Get "highway-type-lookup") . }}
+    {{ $path := printf "/%s/%s" "highwayType" $slug }}
+    {{ with $.Site.GetPage $path }}
+    {{ if $highwayTypeMapScratch.Get "highway-type-page" }}
+    {{ $tempPageSlice := $highwayTypeMapScratch.Get "highway-type-page" }}
+    {{ $tempPageSlice = $tempPageSlice | append . }}
+    {{ $highwayTypeMapScratch.Set "highway-type-page" $tempPageSlice }}
+    {{ else }}
+    {{ $highwayTypeMapScratch.Set "highway-type-page" (slice .) }}
+    {{ end }}
+    {{ end }}
+{{ end }}
+
+
+
+<section class="section">
+    <div class="container-top">
+        <h3 class="title is-3">Signs From {{.Params.name}}</h3>
+        <section class="hero">
+            <figure class="image is-4by3 width">
+                {{ $path := printf "/%s/%s" "sign" .Params.featured}}
+                {{ $path }}
+                {{ with $.Site.GetPage $path }}
+                <a href="{{.RelPermalink}}">
+                    <img src="https://sign.sagebrushgis.com/{{.Params.imageid}}/{{.Params.imageid}}_l.jpg"
+                        alt="{{.Params.title}}" style="opacity: 1; transition: opacity 0.15s linear 0s;" />
+                </a>
+                {{end }}
+            </figure>
+        </section>
+        <section class="section">
+            <div class="box">
+                    <h4 class="title is-4">Counties</h4>
+                    {{ $stateSlug := $.Params.slug }}
+                    {{ with .Params.counties }}
+                            <ul class="browse-flat-list">
+                            {{ range $idx, $counties := sort . "name" }}
+                            {{ $countypath := printf "/%s/%s_%s" "county" $stateSlug $counties.slug }}
+                            {{ $c := . }}
+                            {{ with $.Site.GetPage $countypath }}
+                            <li>
+                                <a class="is-size-6" href="{{.RelPermalink}}">
+                                    {{$c.name}}
+                                </a>
+                                <span class="tag is-rounded is-info is-light">{{ .Params.imagecount }}</span>
+                            </li>
+                            {{ end }}
+                            {{ end }}
+                            </ul>
+                    {{ end }}
+            </div>
+            <div class="box">
+                <h4 class="title is-4">Localities</h4>
+                    {{ with .Params.places }}
+                        <ul class="browse-flat-list">
+                        {{ range $idx, $places := sort . "name" }}
+                        {{ $placepath := printf "/%s/%s_%s" "place" $stateSlug $places.slug }}
+                        {{ $c := . }}
+                        {{ with $.Site.GetPage $placepath }}
+                        <li>
+                         <a class="is-size-6" href="{{.RelPermalink}}">
+                        {{$c.name}}
+                         <span class="tag is-rounded is-info is-light">{{ .Params.imagecount }}</span>
+                        </a>
+                        </li>
+                        {{ end }}
+                        {{ end }}
+                        </ul>
+                {{ end }}
+            </div>
+            {{ with $highwayTypeMapScratch.Get "highway-type-page" }}
+            <div class="box">
+                <h4 class="title is-4">Highways</h4>
+                {{ range sort . ".Params.Sort" }}
+                {{ $typ := .Params.name }}
+                <div class="block">
+                <p class="title is-size-5">
+                <a href="{{.Params.RelPermalink}}">{{.Params.name}}</a>
+                </p>
+                <ul class="browse-flat-list">
+                {{range $htidx, $hwy := sort ( $allHighways.Get $typ ) ".Params.name"  }}
+
+                {{ .Render "flat"}}
+
+                {{ end }}
+                </ul>
+                </div>
+                {{ end }}
+            </div>
+            {{ end }}
+        </section>
+    </div>
+</section>
+{{ end }}

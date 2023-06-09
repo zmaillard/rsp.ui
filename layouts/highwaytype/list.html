@@ -1,0 +1,19 @@
+{{ define "main"}}
+
+{{ $slug := .Params.slug }}
+
+<div class="columns body-columns">
+    <div class="column is-half infinite-scroll is-offset-one-quarter">
+        <h3 class="title is-3 has-text-centered">{{ .Params.name }}</h3>
+        
+        {{ range sort .Params.highways  }}
+        {{ $path := printf "/%s/%s" "highway" . }}
+        {{ with $.Site.GetPage $path }}
+        {{ if gt (len .Pages) 0 }}
+        {{.Render "tile"}}
+        {{ end }}
+        {{ end }}
+        {{ end }}
+    </div>
+</div>
+{{ end }}

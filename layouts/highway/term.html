@@ -1,0 +1,67 @@
+{{ define "main" }}
+
+    {{$highway := .}}
+    {{ $orderedStates := slice }}
+    <div class="has-text-centered">
+    <figure class="image is-inline-block">
+    <img onerror="this.onerror=null; this.remove();" src="https://shield.sagebrushgis.com/Shields/{{$highway.Params.imagename}}"/>
+    </figure>
+    <h3 class="title is-3 has-text-centered">{{ $highway.Params.name }}</h3>
+    </div>
+
+        {{ if .Page.Params.features }}
+        {{ with .Page.Params.features }}
+        {{ $allFeatures := . }}
+
+        {{ $listOfStates := slice }}
+        {{ $totalList := newScratch }}
+        {{ $idx := 0 }}
+            {{ range $allFeatures }}
+            {{ $path := printf "/%s/%v" "feature" . }}
+            {{ with $.Site.GetPage $path }}
+            {{ if (and (in $highway.Params.states .Params.state.slug) (not (in (last 1 $orderedStates) .Params.state.slug ) )) }}
+            {{ $orderedStates = $orderedStates | append .Params.state.slug }}
+            {{ $totalList.Set (string $idx) $listOfStates }}
+            {{ $idx = add $idx 1 }}
+            {{ $listOfStates = slice }}
+            {{ end }}
+            {{ $listOfStates = $listOfStates | append . }}
+            {{ end }}
+            {{ end }}
+            {{ $totalList.Set (string $idx) $listOfStates }}
+
+            <div class="has-text-centered">
+            {{ $prettyState := slice }}
+            {{ range $orderedStates }}
+            {{ $statePagePath := printf "/%s/%s" "state" . }}
+            {{ with $.Site.GetPage $statePagePath }}
+            {{ $anchor := $.RenderString  (printf "[%s](#%s)" .Params.name .Params.slug)  }}
+            {{ $prettyState = $prettyState | append $anchor }}
+            {{ end }}
+            {{ end }}
+            <h5 class="title is-5 has-text-centered">{{ delimit $prettyState ", " " and "}}</h5>
+            </div>
+
+        {{ range $k, $v :=  $orderedStates }}
+        {{ $scratchIndex := (string (add $k 1)) }}
+        {{ $statePagePath := printf "/%s/%s" "state" $v }}
+        {{ with $.Site.GetPage $statePagePath }}
+        <h4 class="title is-4" id="{{.Params.slug}}" >{{ .Params.name }}<h4>
+        {{ end }}
+
+        <div class="columns is-multiline">
+        {{ range $totalList.Get $scratchIndex }}
+        {{ .Render "summary" }}
+        {{ end }}
+        </div>
+        {{ end }}
+
+        {{ end }}
+        {{ else }}
+        <div class="columns is-multiline">
+        {{range index .Site.Taxonomies.highway $highway.Params.slug }}
+        {{ .Render "tile"}}
+        {{ end }}
+        </div>
+        {{ end }}
+{{ end }}

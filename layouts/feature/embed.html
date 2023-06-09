@@ -1,0 +1,58 @@
+{{ define "main" }}
+<div class="columns is-centered">
+<div class="column is-one-third">
+{{ with .Params.prev}}
+{{ range . }}
+<div>
+{{ $slug := .fromfeatureid }}
+{{ $path := printf "/%s/%v" "feature" $slug  }}
+{{ with .roadname }}
+<i class="fa-solid fa-arrow-left"></i>
+{{ . }}
+{{ end }}
+{{ with .highways }}
+    {{ $hwypath := printf "/%s/%v" "highway" .  }}
+    {{ with $.Site.GetPage $hwypath }}
+<i class="fa-solid fa-arrow-left"></i>
+{{ range . }}
+<img class="shield-padding" src="https://shield.sagebrushgis.com/Shields/20x/{{ .Params.imageName }}" alt="{{ .Params.name }}" />
+{{ end }}
+    {{end}}
+{{ end }}
+{{ with $.Site.GetPage $path }}
+<a href="{{.RelPermalink}}">{{.Params.name}}</a>
+{{ end }}
+</div>
+{{ end }}
+{{ end }}
+</div>
+<div class="column is-one-third">
+<a href="{{.RelPermalink}}">
+{{.Params.name}}
+</a>
+</div>
+<div class="column is-one-third" style="text-align:right;" >
+{{ with .Params.next}}
+{{ range . }}
+<div>
+{{ $slug := .tofeatureid }}
+{{ $path := printf "/%s/%v" "feature" $slug  }}
+{{ with .roadname }}
+{{ . }}
+{{ end }}
+{{ range .highways }}
+    {{ $hwypath := printf "/%s/%v" "highway" .  }}
+    {{ with $.Site.GetPage $hwypath }}
+<img onerror="this.onerror=null; this.remove();" class="shield-padding" src="https://shield.sagebrushgis.com/Shields/20x/{{ .Params.imageName }}" alt="{{ .Params.name }}" />
+{{ end }}
+    {{end}}
+{{ with $.Site.GetPage $path }}
+<a href="{{.RelPermalink}}">{{.Params.name}}</a>
+<i class="fa-solid fa-arrow-right"></i>
+{{ end }}
+</div>
+{{ end }}
+{{ end }}
+</div>
+</div>
+{{ end }}
