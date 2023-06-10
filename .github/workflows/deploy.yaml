@@ -17,3 +17,4 @@ jobs:
         RSP_DB_HOST: ${{ secrets.DB_HOST }}
         RSP_DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
         RSP_DB_PORT: ${{ secrets.DB_PORT }}
+        RSP_DB_NAME: ${{ secrets.DB_NAME }}
