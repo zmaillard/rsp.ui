@@ -8,6 +8,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+      with:
+        node-version: '^16.17.1'
     - uses: actions/setup-go@v4
       with:
         go-version: '^1.20.0'
@@ -18,3 +21,10 @@ jobs:
         RSP_DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
         RSP_DB_PORT: ${{ secrets.DB_PORT }}
         RSP_DB_NAME: ${{ secrets.DB_NAME }}
+    - run: npm install netlify-cli --save-dev
+    - run: npm install
+    - name: Deploy Site
+      env:
+        NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_ACCESS_TOKEN }}
+      run: netlify deploy --prod
