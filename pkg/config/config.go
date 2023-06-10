@@ -31,14 +31,15 @@ func LoadConfig(path string) (config Config, err error) {
 	_, pathErr := os.Stat(filepath.Join(path, ".env"))
 	if !errors.Is(pathErr, os.ErrNotExist) {
 		viper.SetConfigFile(".env")
-		err = viper.ReadInConfig()
 	} else {
-		for _, k := range viper.AllKeys() {
-			v := viper.GetString(k)
-			viper.Set(k, os.ExpandEnv(v))
-		}
+		viper.SetEnvPrefix("RSP")
+		_ = viper.BindEnv("DB_USER", "DB_USER")
+		_ = viper.BindEnv("DB_HOST", "DB_HOST")
+		_ = viper.BindEnv("DB_PASSWORD", "DB_PASSWORD")
+		_ = viper.BindEnv("DB_NAME", "DB_NAME")
+		_ = viper.BindEnv("DB_PORT", "DB_PORT")
 	}
-
+	err = viper.ReadInConfig()
 	err = viper.Unmarshal(&config)
 
 	p, _ := os.Getwd()
