@@ -29,5 +29,6 @@ jobs:
         NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_ACCESS_TOKEN }}
         HUGO_PARAMS_W3WAPIKEY: ${{ secrets.HUGO_PARAMS_W3WAPIKEY }}
       run: |
+        netlify login
         netlify build
         netlify deploy --prod
