@@ -27,14 +27,17 @@ func (c Config) IsValid() bool {
 
 func LoadConfig(path string) (config Config, err error) {
 	viper.AddConfigPath(path)
-
+	viper.AutomaticEnv()
 	_, pathErr := os.Stat(filepath.Join(path, ".env"))
 	if !errors.Is(pathErr, os.ErrNotExist) {
 		viper.SetConfigFile(".env")
+		err = viper.ReadInConfig()
+	} else {
+		for _, k := range viper.AllKeys() {
+			v := viper.GetString(k)
+			viper.Set(k, os.ExpandEnv(v))
+		}
 	}
-
-	viper.AutomaticEnv()
-	err = viper.ReadInConfig()
 
 	err = viper.Unmarshal(&config)
 
