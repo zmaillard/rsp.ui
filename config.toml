@@ -1,4 +1,4 @@
-baseURL = 'https://preview.roadsign.pictures'
+baseURL = 'https://beta.roadsign.pictures'
 languageCode = 'en-us'
 title = 'Roadsign Pictures'
 ignoreErrors = ["error-output-taxonomy"]
