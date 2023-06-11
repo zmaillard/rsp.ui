@@ -1,8 +1,9 @@
 name: Deploy RoadSign Pictures
 on:
-  pull_request:
+  workflow_dispatch:
+  push:
     branches:
-      - main
+      - master
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
