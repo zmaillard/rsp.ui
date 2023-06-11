@@ -30,6 +30,13 @@ jobs:
     - run: hugo --gc --minify
       env:
         HUGO_PARAMS_W3WAPIKEY: ${{ secrets.HUGO_PARAMS_W3WAPIKEY }}
+    - name: Link Site
+      uses: South-Paw/action-netlify-cli@1.0.1
+      env:
+        NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_ACCESS_TOKEN }}
+      with:
+        args: link
     - name: Deploy Site
       uses: South-Paw/action-netlify-cli@1.0.1
       env:
