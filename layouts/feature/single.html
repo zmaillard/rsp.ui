@@ -15,13 +15,11 @@
         <i class="fa-solid fa-arrow-left"></i>
         {{ . }}
         {{ end }}
-        {{ with .highways }}
+        {{ range .highways }}
             {{ $hwypath := printf "/%s/%v" "highway" .  }}
             {{ with $.Site.GetPage $hwypath }}
         <i class="fa-solid fa-arrow-left"></i>
-        {{ range . }}
         <img class="shield-padding" src="https://shield.sagebrushgis.com/Shields/20x/{{ .Params.imageName }}" alt="{{ .Params.name }}" />
-        {{ end }}
             {{ end }}
         {{ end }}
         {{ with $.Site.GetPage $path }}

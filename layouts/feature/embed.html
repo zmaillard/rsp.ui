@@ -2,28 +2,26 @@
 <div class="columns is-centered">
 <div class="column is-one-third">
 {{ with .Params.prev}}
-{{ range . }}
-<div>
-{{ $slug := .fromfeatureid }}
-{{ $path := printf "/%s/%v" "feature" $slug  }}
-{{ with .roadname }}
-<i class="fa-solid fa-arrow-left"></i>
-{{ . }}
-{{ end }}
-{{ with .highways }}
-    {{ $hwypath := printf "/%s/%v" "highway" .  }}
-    {{ with $.Site.GetPage $hwypath }}
-<i class="fa-solid fa-arrow-left"></i>
-{{ range . }}
-<img class="shield-padding" src="https://shield.sagebrushgis.com/Shields/20x/{{ .Params.imageName }}" alt="{{ .Params.name }}" />
-{{ end }}
-    {{end}}
-{{ end }}
-{{ with $.Site.GetPage $path }}
-<a href="{{.RelPermalink}}">{{.Params.name}}</a>
-{{ end }}
-</div>
-{{ end }}
+    {{ range . }}
+        <div>
+        {{ $slug := .fromfeatureid }}
+        {{ $path := printf "/%s/%v" "feature" $slug  }}
+        {{ with .roadname }}
+            <i class="fa-solid fa-arrow-left"></i>
+            {{ . }}
+        {{ end }}
+        {{ range .highways }}
+            {{ $hwypath := printf "/%s/%v" "highway" .  }}
+            {{ with $.Site.GetPage $hwypath }}
+                <i class="fa-solid fa-arrow-left"></i>
+                <img alt="{{ .Params.name }}" class="shield-padding" src="https://shield.sagebrushgis.com/Shields/20x/{{ .Params.imageName }}" />
+            {{end}}
+        {{ end }}
+        {{ with $.Site.GetPage $path }}
+            <a href="{{.RelPermalink}}">{{.Params.name}}</a>
+        {{ end }}
+        </div>
+    {{ end }}
 {{ end }}
 </div>
 <div class="column is-one-third">
@@ -43,7 +41,7 @@
 {{ range .highways }}
     {{ $hwypath := printf "/%s/%v" "highway" .  }}
     {{ with $.Site.GetPage $hwypath }}
-<img onerror="this.onerror=null; this.remove();" class="shield-padding" src="https://shield.sagebrushgis.com/Shields/20x/{{ .Params.imageName }}" alt="{{ .Params.name }}" />
+<img alt="{{ .Params.name }}" class="shield-padding" onerror="this.onerror=null; this.remove();" src="https://shield.sagebrushgis.com/Shields/20x/{{ .Params.imageName }}" />
 {{ end }}
     {{end}}
 {{ with $.Site.GetPage $path }}
