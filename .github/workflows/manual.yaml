@@ -1,4 +1,4 @@
-name: Deploy RoadSign Pictures
+name: Manual Deploy of RoadSign Pictures
 on:
   workflow_dispatch:
 jobs:
@@ -28,6 +28,9 @@ jobs:
       - run: hugo --gc --minify
         env:
           HUGO_PARAMS_W3WAPIKEY: ${{ secrets.HUGO_PARAMS_W3WAPIKEY }}
+          HUGO_PARAMS_SEARCHINDEX: ${{ secrets.HUGO_PARAMS_SEARCHINDEX }}
+          HUGO_PARAMS_SEARCHKEY: ${{ secrets.HUGO_PARAMS_SEARCHKEY }}
+          HUGO_PARAMS_SEARCHURL: ${{ secrets.HUGO_PARAMS_SEARCHURL }}
       - uses: netlify/actions/cli@master
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
