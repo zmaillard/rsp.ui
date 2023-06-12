@@ -16,12 +16,11 @@ enableRobotsTXT = true
 
 [Params]
   W3WAPIKEY = 'dummy'
+#  SEARCH_URL = 'dummy'
+#  SEARCH_INDEX = 'dummy'
+#  SEARCH_KEY = 'dummy'
 
 [module]
   [[module.mounts]]
     source = "assets"
     target = "assets"
-
-  [[module.mounts]]
-    source = "./node_modules/flickity/dist"
-    target = "./assets/flickity"
