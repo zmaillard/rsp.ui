@@ -1,4 +1,4 @@
-name: Deploy RoadSign Pictures
+name: Manual Deploy of RoadSign Pictures
 on:
   workflow_dispatch:
 jobs:
