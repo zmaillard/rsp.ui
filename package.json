@@ -12,7 +12,11 @@
     "bulma": "^0.9.4"
   },
   "dependencies": {
+    "@algolia/autocomplete-js": "^1.9.3",
+    "@algolia/autocomplete-theme-classic": "^1.9.3",
     "@fortawesome/fontawesome-free": "^6.1.2",
+    "@meilisearch/instant-meilisearch": "^0.13.2",
+    "instantsearch.js": "^4.56.1",
     "latlon-geohash": "^2.0.0"
   }
 }

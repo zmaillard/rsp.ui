@@ -1,0 +1,29 @@
+{{ define "header" }}
+<link rel="stylesheet" href="https://unpkg.com/instantsearch.css@7/themes/satellite-min.css" />
+{{ $css := resources.Get "css/theme.min.css" }}
+<link rel="stylesheet" href="{{ $css.RelPermalink }}">
+{{ end }}
+
+{{ define "main" }}
+<header class="header">
+  <div id="autocomplete"></div>
+</header>
+
+<div class="container">
+  <div>
+    <div id="categories"></div>
+  </div>
+  <div>
+    <div id="hits"></div>
+    <div id="pagination"></div>
+  </div>
+</div>
+{{ end }}
+
+{{ define "footer" }}
+{{ $jsBundle := resources.Get "js/search.js" | js.Build | fingerprint  }}
+<input type="hidden" id="search-url" value="{{.Site.Params.SEARCHURL}}" />
+<input type="hidden" id="search-api-key" value="{{.Site.Params.SEARCHKEY}}" />
+<input type="hidden" id="search-index" value="{{.Site.Params.SEARCHINDEX}}" />
+<script src="{{ $jsBundle.RelPermalink }}" integrity="{{ $jsBundle.Data.Integrity }}" defer></script>
+{{ end }}

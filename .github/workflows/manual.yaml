@@ -1,0 +1,37 @@
+name: Deploy RoadSign Pictures
+on:
+  workflow_dispatch:
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: '0.110.0'
+          extended: true
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '^16.17.1'
+      - uses: actions/setup-go@v4
+        with:
+          go-version: '^1.20.0'
+      - run: go run main.go
+        env:
+          RSP_DB_USER: ${{ secrets.DB_USER }}
+          RSP_DB_HOST: ${{ secrets.DB_HOST }}
+          RSP_DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          RSP_DB_PORT: ${{ secrets.DB_PORT }}
+          RSP_DB_NAME: ${{ secrets.DB_NAME }}
+      - run: npm install
+      - run: hugo --gc --minify
+        env:
+          HUGO_PARAMS_W3WAPIKEY: ${{ secrets.HUGO_PARAMS_W3WAPIKEY }}
+      - uses: netlify/actions/cli@master
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        with:
+          args: deploy --dir=public --prod
+          secrets: '["NETLIFY_AUTH_TOKEN", "NETLIFY_SITE_ID"]'

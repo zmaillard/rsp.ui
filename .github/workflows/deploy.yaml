@@ -1,6 +1,5 @@
 name: Deploy RoadSign Pictures
 on:
-  workflow_dispatch:
   push:
     branches:
       - master
