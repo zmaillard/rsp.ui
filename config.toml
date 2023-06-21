@@ -12,7 +12,6 @@ enableRobotsTXT = true
   places = 'place'
   countries = 'country'
   recents = 'recent'
-  geohashes = 'geohash'
 
 [Params]
   W3WAPIKEY = 'dummy'

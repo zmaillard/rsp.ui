@@ -1,35 +1,23 @@
+{{ define "header" }}
+<link rel="stylesheet" href="https://unpkg.com/instantsearch.css@7/themes/satellite-min.css" />
+{{ $css := resources.Get "css/theme.min.css" }}
+<link rel="stylesheet" href="{{ $css.RelPermalink }}">
+{{ end }}
+
 {{ define "main" }}
 <p id="status"></p>
+<div class="container">
+    <div>
+        <div id="hits"></div>
+    </div>
+</div>
 {{ end }}
 
 {{ define "footer" }}
-<script type="module">
-import Geohash from 'https://cdn.jsdelivr.net/npm/latlon-geohash@2.0.0';
+{{ $jsBundle := resources.Get "js/nearby.js" | js.Build | fingerprint  }}
+<input type="hidden" id="search-url" value="{{.Site.Params.SEARCHURL}}" />
+<input type="hidden" id="search-api-key" value="{{.Site.Params.SEARCHKEY}}" />
+<input type="hidden" id="search-index" value="{{.Site.Params.SEARCHINDEX}}" />
+<script src="{{ $jsBundle.RelPermalink }}" integrity="{{ $jsBundle.Data.Integrity }}" defer></script>
 
-const status = document.querySelector("#status");
-
-if (!navigator.geolocation) {
-    status.textContent = "Geolocation Not Supported By Your Browser";
-} else {
-    status.textContent = "Locating…";
-    navigator.geolocation.getCurrentPosition(success, error);
-}
-
-
-function success(position) {
-    const lat = position.coords.latitude;
-    const lng = position.coords.longitude;
-
-    const geohash = Geohash.encode(lat, lng, 5);
-
-
-    window.location.replace('/geohash/' + geohash);
-
-}
-
-function error() {
-    status.textContent = "Unable to retrieve your location";
-}
-
-</script>
 {{ end }}
