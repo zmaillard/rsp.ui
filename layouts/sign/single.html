@@ -39,11 +39,16 @@
 
                         </div>
                         <div class="level-right">
-                        {{ $geohashpage := printf "/%s/%s" "geohash" .Params.geohash }}
-                        {{ with .GetPage $geohashpage}}
+                            {{ with .Params.point }}
+                            {{$latitude := .latitude }}
+                            {{$longitude := .longitude }}
+                        {{ $nearbyPage := printf "/%s" "nearby"  }}
+                        {{ with $.Site.GetPage $nearbyPage}}
+                            {{$link := printf "$s?lat=%v&lng=%v" .RelPermalink $latitude $longitude}}
                             <span class="is-size-7">
-                            <a href="{{.RelPermalink}}">Nearby Signs</a>
+                            <a href="{{.RelPermalink}}?lat={{$latitude}}&lng={{$longitude}}">Nearby Signs</a>
                             </span>
+                            {{end}}
                             {{end}}
                         </div>
                     </div>
