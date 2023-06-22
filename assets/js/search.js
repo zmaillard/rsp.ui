@@ -36,14 +36,23 @@ search.addWidgets([
         container: '#hits',
         templates: {
             item(hit, { html, components }) {
-        return html`<div>
-          <div class="hit-name">
-              <a href="/sign/${hit.id}">
-              ${components.Highlight({ attribute: 'title', hit })}
-              </a>
-          </div>
-          <p>${hit.description}</p>
-        </div>`;
+            return html`<article class="media">
+                    <figure class="media-left">
+                        <p class="image is-4x3">
+                            <a href="/sign/${hit.id}">
+                                <img src="https://sign.sagebrushgis.com/${hit.id}/${hit.id}_t.jpg" />
+                            </a>
+                        </p>
+                    </figure>
+                    <div class="media-content">
+                        <div class="content">
+                            <p><strong><a href="/sign/${hit.id}">${components.Highlight({ attribute: 'title', hit })}</a></strong>
+                            <br/>
+                                ${hit.description}
+                            </p>
+                        </div>
+                    </div>
+        </article>`;
         },
     }}),
     pagination({

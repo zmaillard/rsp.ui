@@ -81,12 +81,14 @@ search.addWidgets([
                 return html`<article class="media">
                     <figure class="media-left">
                         <p class="image is-4x3">
-                            <img src="https://sign.sagebrushgis.com/${hit.id}/${hit.id}_t.jpg" />
+                            <a href="/sign/${hit.id}">
+                                <img src="https://sign.sagebrushgis.com/${hit.id}/${hit.id}_t.jpg" />
+                            </a>
                         </p>
                     </figure>
                     <div class="media-content">
                         <div class="content">
-                            <p><strong>${hit.title}</strong>
+                            <p><strong><a href="/sign/${hit.id}">${hit.title}</a></strong>
                             <br/>
                                 ${hit.description}
                             </p>
