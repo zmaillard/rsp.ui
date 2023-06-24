@@ -2,7 +2,7 @@ name: Deploy RoadSign Pictures
 on:
   push:
     branches:
-      - fix/func-edge-part-3
+      - main
 
 jobs:
   build-and-deploy:
@@ -34,12 +34,6 @@ jobs:
         HUGO_PARAMS_SEARCHINDEX: ${{ secrets.HUGO_PARAMS_SEARCHINDEX }}
         HUGO_PARAMS_SEARCHKEY: ${{ secrets.HUGO_PARAMS_SEARCHKEY }}
         HUGO_PARAMS_SEARCHURL: ${{ secrets.HUGO_PARAMS_SEARCHURL }}
-#    - uses: netlify/actions/cli@master
-#      env:
-#        NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-#        NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-#      with:
-#        args: functions:build --functions func_deploy --src netlify/edge-functions
 
     - run: npm install netlify-cli
     - run: netlify deploy --dir=public --prod
