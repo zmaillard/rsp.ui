@@ -40,9 +40,10 @@ jobs:
 #        NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
 #      with:
 #        args: functions:build --functions func_deploy --src netlify/edge-functions
-    - uses: netlify/actions/cli@master
+
+    - run: npm install netlify-cli
+    - run: netlify deploy --dir=public --prod
+      shell: bash
       env:
         NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
         NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-      with:
-        args: deploy --build --dir=public  --prod
