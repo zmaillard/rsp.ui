@@ -1,6 +1,7 @@
 package models
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/lib/pq"
 	"github.com/mmcloughlin/geohash"
@@ -11,23 +12,24 @@ import (
 	"time"
 )
 
-/*    hs.id,
-hs.title,
-hs.sign_description,
-hs.feature_id,
-hs.date_taken,
-hs.imageid,
-hs.flickrid,
-hs.point,
-aac.slug as country_slug,
-aas.slug as state_slug,
-placejoin.place_slug as place_slug,
-countyjoin.county_slug as county_slug,
-tagjoin.tags,
-hwyjoin.highways,
-hwyjoin.is_to,
-hs.image_height,
-hs.image_width*/
+type HighwaySigns []HugoHighwaySign
+
+func (HighwaySigns) OutLookupFile() string {
+	return "netlify/edge-functions/common/images.json"
+}
+
+func (hs HighwaySigns) GetLookup() ([]byte, error) {
+	var images []string
+
+	for _, v := range hs {
+		images = append(images, v.ImageId.String())
+	}
+	res := map[string]interface{}{
+		"images": images,
+	}
+
+	return json.Marshal(res)
+}
 
 type HugoHighwaySign struct {
 	ID               uint           `gorm:"column:id;primaryKey"`

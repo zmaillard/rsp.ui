@@ -22,7 +22,7 @@ type HighwayService interface {
 }
 
 type SignService interface {
-	GetAllSigns() ([]models.HugoHighwaySign, error)
+	GetAllSigns() (models.HighwaySigns, error)
 }
 
 //go:generate mockgen -destination=mocks/mock_datastore.go -package=mocks . Datastore

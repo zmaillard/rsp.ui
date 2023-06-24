@@ -28,14 +28,6 @@ func main() {
 		panic(err)
 	}
 
-	/*
-		err = generator.SaveLookup(cfg.HugoPath, hwys)
-		if err != nil {
-			panic(err)
-		}
-
-	*/
-
 	for _, v := range hwys {
 		err = generator.SaveItem(cfg.HugoPath, v.ConvertToDto())
 		if err != nil {
@@ -57,6 +49,11 @@ func main() {
 	signService := datastore.GetSignService()
 
 	signs, err := signService.GetAllSigns()
+	if err != nil {
+		panic(err)
+	}
+
+	err = generator.SaveLookup(cfg.HugoPath, signs)
 	if err != nil {
 		panic(err)
 	}

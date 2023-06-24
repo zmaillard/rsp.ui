@@ -1,35 +1,16 @@
-export default async (request, context) =>{
-    let tempImages = {
-        "images": [
-            "957569704",
-            "957572164",
-            "957574672",
-            "957579738",
-            "957584716",
-            "957589126",
-            "957591378",
-            "957593270",
-            "957599628",
-            "957617904",
-            "957620242",
-            "957622472",
-            "957624534"
-        ]
-    }
+import file from "./common/images.json" assert { type: "json" };
 
-    const imageLen = tempImages.images.length;
+export default async (request, context) =>{
+
+    const imageLen = file.images.length;
     const rand = getRandomInt(imageLen);
 
-    const item = tempImages.images[rand];
+    const item = file.images[rand];
 
-    const url = new URL("/sign/" + item);
-    return Response.redirect(url);
+    const newPath = "/sign/" + item;
+    return new URL(newPath, request.url);
 };
 
 function getRandomInt(max) {
     return Math.floor(Math.random() * max);
 }
-
-export const config = {
-    path: "/random",
-};

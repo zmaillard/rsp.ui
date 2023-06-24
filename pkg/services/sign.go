@@ -13,7 +13,7 @@ func NewSignService(db *gorm.DB) SignService {
 	return &signService{db: db}
 }
 
-func (s *signService) GetAllSigns() ([]models.HugoHighwaySign, error) {
+func (s *signService) GetAllSigns() (models.HighwaySigns, error) {
 	var hs []models.HugoHighwaySign
 	err := s.db.Debug().
 		Find(&hs).Error
