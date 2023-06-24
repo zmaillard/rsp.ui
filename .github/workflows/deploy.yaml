@@ -2,7 +2,7 @@ name: Deploy RoadSign Pictures
 on:
   push:
     branches:
-      - main
+      - fix/func-edge-part-3
 
 jobs:
   build-and-deploy:
@@ -39,7 +39,7 @@ jobs:
         NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
         NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
       with:
-        args: functions:build --functions func_deploy
+        args: functions:build --functions func_deploy --src netlify/edge-functions
     - uses: netlify/actions/cli@master
       env:
         NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
