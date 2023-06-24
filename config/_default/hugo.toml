@@ -1,4 +1,3 @@
-baseURL = 'https://beta.roadsign.pictures'
 languageCode = 'en-us'
 title = 'Roadsign Pictures'
 ignoreErrors = ["error-output-taxonomy"]
