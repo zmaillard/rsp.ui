@@ -39,7 +39,7 @@ jobs:
 
       - run: npm install netlify-cli
 
-      - name: Deploy Staging
+      - name: Deploy
         run: netlify deploy --dir=public --prod
         shell: bash
         env:
@@ -80,7 +80,7 @@ jobs:
 
       - run: npm install netlify-cli
 
-      - name: Deploy Staging
+      - name: Deploy
         run: netlify deploy --dir=public --prod
         shell: bash
         env:
