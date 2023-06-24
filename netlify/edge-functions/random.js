@@ -22,8 +22,8 @@ export default async (request, context) =>{
 
     const item = tempImages.images[rand];
 
-    const url = new URL("/sign/" + item);
-    return Response.redirect(url);
+    const newPath = "/sign/" + item;
+    return new URL(newPath, request.url);
 };
 
 function getRandomInt(max) {
