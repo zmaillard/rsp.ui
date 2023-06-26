@@ -12,12 +12,6 @@ enableRobotsTXT = true
   countries = 'country'
   recents = 'recent'
 
-[Params]
-  W3WAPIKEY = 'dummy'
-#  SEARCH_URL = 'dummy'
-#  SEARCH_INDEX = 'dummy'
-#  SEARCH_KEY = 'dummy'
-
 [module]
   [[module.mounts]]
     source = "assets"

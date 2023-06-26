@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html class="has-navbar-fixed-top" lang="en">
 
+{{ $page := sort site.Pages.signs "date" "desc" }}
+
 <head>
     {{- partial "head.html" . -}}
     {{- block "header" . }}{{- end }}
@@ -13,6 +15,14 @@
     </div>
     {{- partial "footer.html" . -}}
     {{- block "footer" . }}{{- end }}
+    <footer class="footer">
+        <div class="content has-text-centered">
+            <p>
+                <strong>roadsign.pictures</strong> |
+                {{.Site.Params.VERSION}}
+            </p>
+        </div>
+    </footer>
 </body>
 
 </html>
