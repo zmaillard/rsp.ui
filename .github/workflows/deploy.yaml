@@ -5,9 +5,25 @@ on:
       - main
 
 jobs:
+  version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: '0'
+      - name: Bump version and push tag
+        uses: anothrNick/github-tag-action@1.36.0
+        id: bump-version
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WITH_V: true
+          DEFAULT_BUMP: patch
+          VERBOSE: true
+          INITIAL_VERSION: 1.0.0
   deploy-staging:
     environment: Staging
     runs-on: ubuntu-latest
+    needs: version
     steps:
       - uses: actions/checkout@v3
       - name: Setup Hugo
@@ -35,6 +51,7 @@ jobs:
           HUGO_PARAMS_SEARCHINDEX: ${{ secrets.HUGO_PARAMS_SEARCHINDEX }}
           HUGO_PARAMS_SEARCHKEY: ${{ secrets.HUGO_PARAMS_SEARCHKEY }}
           HUGO_PARAMS_SEARCHURL: ${{ secrets.HUGO_PARAMS_SEARCHURL }}
+          HUGO_PARAMS_VERSION: ${{ needs.version.outputs.bump-version.new_tag }}
 
       - run: npm install netlify-cli
 
@@ -76,6 +93,7 @@ jobs:
           HUGO_PARAMS_SEARCHINDEX: ${{ secrets.HUGO_PARAMS_SEARCHINDEX }}
           HUGO_PARAMS_SEARCHKEY: ${{ secrets.HUGO_PARAMS_SEARCHKEY }}
           HUGO_PARAMS_SEARCHURL: ${{ secrets.HUGO_PARAMS_SEARCHURL }}
+          HUGO_PARAMS_VERSION: ${{ needs.version.outputs.bump-version.new_tag }}
 
       - run: npm install netlify-cli
 
