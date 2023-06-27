@@ -25,8 +25,8 @@
                 {{ else }}
                 {{.Site.Data.images.mostRecent | time.Format ":date_long"}}
                 {{ end }} |
-                <a href="https://github.com/zmaillard/rsp.ui/releases/tag/{{.Site.Params.VERSION}}">{{.Site.Params.VERSION}}</a> |
-                {{.Site.Data.images.imageCount}} Total Signs |
+                {{.Site.Params.VERSION}} |
+                {{.Site.Data.images.imageCount}} Total Signs
             </p>
         </div>
     </footer>

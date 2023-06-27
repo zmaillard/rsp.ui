@@ -5,6 +5,8 @@ jobs:
   version:
     runs-on: ubuntu-latest
     permissions: write-all
+    outputs:
+      tag: ${{ steps.bump-version.outputs.tag }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -49,7 +51,7 @@ jobs:
           HUGO_PARAMS_SEARCHINDEX: ${{ secrets.HUGO_PARAMS_SEARCHINDEX }}
           HUGO_PARAMS_SEARCHKEY: ${{ secrets.HUGO_PARAMS_SEARCHKEY }}
           HUGO_PARAMS_SEARCHURL: ${{ secrets.HUGO_PARAMS_SEARCHURL }}
-          HUGO_PARAMS_VERSION: ${{ needs.version.outputs.bump-version.tag }}
+          HUGO_PARAMS_VERSION: ${{ needs.version.outputs.tag }}
 
       - run: npm install netlify-cli
       - run: netlify deploy --dir=public --prod
