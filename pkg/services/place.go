@@ -13,15 +13,15 @@ func NewPlaceService(db *gorm.DB) PlaceService {
 	return &placeService{db: db}
 }
 
-func (p *placeService) GetAllCountries() ([]models.HugoCountry, error) {
-	var countries []models.HugoCountry
+func (p *placeService) GetAllCountries() ([]models.Country, error) {
+	var countries []models.Country
 	err := p.db.Debug().Find(&countries).Error
 
 	return countries, err
 }
 
-func (p *placeService) GetAllStates() ([]models.HugoState, error) {
-	var states []models.HugoState
+func (p *placeService) GetAllStates() ([]models.State, error) {
+	var states []models.State
 
 	query := p.db.Debug()
 	err := query.
@@ -35,8 +35,8 @@ func (p *placeService) GetAllStates() ([]models.HugoState, error) {
 	return states, nil
 }
 
-func (p *placeService) GetAllPlaces() ([]models.HugoPlace, error) {
-	var places []models.HugoPlace
+func (p *placeService) GetAllPlaces() ([]models.Place, error) {
+	var places []models.Place
 	err := p.db.Debug().
 		Where("image_count > 0").
 		Find(&places).
@@ -49,8 +49,8 @@ func (p *placeService) GetAllPlaces() ([]models.HugoPlace, error) {
 	return places, nil
 }
 
-func (p *placeService) GetAllCounties() ([]models.HugoCounty, error) {
-	var counties []models.HugoCounty
+func (p *placeService) GetAllCounties() ([]models.County, error) {
+	var counties []models.County
 	err := p.db.Debug().
 		Find(&counties).
 		Error

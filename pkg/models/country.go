@@ -7,7 +7,7 @@ import (
 	"highway-sign-portal-builder/pkg/util"
 )
 
-type HugoCountry struct {
+type Country struct {
 	ID           uint   `gorm:"column:id;primaryKey"`
 	Name         string `gorm:"column:country_name"`
 	Slug         string `gorm:"column:country_slug"`
@@ -17,11 +17,11 @@ type HugoCountry struct {
 	HighwayTypes JSON   `gorm:"column:highway_types"`
 }
 
-func (HugoCountry) TableName() string {
+func (Country) TableName() string {
 	return "vwhugocountry"
 }
 
-func (c HugoCountry) ConvertToDto() generator.Generator {
+func (c Country) ConvertToDto() generator.Generator {
 	var states []adminArea
 	_ = json.Unmarshal(c.States, &states)
 

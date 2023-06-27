@@ -14,7 +14,7 @@ func NewSignService(db *gorm.DB) SignService {
 }
 
 func (s *signService) GetAllSigns() (models.HighwaySigns, error) {
-	var hs []models.HugoHighwaySign
+	var hs []models.HighwaySign
 	err := s.db.Debug().
 		Find(&hs).Error
 

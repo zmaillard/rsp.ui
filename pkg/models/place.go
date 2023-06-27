@@ -5,7 +5,7 @@ import (
 	"highway-sign-portal-builder/pkg/generator"
 )
 
-type HugoPlace struct {
+type Place struct {
 	ID         uint   `gorm:"primaryKey:column:id"`
 	Name       string `gorm:"column:place_name"`
 	Slug       string `gorm:"column:place_slug"`
@@ -14,11 +14,11 @@ type HugoPlace struct {
 	StateSlug  string `gorm:"column:state_slug"`
 }
 
-func (HugoPlace) TableName() string {
+func (Place) TableName() string {
 	return "vwhugoplace"
 }
 
-func (s HugoPlace) ConvertToDto() generator.Generator {
+func (s Place) ConvertToDto() generator.Generator {
 	placeDto := dto.AdminAreaPlaceDto{
 		Name:       s.Name,
 		Slug:       s.Slug,
