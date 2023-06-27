@@ -7,16 +7,21 @@ import (
 
 type Lookup interface {
 	GetLookup() ([]byte, error)
-	OutLookupFile() string
+	OutLookupFiles() []string
 }
 
 func SaveLookup(basePath string, v Lookup) error {
-	newFile := path.Join(basePath, v.OutLookupFile())
 	data, err := v.GetLookup()
-	if err != nil {
-		return err
+	for _, f := range v.OutLookupFiles() {
+		newFile := path.Join(basePath, f)
+		if err != nil {
+			return err
+		}
+		err = os.WriteFile(newFile, data, 0755)
+		if err != nil {
+			return err
+		}
 	}
-	err = os.WriteFile(newFile, data, 0755)
 
-	return err
+	return nil
 }

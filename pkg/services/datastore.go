@@ -6,19 +6,19 @@ import (
 )
 
 type PlaceService interface {
-	GetAllCountries() ([]models.HugoCountry, error)
-	GetAllStates() ([]models.HugoState, error)
-	GetAllCounties() ([]models.HugoCounty, error)
-	GetAllPlaces() ([]models.HugoPlace, error)
+	GetAllCountries() ([]models.Country, error)
+	GetAllStates() ([]models.State, error)
+	GetAllCounties() ([]models.County, error)
+	GetAllPlaces() ([]models.Place, error)
 }
 
 type FeatureService interface {
-	GetAllFeatures() ([]models.HugoFeature, error)
+	GetAllFeatures() ([]models.Feature, error)
 }
 
 type HighwayService interface {
-	GetAllHighways() ([]models.HugoHighway, error)
-	GetAllHighwayTypes() ([]models.HugoHighwayType, error)
+	GetAllHighways() ([]models.Highway, error)
+	GetAllHighwayTypes() ([]models.HighwayType, error)
 }
 
 type SignService interface {

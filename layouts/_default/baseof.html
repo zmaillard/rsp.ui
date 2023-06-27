@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html class="has-navbar-fixed-top" lang="en">
 
-{{ $page := sort site.Pages.signs "date" "desc" }}
-
 <head>
     {{- partial "head.html" . -}}
     {{- block "header" . }}{{- end }}
@@ -18,8 +16,17 @@
     <footer class="footer">
         <div class="content has-text-centered">
             <p>
+                {{ $recent := printf "/recent/%s" (.Site.Data.images.mostRecent | time.Format "2006-01") }}
+                {{ $page := $.Site.GetPage $recent }}
                 <strong>roadsign.pictures</strong> |
-                {{.Site.Params.VERSION}}
+                Last Updated
+                {{ if $page }}
+                <a href="{{$page.RelPermalink}}">{{.Site.Data.images.mostRecent | time.Format ":date_long"}}</a>
+                {{ else }}
+                {{.Site.Data.images.mostRecent | time.Format ":date_long"}}
+                {{ end }} |
+                <a href="https://github.com/zmaillard/rsp.ui/releases/tag/{{.Site.Params.VERSION}}">{{.Site.Params.VERSION}}</a> |
+                {{.Site.Data.images.imageCount}} Total Signs |
             </p>
         </div>
     </footer>
