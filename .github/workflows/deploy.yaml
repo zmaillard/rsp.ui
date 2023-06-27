@@ -3,11 +3,15 @@ on:
   push:
     branches:
       - main
+      - test
 
 jobs:
   version:
     runs-on: ubuntu-latest
     permissions: write-all
+    outputs:
+      tag: ${{ steps.bump-version.outputs.new_tag }}
+      oldtag: ${{ steps.bump-version.outputs.tag }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -25,6 +29,7 @@ jobs:
     environment: Staging
     runs-on: ubuntu-latest
     needs: version
+    if: github.ref == 'refs/heads/test'
     steps:
       - uses: actions/checkout@v3
       - name: Setup Hugo
@@ -52,7 +57,7 @@ jobs:
           HUGO_PARAMS_SEARCHINDEX: ${{ secrets.HUGO_PARAMS_SEARCHINDEX }}
           HUGO_PARAMS_SEARCHKEY: ${{ secrets.HUGO_PARAMS_SEARCHKEY }}
           HUGO_PARAMS_SEARCHURL: ${{ secrets.HUGO_PARAMS_SEARCHURL }}
-          HUGO_PARAMS_VERSION: ${{ needs.version.outputs.bump-version.new_tag }}
+          HUGO_PARAMS_VERSION: ${{ needs.version.outputs.oldtag }}
 
       - run: npm install netlify-cli
 
@@ -64,9 +69,10 @@ jobs:
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
 
   deploy-production:
-    needs: deploy-staging
+    needs: version
     environment: Production
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v3
       - name: Setup Hugo
@@ -94,7 +100,7 @@ jobs:
           HUGO_PARAMS_SEARCHINDEX: ${{ secrets.HUGO_PARAMS_SEARCHINDEX }}
           HUGO_PARAMS_SEARCHKEY: ${{ secrets.HUGO_PARAMS_SEARCHKEY }}
           HUGO_PARAMS_SEARCHURL: ${{ secrets.HUGO_PARAMS_SEARCHURL }}
-          HUGO_PARAMS_VERSION: ${{ needs.version.outputs.bump-version.new_tag }}
+          HUGO_PARAMS_VERSION: ${{ needs.version.outputs.tag }}
 
       - run: npm install netlify-cli
 
