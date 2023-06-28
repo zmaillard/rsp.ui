@@ -22,6 +22,7 @@ jobs:
           INITIAL_VERSION: 1.0.0
           DRY_RUN: true
   build-and-deploy:
+    needs: version
     runs-on: ubuntu-latest
     environment: Production
     steps:
