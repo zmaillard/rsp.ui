@@ -1,10 +1,12 @@
 name: Deploy RoadSign Pictures
 on:
   push:
+    paths-ignore:
+      - 'README.md'
+      - '.github/workflows/manual.yaml'
     branches:
       - main
       - test
-
 jobs:
   version:
     runs-on: ubuntu-latest
