@@ -8,13 +8,14 @@ import (
 )
 
 type Country struct {
-	ID           uint   `gorm:"column:id;primaryKey"`
-	Name         string `gorm:"column:country_name"`
-	Slug         string `gorm:"column:country_slug"`
-	ImageCount   int    `gorm:"column:image_count"`
-	States       JSON   `gorm:"column:states"`
-	Featured     string `gorm:"column:featured"`
-	HighwayTypes JSON   `gorm:"column:highway_types"`
+	ID              uint   `gorm:"column:id;primaryKey"`
+	Name            string `gorm:"column:country_name"`
+	Slug            string `gorm:"column:country_slug"`
+	SubdivisionName string `gorm:"column:subdivision_name"`
+	ImageCount      int    `gorm:"column:image_count"`
+	States          JSON   `gorm:"column:states"`
+	Featured        string `gorm:"column:featured"`
+	HighwayTypes    JSON   `gorm:"column:highway_types"`
 }
 
 func (Country) TableName() string {
@@ -31,7 +32,7 @@ func (c Country) ConvertToDto() generator.Generator {
 	return dto.AdminAreaCountryDto{
 		Name:            c.Name,
 		Slug:            c.Slug,
-		SubdivisionName: "", //TODO::Add support for subdivision type
+		SubdivisionName: c.SubdivisionName,
 		ImageCount:      c.ImageCount,
 		Featured:        c.Featured,
 		States: util.SliceMap(states, func(state adminArea) dto.AdminAreaSlimDto {

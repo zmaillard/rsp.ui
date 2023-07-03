@@ -55,10 +55,12 @@
             </figure>
         </section>
         <section class="section">
+            {{ $stateSlug := $.Params.slug }}
+            {{ $countyParams := .Params.counties }}
+            {{ with .Params.subdivisionname }}
             <div class="box">
-                    <h4 class="title is-4">Counties</h4>
-                    {{ $stateSlug := $.Params.slug }}
-                    {{ with .Params.counties }}
+                    <h4 class="title is-4">{{ . }}</h4>
+                    {{ with $countyParams }}
                             <ul class="browse-flat-list">
                             {{ range $idx, $counties := sort . "name" }}
                             {{ $countypath := printf "/%s/%s_%s" "county" $stateSlug $counties.slug }}
@@ -75,6 +77,7 @@
                             </ul>
                     {{ end }}
             </div>
+            {{ end }}
             <div class="box">
                 <h4 class="title is-4">Localities</h4>
                     {{ with .Params.places }}
@@ -99,9 +102,11 @@
                 <h4 class="title is-4">Highways</h4>
                 {{ range sort . ".Params.Sort" }}
                 {{ $typ := .Params.name }}
+                {{ $hwyTypePagePath := printf "/%s/%s" "highwaytype" .Params.slug }}
+                {{ $hwyTypePage := $.Site.GetPage $hwyTypePagePath }}
                 <div class="block">
                 <p class="title is-size-5">
-                <a href="{{.Params.RelPermalink}}">{{.Params.name}}</a>
+                <a href="{{$hwyTypePage.RelPermalink}}">{{.Params.name}}</a>
                 </p>
                 <ul class="browse-flat-list">
                 {{range $htidx, $hwy := sort ( $allHighways.Get $typ ) ".Params.name"  }}
