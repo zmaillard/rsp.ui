@@ -15,11 +15,28 @@
 <strong><a href="{{.RelPermalink}}">{{.Params.name}}</a></strong> <small>{{ $signCount  }} Signs</small>
 {{ $hasState := isset .Params "states" }}
 {{ if $hasState }}
+
+{{ $aState := index .Params.states 0 }}
+{{ $statePath := printf "/%s/%s" "state" $aState}}
+{{ $defaultName := "State" }}
+{{ $defaultSubdivisionNames := "Counties" }}
+{{ with $.Site.GetPage $statePath }}
+    {{ if isset .Params "subdivisionname" }}
+        {{ $defaultSubdivisionNames = .Params.subdivisionname }}
+    {{ end }}
+    {{ $countryPath := printf "/%s/%s" "country" .Params.countryslug }}
+    {{ with $.Site.GetPage $countryPath }}
+    {{ $defaultName = .Params.subdivisionname }}
+    {{ end }}
+{{ end }}
+
 {{ if gt (len .Params.states ) 1 }}
-<br /> <strong>States:</strong> {{ partial "widgets/highwaystatelist.html" . }}
+<br /> <strong>{{$defaultName | pluralize }}:</strong> {{ partial "widgets/highwaystatelist.html" . }}
 {{ else }}
-<br /> <strong>State:</strong> {{ partial "widgets/highwaystatelist.html" . }}
-<br /> <strong>Counties:</strong> {{ partial "widgets/highwaycountylist.html" . }}
+<br /> <strong>{{$defaultName}}:</strong> {{ partial "widgets/highwaystatelist.html" . }}
+{{ if isset .Params "counties" }}
+    <br /> <strong>{{$defaultSubdivisionNames}}:</strong> {{ partial "widgets/highwaycountylist.html" . }}
+    {{ end }}
 <br /> <strong>Places:</strong> {{ partial "widgets/highwayplacelist.html" . }}
 {{ end }}
 {{ end }}
