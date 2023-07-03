@@ -13,7 +13,7 @@ type AdminAreaSlimDto struct {
 type AdminAreaCountryDto struct {
 	Name            string
 	Slug            string
-	SubdivisionName string
+	SubdivisionName string `yaml:",omitempty"`
 	ImageCount      int
 	States          []AdminAreaSlimDto
 	HighwayTypes    []AdminAreaSlimDto

@@ -9,15 +9,16 @@ import (
 )
 
 type State struct {
-	ID          uint           `gorm:"column:id;primaryKey"`
-	Name        string         `gorm:"column:state_name"`
-	Slug        string         `gorm:"column:state_slug"`
-	ImageCount  int            `gorm:"column:image_count"`
-	Highways    pq.StringArray `gorm:"column:highways;type:text[]"`
-	Featured    string         `gorm:"column:featured"`
-	CountrySlug string         `gorm:"column:country_slug"`
-	Counties    JSON           `gorm:"column:counties"`
-	Places      JSON           `gorm:"column:places"`
+	ID              uint           `gorm:"column:id;primaryKey"`
+	Name            string         `gorm:"column:state_name"`
+	Slug            string         `gorm:"column:state_slug"`
+	SubdivisionName string         `gorm:"column:subdivision_name"`
+	ImageCount      int            `gorm:"column:image_count"`
+	Highways        pq.StringArray `gorm:"column:highways;type:text[]"`
+	Featured        string         `gorm:"column:featured"`
+	CountrySlug     string         `gorm:"column:country_slug"`
+	Counties        JSON           `gorm:"column:counties"`
+	Places          JSON           `gorm:"column:places"`
 }
 
 func (State) TableName() string {
@@ -38,7 +39,7 @@ func (s State) ConvertToDto() generator.Generator {
 	stateDto := dto.AdminAreaStateDto{
 		Name:            s.Name,
 		Slug:            s.Slug,
-		SubdivisionName: "", //TODO::Add support for subdivision type
+		SubdivisionName: s.SubdivisionName,
 		ImageCount:      s.ImageCount,
 		Layout:          "state",
 		Highways:        s.Highways,
