@@ -27,6 +27,11 @@
     {{ $countryPath := printf "/%s/%s" "country" .Params.countryslug }}
     {{ with $.Site.GetPage $countryPath }}
     {{ $defaultName = .Params.subdivisionname }}
+
+    {{ if eq $aState "district-of-columbia" }}
+        {{ $defaultName = "Federal District" }}
+    {{ end }}
+
     {{ end }}
 {{ end }}
 
