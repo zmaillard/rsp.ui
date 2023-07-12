@@ -1,7 +1,10 @@
+{{ $dimClass := "" }}
+{{ if gt .Params.imageHeight .Params.imageWidth }} {{ $dimClass = "is-3by4" }}  {{ else }} {{ $dimClass = "is-4by3" }}  {{ end }}
+
 <div class="column is-one-quarter">
     <div class="card">
         <div class="card-image">
-            <figure class="image is-4by3">
+            <figure class="image {{$dimClass}}">
                 <a href="{{.RelPermalink}}">
                     <img src="https://sign.sagebrushgis.com/{{ .Params.imageid}}/{{ .Params.imageid}}_s.jpg" alt="{{.Params.title}}">
                 </a>

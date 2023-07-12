@@ -43,16 +43,16 @@
     <div class="container-top">
         <h3 class="title is-3">Signs From {{.Params.name}}</h3>
         <section class="hero">
-            <figure class="image is-4by3 width">
-                {{ $path := printf "/%s/%s" "sign" .Params.featured}}
-                {{ $path }}
-                {{ with $.Site.GetPage $path }}
+            {{ $path := printf "/%s/%s" "sign" .Params.featured}}
+            {{ with $.Site.GetPage $path }}
+            <figure class="image {{ if gt .Params.imageHeight .Params.imageWidth }}  is-3by4  {{ else }} is-4by3 {{ end }} width">
                 <a href="{{.RelPermalink}}">
                     <img src="https://sign.sagebrushgis.com/{{.Params.imageid}}/{{.Params.imageid}}_l.jpg"
                         alt="{{.Params.title}}" style="opacity: 1; transition: opacity 0.15s linear 0s;" />
                 </a>
-                {{end }}
             </figure>
+            {{end }}
+
         </section>
         <section class="section">
             {{ $stateSlug := $.Params.slug }}

@@ -11,16 +11,17 @@
         <div>
         {{ $slug := .fromfeatureid }}
         {{ $path := printf "/%s/%v" "feature" $slug  }}
+            <i class="fa-solid fa-arrow-left"></i>
         {{ with .roadname }}
-        <i class="fa-solid fa-arrow-left"></i>
         {{ . }}
         {{ end }}
         {{ range .highways }}
             {{ $hwypath := printf "/%s/%v" "highway" .  }}
             {{ with $.Site.GetPage $hwypath }}
-        <i class="fa-solid fa-arrow-left"></i>
-        <img class="shield-padding" src="https://shield.sagebrushgis.com/Shields/20x/{{ .Params.imageName }}" alt="{{ .Params.name }}" />
-            {{ end }}
+            <a href="{{.RelPermalink}}">
+            <img class="shield-padding" src="https://shield.sagebrushgis.com/Shields/20x/{{ .Params.imageName }}" alt="{{ .Params.name }}" />
+            </a>
+                {{ end }}
         {{ end }}
         {{ with $.Site.GetPage $path }}
         <a href="{{.RelPermalink}}">{{.Params.name}}</a>
@@ -41,8 +42,10 @@
     {{ range .highways }}
         {{ $hwypath := printf "/%s/%v" "highway" .  }}
         {{ with $.Site.GetPage $hwypath }}
-    <img onerror="this.onerror=null; this.remove();" class="shield-padding" src="https://shield.sagebrushgis.com/Shields/20x/{{ .Params.imageName }}" alt="{{ .Params.name }}" />
-    {{ end }}
+        <a href="{{.RelPermalink}}">
+        <img onerror="this.onerror=null; this.remove();" class="shield-padding" src="https://shield.sagebrushgis.com/Shields/20x/{{ .Params.imageName }}" alt="{{ .Params.name }}" />
+        </a>
+            {{ end }}
         {{ end }}
     {{ with $.Site.GetPage $path }}
     <a href="{{.RelPermalink}}">{{.Params.name}}</a>

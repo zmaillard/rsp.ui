@@ -4,14 +4,15 @@
 
         {{ $sign := index (first 1 . ) 0 }}
         {{ $signCount := len . }}
-        
-        {{ with $sign }}
+
+        {{ $signpage := printf "/%s/%s" "sign" $sign }}
+        {{ with $.Site.GetPage $signpage}}
         <div class="column is-one-quarter">
             <div class="card">
               <div class="card-image">
-                <figure class="image is-4by3">
+                <figure class="image {{ if gt .Params.imageHeight .Params.imageWidth }}  is-3by4  {{ else }} is-4by3 {{ end }}">
                   <a href="{{$link}}">
-                  <img src="https://sign.sagebrushgis.com/{{ .}}/{{ .}}_s.jpg" alt="Placeholder image" >
+                  <img src="https://sign.sagebrushgis.com/{{  .Params.imageid}}/{{  .Params.imageid}}_s.jpg" alt="{{.Params.title}}" >
                   </a>
                 </figure>
               </div>
