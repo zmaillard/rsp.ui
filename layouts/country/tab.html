@@ -1,0 +1,79 @@
+{{ $usPath := printf "/%s/%s" "country" "united-states" }}
+{{ $usPage := $.Site.GetPage $usPath }}
+
+{{ $canadaPath := printf "/%s/%s" "country" "canada" }}
+{{ $canadaPage := $.Site.GetPage $canadaPath }}
+
+{{ $mexicoPath :=  printf "/%s/%s" "country" "mexico" }}
+{{ $mexicoPage := $.Site.GetPage $mexicoPath }}
+
+{{ $costaRicaPath :=  printf "/%s/%s" "country" "costa-rica" }}
+{{ $costaRicaPage := $.Site.GetPage $costaRicaPath }}
+
+<div class="tabs is-medium">
+    <ul>
+
+        <li {{ if eq .Params.slug $usPage.Params.slug }} class="is-active" {{ end }}><a {{ if ne .Params.slug $usPage.Params.slug }} href="{{ $usPage.RelPermalink }}"{{ end }}>United States <span
+                class="is-size-7 tag is-rounded">{{len $usPage.Pages}}</span></a></li>
+        <li {{ if eq .Params.slug $canadaPage.Params.slug }} class="is-active" {{ end }}><a {{ if ne .Params.slug $canadaPage.Params.slug }} href="{{ $canadaPage.RelPermalink }}"{{ end }}>Canada <span
+                class="is-size-7 tag is-rounded">{{len $canadaPage.Pages}}</span></a></li>
+        <li {{ if eq .Params.slug $costaRicaPage.Params.slug }} class="is-active" {{ end }}><a {{ if ne .Params.slug $costaRicaPage.Params.slug }} href="{{ $costaRicaPage.RelPermalink }}"{{ end }}>Costa Rica <span
+                class="is-size-7 tag is-rounded">{{len $costaRicaPage.Pages}}</span></a></li>
+        <li {{ if eq .Params.slug $mexicoPage.Params.slug }} class="is-active" {{ end }}><a {{ if ne .Params.slug $mexicoPage.Params.slug }} href="{{ $mexicoPage.RelPermalink }}"{{ end }}>México <span
+                class="is-size-7 tag is-rounded">{{len $mexicoPage.Pages}}</span></a></li>
+
+    </ul>
+</div>
+
+
+{{ $pageCount := len .Pages }}
+
+
+{{ if le $pageCount 50 }}
+{{ .Render "all" }}
+{{ else }}
+<h2 class="subtitle">Browse By {{.Params.subdivisionname}}</h2>
+<div class="columns is-multiline is-mobile">
+    {{ with .Params.states }}
+    {{ range sort . "name" "asc" }}
+    {{ $name := .slug }}
+    {{ $statePath := printf "/%s/%s" "state" $name }}
+    {{ with $.Site.GetPage $statePath }}
+    {{ if .Params.featured }}
+    <div class="column is-one-quarter browse-grid-text">
+        <div class="thumbnail">
+            <a href="{{.RelPermalink}}">
+                <img src="https://sign.sagebrushgis.com/{{.Params.featured}}/{{.Params.featured}}.jpg">
+            </a>
+            <div class="caption is-text-overflow">{{.Params.name}}<span
+                    class="is-size-7 tag is-rounded">{{.Params.imageCount}}</span></div>
+        </div>
+    </div>
+    {{ else }}
+    {{.Params.name}}
+    {{ end }}
+    {{ end }}
+    {{ end }}
+    {{ end }}
+</div>
+<div class="is-divider"></div>
+<h2 class="subtitle">Browse By Highway</h2>
+<div class="columns is-multiline is-mobile">
+    {{ with .Params.highwayTypes }}
+    {{ range sort . "name" "asc" }}
+    {{ $name := .slug }}
+    {{ $hwyTypePath := printf "/%s/%s" "highwaytype" $name }}
+    {{ with $.Site.GetPage $hwyTypePath }}
+    <div class="column is-one-quarter browse-grid-text">
+        <div class="thumbnail">
+            <a href="{{.RelPermalink}}">
+                <img src="https://sign.sagebrushgis.com/{{.Params.featured}}/{{.Params.featured}}.jpg">
+            </a>
+            <div class="caption is-text-overflow">{{.Params.name}}<span
+                    class="is-size-7 tag is-rounded">{{.Params.imageCount}}</span></div>
+        </div>
+    </div>
+    {{ end }}
+    {{ end }}
+    {{ end }}
+    {{ end }}
