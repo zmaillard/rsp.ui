@@ -20,3 +20,11 @@ func (s *signService) GetAllSigns() (models.HighwaySigns, error) {
 
 	return hs, err
 }
+
+func (s *signService) GetAllTags() (models.Tags, error) {
+	var tags []models.Tag
+
+	err := s.db.Debug().Find(&tags).Error
+
+	return tags, err
+}

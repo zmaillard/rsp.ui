@@ -23,9 +23,9 @@ type HighwayService interface {
 
 type SignService interface {
 	GetAllSigns() (models.HighwaySigns, error)
+	GetAllTags() (models.Tags, error)
 }
 
-//go:generate mockgen -destination=mocks/mock_datastore.go -package=mocks . Datastore
 type Datastore interface {
 	GetSignService() SignService
 	GetFeatureService() FeatureService

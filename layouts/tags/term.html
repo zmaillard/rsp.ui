@@ -1,7 +1,10 @@
 {{ define "main"}}
+
+{{ $name := index  $.Site.Data.tags .Title }}
+
 <div class="columns body-columns">
     <div class="column is-half infinite-scroll is-offset-one-quarter">
-        <h3 class="title is-3 has-text-centered">Signs Tagged With {{ .Title }}</h1>
+        <h3 class="title is-3 has-text-centered">Signs Tagged With {{ $name }}</h3>
             <div class="image-list block">
                 {{ range .Paginator.Pages }}
                 {{ .Render "summary" }}
