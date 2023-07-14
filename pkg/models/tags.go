@@ -1,5 +1,11 @@
 package models
 
+import (
+	"encoding/json"
+)
+
+type Tags []Tag
+
 type Tag struct {
 	Id           uint   `gorm:"column:id"`
 	Name         string `gorm:"column:name"`
@@ -11,13 +17,17 @@ func (*Tag) TableName() string {
 	return "tag"
 }
 
-type HighwaySignTag struct {
-	Id     uint `gorm:"column:id"`
-	SignId uint `gorm:"column:highwaysign_id"  json:"-"`
-	TagId  uint `gorm:"column:tag_id" json:"-"`
-	Tag    Tag  `gorm:"foreignKey:TagId"`
+func (Tags) OutLookupFiles() []string {
+	return []string{"data/tags.json"}
 }
 
-func (*HighwaySignTag) TableName() string {
-	return "tag_highwaysign"
+func (ts Tags) GetLookup() ([]byte, error) {
+	tags := make(map[string]string)
+
+	for _, v := range ts {
+		tags[v.Slug] = v.Name
+
+	}
+
+	return json.Marshal(tags)
 }

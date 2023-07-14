@@ -123,4 +123,13 @@ func main() {
 		}
 	}
 
+	tags, err := signService.GetAllTags()
+	if err != nil {
+		panic(err)
+	}
+	err = generator.SaveLookup(cfg.HugoPath, tags)
+	if err != nil {
+		panic(err)
+	}
+
 }

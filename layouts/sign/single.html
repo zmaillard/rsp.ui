@@ -61,8 +61,9 @@
                         {{ $tagName := . }}
                         {{ $path := printf "/%s/%s" "tags" $tagName }}
                         {{ with $.Site.GetPage $path }}
+                        {{ $tagDisplay := index  $.Site.Data.tags $tagName }}
                         <a href="{{.RelPermalink}}">
-                            <span class="is-size-7 tag is-rounded">{{ $tagName }}</span>
+                            <span class="is-size-7 tag is-rounded">{{ $tagDisplay }}</span>
                         </a>
                         {{ end }}
                         {{ end }}
