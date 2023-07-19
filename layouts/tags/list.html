@@ -1,0 +1,44 @@
+{{ define "main"}}
+{{ $letters := slice }}
+{{ $scratch := newScratch }}
+<nav class="breadcrumb" aria-label="breadcrumbs">
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li class="is-active"><a href="#" aria-current="page">Tags</a></li>
+    </ul>
+</nav>
+<div class="block">
+    <h3 class="title is-3">Tags</h3>
+    {{ range $idx, $term := .Data.Terms.Alphabetical }}
+
+    {{ $name := index $.Site.Data.tags $term.Page.Title }}
+
+    {{ $firstLetter := substr (trim $name " ") 0 1}}
+    {{ if strings.Contains "0123456789" $firstLetter }}
+    {{ $scratch.Add "0-9" (slice $term) }}
+    {{ $letters = $letters | append "0-9" }}
+    {{ else }}
+    {{ $letters = $letters | append (upper $firstLetter) }}
+    {{ $scratch.Add (upper $firstLetter) (slice $term) }}
+    {{ end }}
+    {{end }}
+
+    {{ range (uniq $letters) }}
+
+    <section class="section">
+        <h4 class="title is-4">{{ . }}</h4>
+
+        {{ range $idx, $term := $scratch.Get . }}
+        {{ $name := index $.Site.Data.tags $term.Page.Title }}
+        {{ if gt $idx 0 }}
+        <span> | </span>
+        {{ end }}
+        <a href="{{$term.Page.RelPermalink}}">{{ $name }} <span class="tag is-rounded is-info is-light">{{len $term.Pages }}</span></a>
+        {{ end }}
+    </section>
+    {{ end }}
+
+</div>
+
+{{ end }}
+
