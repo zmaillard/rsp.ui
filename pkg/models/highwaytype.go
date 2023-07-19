@@ -15,6 +15,7 @@ type HighwayType struct {
 	ImageCount int            `gorm:"column:imagecount"`
 	Featured   types.ImageID  `gorm:"column:imageid" `
 	Highways   pq.StringArray `gorm:"column:highways;type:[]string"`
+	Country    string         `gorm:"column:country"`
 }
 
 func (HighwayType) TableName() string {
@@ -29,6 +30,7 @@ func (ht HighwayType) ConvertToDto() generator.Generator {
 		ImageCount:      ht.ImageCount,
 		Featured:        ht.Featured.String(),
 		HighwayTaxomomy: ht.Highways,
+		Country:         ht.Country,
 	}
 
 	return highwayDto

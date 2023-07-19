@@ -38,6 +38,16 @@
 {{ end }}
 
 
+{{ $countryPath := printf "/%s/%s" "country" .Params.countryslug }}
+{{ $country := $.Site.GetPage $countryPath }}
+<nav class="breadcrumb" aria-label="breadcrumbs">
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="{{$country.RelPermalink}}">{{$country.Params.name}}</a></li>
+        <li class="is-active"><a href="#" aria-current="page">{{.Params.name}}</a></li>
+    </ul>
+</nav>
+
 
 <section class="section">
     <div class="container-top">

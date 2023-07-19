@@ -12,6 +12,7 @@ type HighwayTypeDto struct {
 	ImageCount      int      `yaml:"imageCount"`
 	Featured        string   `yaml:"featured,omitempty"`
 	HighwayTaxomomy []string `yaml:"highways"`
+	Country         string   `yaml:"country"`
 }
 
 func (ht HighwayTypeDto) ToMarkdown() ([]byte, error) {
