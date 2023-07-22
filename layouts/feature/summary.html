@@ -11,7 +11,7 @@
             <div class="card">
               <div class="card-image">
                 <figure class="image {{ if gt .Params.imageHeight .Params.imageWidth }}  is-3by4  {{ else }} is-4by3 {{ end }}">
-                  <a href="{{$link}}">
+                  <a id="{{.Params.id}}" href="{{$link}}">
                   <img src="https://sign.sagebrushgis.com/{{  .Params.imageid}}/{{  .Params.imageid}}_s.jpg" alt="{{.Params.title}}" >
                   </a>
                 </figure>
