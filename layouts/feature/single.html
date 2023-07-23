@@ -1,4 +1,44 @@
 {{ define "main" }}
+{{ $stateSlug := .Params.state.slug }}
+{{ $statePath := printf "/%s/%s" "state" $stateSlug}}
+
+{{ $state := $.Site.GetPage $statePath }}
+{{ $countryPath := printf "/%s/%s" "country" .Params.country.slug }}
+{{ $country := $.Site.GetPage $countryPath }}
+
+{{ $highways := slice }}
+{{ range .Params.next }}
+{{ range .highways }}
+{{ $highways = $highways | append  . }}
+{{ end }}
+{{ end }}
+{{ range .Params.prev }}
+{{ range .highways }}
+{{ $highways = $highways | append  . }}
+{{ end }}
+{{ end }}
+
+
+<nav class="breadcrumb" aria-label="breadcrumbs">
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="{{$country.RelPermalink}}">{{$country.Params.name}}</a></li>
+        <li><a href="{{$state.RelPermalink}}">{{$state.Params.name}}</a></li>
+        {{ if $highways }}
+        <li>
+            {{ range sort (uniq $highways) }}
+            {{ $hwypath := printf "/%s/%v" "highway" .  }}
+            {{ with $.Site.GetPage $hwypath }}
+            <a href="{{.RelPermalink}}">
+                <img class="shield-padding" src="https://shield.sagebrushgis.com/Shields/20x/{{ .Params.imageName }}" alt="{{ .Params.name }}" />
+            </a>
+            {{ end }}
+            {{ end }}
+        </li>
+        {{ end }}
+        <li class="is-active"><a href="#" aria-current="page">{{.Params.name}}</a></li>
+    </ul>
+</nav>
 <div class="columns ">
     <div class="column is-centered is-full">
         <h1 class="title">{{ .Params.name}}</h1>

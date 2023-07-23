@@ -5,7 +5,7 @@
 {{ range first 1 $orderedRecents }}
 {{ $statePath := printf "/%s/%s" "recent" .Term }}
 {{ with $.Site.GetPage $statePath }}
-{{ .Render "term" }}
+{{ .Render "item" }}
 {{ end }}
 {{ end }}
 
