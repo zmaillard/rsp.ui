@@ -1,0 +1,88 @@
+{{ $years := dict }}
+
+{{ $orderedRecents :=  site.Taxonomies.recent.Alphabetical.Reverse }}
+{{ $idx := 0 }}
+{{ $total := len $orderedRecents }}
+{{ $pageTitle := .Page.Title }}
+{{ range $i, $rec := $orderedRecents }}
+{{ if eq $rec.Term $pageTitle }}
+{{ $idx = $i }}
+{{ end }}
+
+{{ $fixedDate := printf "%s-%s" $rec.Term "01" }}
+{{$curYear := time.Format "2006"  $fixedDate}}
+
+{{ if (not ( index $years $curYear ) ) }}
+{{ $years = merge $years (dict $curYear $rec.Term) }}
+{{ end }}
+
+{{ end }}
+
+
+
+<div class="columns">
+<div class="column is-full">
+{{ $fixedDate := printf "%s-%s" .Page.Title "01" }}
+<h3 class="title is-3">Signs Taken {{time.Format "January 2006"  $fixedDate}}</h3>
+    <nav class="level">
+        <div class="level-left">
+        {{ if gt $idx 0 }}
+            {{ with (index $orderedRecents (sub $idx 1)) }}
+            {{ $fixedDate := printf "%s-%s" .Term "01" }}
+            <div class="level-item">
+            <i class="fa-solid fa-arrow-left"></i>
+            <a href="{{.Page.RelPermalink}}">{{time.Format "January 2006"  $fixedDate}}</a>
+            </div>
+            {{ end }}
+        {{ end }}
+        </div>
+        <div class="level-right">
+        {{ if lt $idx (sub $total 1) }}
+            {{ with (index $orderedRecents (add $idx 1)) }}
+            {{ $fixedDate := printf "%s-%s" .Term "01" }}
+            <div class="level-item">
+            <a href="{{.Page.RelPermalink}}">{{time.Format "January 2006"  $fixedDate}}</a>
+            <i class="fa-solid fa-arrow-right"></i>
+            </div>
+            {{ end }}
+        {{ end }}
+        </div>
+    </nav>
+<div class="columns is-centered is-multiline">
+{{ range .Pages }}
+{{.Render "tile"}}
+{{ end }}
+</div>
+    <nav class="level">
+        <div class="level-left">
+        {{ if gt $idx 0 }}
+        {{ with (index $orderedRecents (sub $idx 1)) }}
+        {{ $fixedDate := printf "%s-%s" .Term "01" }}
+        <div class="level-item">
+            <i class="fa-solid fa-arrow-left"></i>
+            <a href="{{.Page.RelPermalink}}">{{time.Format "January 2006"  $fixedDate}}</a>
+        </div>
+        {{ end }}
+        {{ end }}
+        </div>
+        <div class="level-right">
+        {{ if lt $idx (sub $total 1) }}
+        {{ with (index $orderedRecents (add $idx 1)) }}
+        {{ $fixedDate := printf "%s-%s" .Term "01" }}
+        <div class="level-item">
+            <a href="{{.Page.RelPermalink}}">{{time.Format "January 2006"  $fixedDate}}</a>
+            <i class="fa-solid fa-arrow-right"></i>
+        </div>
+        {{ end }}
+        {{ end }}
+        </div>
+    </nav>
+    <div class="block">
+            {{range  $k, $v :=  $years }}
+            {{ $recentPage := printf "recent/%s" $v }}
+            {{ with $.Site.GetPage $recentPage }}
+            <a href="{{.RelPermalink}}">{{$k}}</a>
+            {{ end }}
+            {{ end }}
+    </div>
+</div>
