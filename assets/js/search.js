@@ -92,7 +92,7 @@ const searchPageState = getInstantSearchUiState();
 let skipInstantSearchUiStateUpdate = false;
 const { setQuery } = autocomplete({
     container: '#autocomplete',
-    placeholder: 'Search for products',
+    placeholder: 'Search for signs',
     detachedMediaQuery: 'none',
     initialState: {
         query: searchPageState.query || '',

@@ -13,7 +13,8 @@
     </ul>
 </nav>
 
-    {{$highway := .}}
+    {{$highway := . }}
+    {{$stateCount := len $highway.Params.states }}
     {{ $orderedStates := slice }}
     <div class="has-text-centered">
     <figure class="image is-inline-block">
@@ -21,8 +22,17 @@
     </figure>
     <h3 class="title is-3 has-text-centered">{{ $highway.Params.name }}</h3>
     </div>
+        {{ if (and (eq $stateCount 1) ( isset $highway.Params "features" )) }}
+        <div class="columns is-multiline">
+            {{ range $highway.Params.features }}
+            {{ $fpath := printf "/%s/%v" "feature" . }}
+            {{ with $.Site.GetPage $fpath }}
+            {{ .Render "summary" }}
+            {{ end }}
+            {{ end }}
+        </div>
 
-        {{ if .Page.Params.features }}
+        {{ else if .Page.Params.features }}
         {{ with .Page.Params.features }}
         {{ $allFeatures := . }}
 
@@ -59,7 +69,7 @@
         {{ $scratchIndex := (string (add $k 1)) }}
         {{ $statePagePath := printf "/%s/%s" "state" $v }}
         {{ with $.Site.GetPage $statePagePath }}
-        <h4 class="title is-4" id="{{.Params.slug}}" >{{ .Params.name }}<h4>
+        <h4 class="title is-4" id="{{.Params.slug}}" >{{ .Params.name }}</h4>
         {{ end }}
 
         <div class="columns is-multiline">
