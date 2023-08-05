@@ -17,15 +17,41 @@
     </ul>
 </nav>
 
-
-
+{{ $signCount := len .Pages }}
 {{ with $state }}
 <h3 class="title is-3">{{$countyName}}, {{.Params.name}}</h3>
+<h4 class="subtitle is-4">{{$signCount}} Signs</h4>
+{{ end }}
+{{ $groupedPlaces := .Page.Pages.GroupByParam "place" }}
+<h5 class="subtitle is-5">Localities:
+{{ if gt (len $groupedPlaces) 1 }}
+{{ range $idx, $val := $groupedPlaces }}
+{{ $placePath := printf "/%s/%s" "place" $val.Key}}
+{{ with $.Site.GetPage $placePath}}
+{{ if gt $idx 0 }}
+|
+{{ end }}
+<a href="#{{.Params.slug}}">{{ .Params.name }}</a>
+{{ end }}
+{{ end }}
+</h5>
 {{ end }}
 
+<div class="block">
+{{ range $groupedPlaces }}
+{{ $placePath := printf "/%s/%s" "place" .Key}}
+{{ $placePage := $.Site.GetPage $placePath}}
+{{ if $placePage }}
+{{ with $.Site.GetPage $placePath }}
+<h4 class="title is-4" id="{{.Params.slug}}"  ><a href="{{.RelPermalink}}">{{ .Params.name }}</a></h4>
+{{ end }}
+{{ else }}
+<h4 class="title is-4"  >No Place Associated</h4>
+{{ end }}
 
 <div class="columns is-centered is-multiline">
-{{ range .Page.Pages }}
+
+    {{ range .Pages }}
 {{ $signId := .Params.imageid}}
 {{ $signpath := printf "/%s/%s" "sign" $signId}}
 {{ with $.Site.GetPage $signpath }}
@@ -33,5 +59,7 @@
 {{ end }}
 {{ end }}
 </div>
+    {{end}}
 
+</div>
 {{ end }}
