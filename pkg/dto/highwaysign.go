@@ -19,7 +19,7 @@ type HighwaySignDto struct {
 	DateTaken   time.Time `yaml:"date"`
 	ImageId     string
 	FlickrId    *string `yaml:",omitempty"`
-	PlaceSlug   *string `yaml:"place,omitempty"`
+	PlaceSlug   *string `yaml:"place"`
 	Point       struct {
 		Latitude  float64
 		Longitude float64
