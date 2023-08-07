@@ -5,7 +5,6 @@
 {{ $countyName := .Params.name }}
 
 {{ $state := $.Site.GetPage $statePath }}
-
 {{ $countryPath := printf "/%s/%s" "country" $state.Params.countryslug }}
 {{ $country := $.Site.GetPage $countryPath }}
 <nav class="breadcrumb" aria-label="breadcrumbs">
@@ -17,12 +16,15 @@
     </ul>
 </nav>
 
-{{ $signCount := len .Pages }}
+{{ $signPages := where .Pages "Type" "sign" }}
+
+{{ $signCount := len $signPages }}
 {{ with $state }}
 <h3 class="title is-3">{{$countyName}}, {{.Params.name}}</h3>
 <h4 class="subtitle is-4">{{$signCount}} Signs</h4>
 {{ end }}
-{{ $groupedPlaces := .Page.Pages.GroupByParam "place" }}
+
+{{ $groupedPlaces := $signPages.GroupByParam "place" }}
 <h5 class="subtitle is-5">Localities:
 {{ if gt (len $groupedPlaces) 1 }}
 {{ range $idx, $val := $groupedPlaces }}
