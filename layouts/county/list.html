@@ -16,15 +16,13 @@
     </ul>
 </nav>
 
-{{ $signPages := where .Pages "Type" "sign" }}
-
-{{ $signCount := len $signPages }}
 {{ with $state }}
 <h3 class="title is-3">{{$countyName}}, {{.Params.name}}</h3>
-<h4 class="subtitle is-4">{{$signCount}} Signs</h4>
 {{ end }}
 
-{{ $groupedPlaces := $signPages.GroupByParam "place" }}
+{{ $signTotal := where .Pages "Params.place" "!=" nil }}
+
+{{ $groupedPlaces := $signTotal.GroupByParam "place" }}
 <h5 class="subtitle is-5">Localities:
 {{ if gt (len $groupedPlaces) 1 }}
 {{ range $idx, $val := $groupedPlaces }}
@@ -62,6 +60,21 @@
 {{ end }}
 </div>
     {{end}}
+
+    {{ $noPlaces := where .Pages "Params.place" "==" nil }}
+    {{ with $noPlaces }}
+    <h4 class="title is-4" >No Place Associated</h4>
+    <div class="columns is-centered is-multiline">
+
+        {{ range . }}
+        {{ $signId := .Params.imageid}}
+        {{ $signpath := printf "/%s/%s" "sign" $signId}}
+        {{ with $.Site.GetPage $signpath }}
+        {{.Render "tile" }}
+        {{ end }}
+        {{ end }}
+    </div>
+    {{ end }}
 
 </div>
 {{ end }}
