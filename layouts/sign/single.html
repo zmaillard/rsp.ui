@@ -17,8 +17,8 @@
                 {{with .GetPage $signpage}}
                 <figure class="image width {{ $dimClass }}"><a href="/sign/{{ .Params.imageid}}">
                         <img class="lazy-initial lazy-complete"
-                            data-src="{{site.Params.SIGN_BASE_URL}}{{ $imageid}}/{{ $imageid}}_l.jpg"
-                            src="{{site.Params.SIGN_BASE_URL}}{{ $imageid}}/{{ $imageid}}_l.jpg"
+                            data-src="{{site.Params.SIGNBASEURL}}{{ $imageid}}/{{ $imageid}}_l.jpg"
+                            src="{{site.Params.SIGNBASEURL}}{{ $imageid}}/{{ $imageid}}_l.jpg"
                             alt="{{ .Title }}" style="opacity: 1; transition: opacity 0.15s linear 0s;"></a></figure>
                 {{ end }}
             </div>

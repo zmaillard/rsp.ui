@@ -57,7 +57,7 @@
             {{ with $.Site.GetPage $path }}
             <figure class="image {{ if gt .Params.imageHeight .Params.imageWidth }}  is-3by4  {{ else }} is-4by3 {{ end }} width">
                 <a href="{{.RelPermalink}}">
-                    <img src="{{site.Params.SIGN_BASE_URL}}{{.Params.imageid}}/{{.Params.imageid}}_l.jpg"
+                    <img src="{{site.Params.SIGNBASEURL}}{{.Params.imageid}}/{{.Params.imageid}}_l.jpg"
                         alt="{{.Params.title}}" style="opacity: 1; transition: opacity 0.15s linear 0s;" />
                 </a>
             </figure>

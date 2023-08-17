@@ -60,8 +60,8 @@ jobs:
           HUGO_PARAMS_SEARCHKEY: ${{ secrets.HUGO_PARAMS_SEARCHKEY }}
           HUGO_PARAMS_SEARCHURL: ${{ secrets.HUGO_PARAMS_SEARCHURL }}
           HUGO_PARAMS_VERSION: ${{ needs.version.outputs.oldtag }}
-          HUGO_PARAMS_SIGN_BASE_URL: ${{ secrets.HUGO_PARAMS_SIGN_BASE_URL }}
-          HUGO_PARAMS_SHIELD_BASE_URL: ${{ secrets.HUGO_PARAMS_SHIELD_BASE_URL }}
+          HUGO_PARAMS_SIGNBASEURL: ${{ vars.HUGO_PARAMS_SIGNBASEURL }}
+          HUGO_PARAMS_SHIELDBASEURL: ${{ vars.HUGO_PARAMS_SHIELDBASEURL }}
 
       - run: npm install netlify-cli
 
@@ -105,8 +105,8 @@ jobs:
           HUGO_PARAMS_SEARCHKEY: ${{ secrets.HUGO_PARAMS_SEARCHKEY }}
           HUGO_PARAMS_SEARCHURL: ${{ secrets.HUGO_PARAMS_SEARCHURL }}
           HUGO_PARAMS_VERSION: ${{ needs.version.outputs.tag }}
-          HUGO_PARAMS_SIGN_BASE_URL: ${{ vars.HUGO_PARAMS_SIGN_BASE_URL }}
-          HUGO_PARAMS_SHIELD_BASE_URL: ${{ vars.HUGO_PARAMS_SHIELD_BASE_URL }}
+          HUGO_PARAMS_SIGNBASEURL: ${{ vars.HUGO_PARAMS_SIGNBASEURL }}
+          HUGO_PARAMS_SHIELDBASEURL: ${{ vars.HUGO_PARAMS_SHIELDBASEURL }}
 
       - run: npm install netlify-cli
 
