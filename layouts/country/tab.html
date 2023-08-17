@@ -43,7 +43,7 @@
     <div class="column is-one-quarter browse-grid-text">
         <div class="thumbnail">
             <a href="{{.RelPermalink}}">
-                <img  loading="lazy" src="https://sign.sagebrushgis.com/{{.Params.featured}}/{{.Params.featured}}_m.jpg">
+                <img  loading="lazy" src="{{site.Params.SIGN_BASE_URL}}{{.Params.featured}}/{{.Params.featured}}_m.jpg">
             </a>
             <div class="caption is-text-overflow">{{.Params.name}}<span
                     class="is-size-7 tag is-rounded">{{.Params.imageCount}}</span></div>
@@ -67,7 +67,7 @@
     <div class="column is-one-quarter browse-grid-text">
         <div class="thumbnail">
             <a href="{{.RelPermalink}}">
-                <img loading="lazy" src="https://sign.sagebrushgis.com/{{.Params.featured}}/{{.Params.featured}}_m.jpg">
+                <img loading="lazy" src="{{site.Params.SIGN_BASE_URL}}{{.Params.featured}}/{{.Params.featured}}_m.jpg">
             </a>
             <div class="caption is-text-overflow">{{.Params.name}}<span
                     class="is-size-7 tag is-rounded">{{.Params.imageCount}}</span></div>

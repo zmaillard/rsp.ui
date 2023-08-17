@@ -18,6 +18,8 @@ const searchClient = instantMeiliSearch (
 );
 
 const INSTANT_SEARCH_INDEX_NAME = document.getElementById('search-index').value;
+const SIGN_BASE_URL = document.getElementById('sign-base-url').value;
+
 const instantSearchRouter = historyRouter();
 
 const search = instantsearch({
@@ -40,7 +42,7 @@ search.addWidgets([
                     <figure class="media-left">
                         <p class="image is-4x3">
                             <a href="/sign/${hit.id}">
-                                <img src="https://sign.sagebrushgis.com/${hit.id}/${hit.id}_t.jpg" />
+                                <img src="${SIGN_BASE_URL}${hit.id}/${hit.id}_t.jpg" />
                             </a>
                         </p>
                     </figure>

@@ -6,7 +6,7 @@
         <div class="card-image">
             <figure class="image {{$dimClass}}">
                 <a href="{{.RelPermalink}}">
-                    <img loading="lazy"  src="https://sign.sagebrushgis.com/{{ .Params.imageid}}/{{ .Params.imageid}}_s.jpg" alt="{{.Params.title}}">
+                    <img loading="lazy"  src="{{site.Params.SIGN_BASE_URL}}{{ .Params.imageid}}/{{ .Params.imageid}}_s.jpg" alt="{{.Params.title}}">
                 </a>
             </figure>
         </div>
