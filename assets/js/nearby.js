@@ -4,7 +4,7 @@ import { connectSearchBox } from 'instantsearch.js/es/connectors';
 import {  hits, pagination } from 'instantsearch.js/es/widgets';
 
 const INSTANT_SEARCH_INDEX_NAME = document.getElementById('search-index').value;
-const SIGN_BASE_URL = document.getElementById('sign-base-url').value;
+const SIGNBASEURL = document.getElementById('sign-base-url').value;
 
 const searchClient = instantMeiliSearch (
     document.getElementById('search-url').value,
@@ -83,7 +83,7 @@ search.addWidgets([
                     <figure class="media-left">
                         <p class="image is-4x3">
                             <a href="/sign/${hit.id}">
-                                <img src="${SIGN_BASE_URL}${hit.id}/${hit.id}_t.jpg" />
+                                <img src="${SIGNBASEURL}${hit.id}/${hit.id}_t.jpg" />
                             </a>
                         </p>
                     </figure>

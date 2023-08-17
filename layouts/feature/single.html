@@ -30,7 +30,7 @@
             {{ $hwypath := printf "/%s/%v" "highway" .  }}
             {{ with $.Site.GetPage $hwypath }}
             <a href="{{.RelPermalink}}">
-                <img class="shield-padding" src="{{site.Params.SHIELD_BASE_URL}}Shields/20x/{{ .Params.imageName }}" alt="{{ .Params.name }}" />
+                <img class="shield-padding" src="{{site.Params.SHIELDBASEURL}}Shields/20x/{{ .Params.imageName }}" alt="{{ .Params.name }}" />
             </a>
             {{ end }}
             {{ end }}
@@ -59,7 +59,7 @@
             {{ $hwypath := printf "/%s/%v" "highway" .  }}
             {{ with $.Site.GetPage $hwypath }}
             <a href="{{.RelPermalink}}">
-            <img class="shield-padding" src="{{site.Params.SHIELD_BASE_URL}}Shields/20x/{{ .Params.imageName }}" alt="{{ .Params.name }}" />
+            <img class="shield-padding" src="{{site.Params.SHIELDBASEURL}}Shields/20x/{{ .Params.imageName }}" alt="{{ .Params.name }}" />
             </a>
                 {{ end }}
         {{ end }}
@@ -83,7 +83,7 @@
         {{ $hwypath := printf "/%s/%v" "highway" .  }}
         {{ with $.Site.GetPage $hwypath }}
         <a href="{{.RelPermalink}}">
-        <img onerror="this.onerror=null; this.remove();" class="shield-padding" src="{{site.Params.SHIELD_BASE_URL}}Shields/20x/{{ .Params.imageName }}" alt="{{ .Params.name }}" />
+        <img onerror="this.onerror=null; this.remove();" class="shield-padding" src="{{site.Params.SHIELDBASEURL}}Shields/20x/{{ .Params.imageName }}" alt="{{ .Params.name }}" />
         </a>
             {{ end }}
         {{ end }}
