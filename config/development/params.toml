@@ -1,2 +1,4 @@
 W3WAPIKEY = 'dummy'
 VERSION = 'v1.0.0'
+SIGN_BASE_URL = 'https://sign.roadsign.pictures/'
+SHIELD_BASE_URL = 'https://shield.roadsign.pictures/'
