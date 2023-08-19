@@ -5,6 +5,6 @@
         <li class="is-active"><a href="#" aria-current="page">{{.Params.name}}</a></li>
     </ul>
 </nav>
-{{ .Render "tab" }}
+{{ partial "country/tab.html" .  }}
 
 {{ end }}

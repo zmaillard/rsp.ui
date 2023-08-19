@@ -101,7 +101,7 @@
     {{ $signId := . }}
     {{ $signpath := printf "/%s/%s" "sign" $signId}}
     {{ with $.Site.GetPage $signpath }}
-    {{.Render "tile" }}
+    {{ partial "sign/tile.html" . }}
     {{ end }}
     {{ end }}
 </div>

@@ -16,7 +16,7 @@
     {{ $usPath := printf "/%s/%s" "country" "united-states" }}
     {{ $usPage := $.Site.GetPage $usPath }}
 
-    {{ $usPage.Render "tab" }}
+    {{ partial "country/tab.html" $usPage }}
 
 
 </section>

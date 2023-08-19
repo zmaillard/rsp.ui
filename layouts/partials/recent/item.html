@@ -38,7 +38,7 @@
     </nav>
 <div class="columns is-centered is-multiline">
 {{ range .Pages }}
-{{.Render "tile"}}
+{{ partial "sign/tile.html" . }}
 {{ end }}
 </div>
     <nav class="level">

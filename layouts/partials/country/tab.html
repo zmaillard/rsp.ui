@@ -30,7 +30,7 @@
 
 
 {{ if le $pageCount 50 }}
-{{ .Render "all" }}
+{{ partial "country/all.html" .  }}
 {{ else }}
 <h2 class="subtitle">Browse By {{.Params.subdivisionname}}</h2>
 <div class="columns is-multiline is-mobile">

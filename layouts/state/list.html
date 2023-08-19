@@ -121,7 +121,7 @@
                 <ul class="browse-flat-list">
                 {{range $htidx, $hwy := sort ( $allHighways.Get $typ ) ".Params.name"  }}
 
-                {{ .Render "flat"}}
+                {{ partial "highway/flat.html" . }}
 
                 {{ end }}
                 </ul>
