@@ -1,0 +1,118 @@
+name: Deploy RoadSign Pictures
+on:
+  push:
+    paths-ignore:
+      - 'README.md'
+      - '.github/workflows/manual.yaml'
+    branches:
+      - main
+      - test
+jobs:
+  version:
+    runs-on: ubuntu-latest
+    permissions: write-all
+    outputs:
+      tag: ${{ steps.bump-version.outputs.new_tag }}
+      oldtag: ${{ steps.bump-version.outputs.tag }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: '0'
+      - name: Bump version and push tag
+        uses: anothrNick/github-tag-action@1.36.0
+        id: bump-version
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WITH_V: true
+          DEFAULT_BUMP: patch
+          VERBOSE: true
+          INITIAL_VERSION: 1.0.0
+  deploy-staging:
+    environment: Staging
+    runs-on: ubuntu-latest
+    needs: version
+    if: github.ref == 'refs/heads/test'
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: '0.110.0'
+          extended: true
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '^16.17.1'
+      - uses: actions/setup-go@v4
+        with:
+          go-version: '^1.20.0'
+      - run: go run main.go
+        env:
+          RSP_DB_USER: ${{ secrets.DB_USER }}
+          RSP_DB_HOST: ${{ secrets.DB_HOST }}
+          RSP_DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          RSP_DB_PORT: ${{ secrets.DB_PORT }}
+          RSP_DB_NAME: ${{ secrets.DB_NAME }}
+      - run: npm install
+      - run: hugo --gc --minify --environment preview
+        env:
+          HUGO_PARAMS_W3WAPIKEY: ${{ secrets.HUGO_PARAMS_W3WAPIKEY }}
+          HUGO_PARAMS_SEARCHINDEX: ${{ secrets.HUGO_PARAMS_SEARCHINDEX }}
+          HUGO_PARAMS_SEARCHKEY: ${{ secrets.HUGO_PARAMS_SEARCHKEY }}
+          HUGO_PARAMS_SEARCHURL: ${{ secrets.HUGO_PARAMS_SEARCHURL }}
+          HUGO_PARAMS_VERSION: ${{ needs.version.outputs.oldtag }}
+          HUGO_PARAMS_SIGNBASEURL: ${{ vars.HUGO_PARAMS_SIGNBASEURL }}
+          HUGO_PARAMS_SHIELDBASEURL: ${{ vars.HUGO_PARAMS_SHIELDBASEURL }}
+
+      - run: npm install netlify-cli
+
+      - name: Deploy
+        run: netlify deploy --dir=public --prod
+        shell: bash
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+
+  deploy-production:
+    needs: version
+    environment: Production
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: '0.110.0'
+          extended: true
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '^16.17.1'
+      - uses: actions/setup-go@v4
+        with:
+          go-version: '^1.20.0'
+      - run: go run main.go
+        env:
+          RSP_DB_USER: ${{ secrets.DB_USER }}
+          RSP_DB_HOST: ${{ secrets.DB_HOST }}
+          RSP_DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          RSP_DB_PORT: ${{ secrets.DB_PORT }}
+          RSP_DB_NAME: ${{ secrets.DB_NAME }}
+      - run: npm install
+      - run: hugo --gc --minify  --environment production
+        env:
+          HUGO_PARAMS_W3WAPIKEY: ${{ secrets.HUGO_PARAMS_W3WAPIKEY }}
+          HUGO_PARAMS_SEARCHINDEX: ${{ secrets.HUGO_PARAMS_SEARCHINDEX }}
+          HUGO_PARAMS_SEARCHKEY: ${{ secrets.HUGO_PARAMS_SEARCHKEY }}
+          HUGO_PARAMS_SEARCHURL: ${{ secrets.HUGO_PARAMS_SEARCHURL }}
+          HUGO_PARAMS_VERSION: ${{ needs.version.outputs.tag }}
+          HUGO_PARAMS_SIGNBASEURL: ${{ vars.HUGO_PARAMS_SIGNBASEURL }}
+          HUGO_PARAMS_SHIELDBASEURL: ${{ vars.HUGO_PARAMS_SHIELDBASEURL }}
+
+      - run: npm install netlify-cli
+
+      - name: Deploy
+        run: netlify deploy --dir=public --prod
+        shell: bash
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
