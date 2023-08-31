@@ -13,7 +13,7 @@
         <h3 class="title is-3 has-text-centered">Signs Tagged With {{ $name }}</h3>
             <div class="image-list block">
                 {{ range .Paginator.Pages }}
-                {{ .Render "summary" }}
+                {{ partial "sign/summary.html" .  }}
                 {{ end }}
             </div>
             {{ template "partials/widgets/pagination.html" . }}

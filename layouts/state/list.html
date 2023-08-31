@@ -56,14 +56,19 @@
             {{ $path := printf "/%s/%s" "sign" .Params.featured}}
             {{ with $.Site.GetPage $path }}
             <figure class="image {{ if gt .Params.imageHeight .Params.imageWidth }}  is-3by4  {{ else }} is-4by3 {{ end }} width">
-                <a href="{{.RelPermalink}}">
-                    <img src="{{site.Params.SIGNBASEURL}}{{.Params.imageid}}/{{.Params.imageid}}_l.jpg"
+                <a id="state-featured" href="{{.RelPermalink}}">
+                    <img id="state-featured-img" src="{{site.Params.SIGNBASEURL}}{{.Params.imageid}}/{{.Params.imageid}}_l.jpg"
                         alt="{{.Params.title}}" style="opacity: 1; transition: opacity 0.15s linear 0s;" />
                 </a>
             </figure>
             {{end }}
-
         </section>
+        <div>
+            <span class="icon is-small">
+                <i id="refresh-icon" class="fa fa-random"></i>
+            </span>
+            <a id="refresh-random">Show Random Sign From {{.Params.name}}</a>
+        </div>
         <section class="section">
             {{ $stateSlug := $.Params.slug }}
             {{ $countyParams := .Params.counties }}
@@ -121,7 +126,7 @@
                 <ul class="browse-flat-list">
                 {{range $htidx, $hwy := sort ( $allHighways.Get $typ ) ".Params.name"  }}
 
-                {{ .Render "flat"}}
+                {{ partial "highway/flat.html" . }}
 
                 {{ end }}
                 </ul>
@@ -132,4 +137,27 @@
         </section>
     </div>
 </section>
+<script>
+    (function () {
+        const $button = document.getElementById("refresh-random");
+        const $img = document.getElementById("state-featured-img");
+        const $link = document.getElementById("state-featured");
+        const $refreshIcon = document.getElementById("refresh-icon");
+        $button.addEventListener("click", function () {
+            $refreshIcon.classList.remove("fa-random");
+            $refreshIcon.classList.add("fa-arrows-rotate")
+            $refreshIcon.classList.toggle("fa-spin");
+
+            fetch('https://random.roadsign.pictures/state/{{.Params.slug}}?idonly')
+                .then(f=>f.json())
+                .then(f=>{
+                    $img.src = "{{site.Params.SIGNBASEURL}}" + f.imageId + "/" + f.imageId + '_l.jpg';
+                    $link.href = "/sign/" + f.imageId;
+                    $refreshIcon.classList.add("fa-random");
+                    $refreshIcon.classList.remove("fa-arrows-rotate")
+                    $refreshIcon.classList.toggle("fa-spin");
+                });
+        });
+    })();
+</script>
 {{ end }}

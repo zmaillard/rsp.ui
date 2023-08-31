@@ -28,9 +28,15 @@
 {{ $signId := .Params.imageid}}
 {{ $signpath := printf "/%s/%s" "sign" $signId}}
 {{ with $.Site.GetPage $signpath }}
-{{.Render "tile" }}
+{{ partial "sign/tile.html" .  }}
 {{ end }}
 {{ end }}
 </div>
+
+<span class="icon is-small">
+                <i class="fa fa-random"></i>
+            </span>
+<a href="https://random.roadsign.pictures/place/{{$stateSlug}}/{{.Params.slug}}">Show Random Sign From {{$placeName}}</a>
+
 
 {{ end }}

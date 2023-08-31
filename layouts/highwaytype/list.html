@@ -19,7 +19,7 @@
         {{ $path := printf "/%s/%s" "highway" . }}
         {{ with $.Site.GetPage $path }}
         {{ if gt (len .Pages) 0 }}
-        {{.Render "tile"}}
+        {{ partial "highway/tile.html" . }}
         {{ end }}
         {{ end }}
         {{ end }}

@@ -27,7 +27,7 @@
             {{ range $highway.Params.features }}
             {{ $fpath := printf "/%s/%v" "feature" . }}
             {{ with $.Site.GetPage $fpath }}
-            {{ .Render "summary" }}
+            {{ partial "feature/summary.html" . }}
             {{ end }}
             {{ end }}
         </div>
@@ -74,7 +74,7 @@
 
         <div class="columns is-multiline">
         {{ range $totalList.Get $scratchIndex }}
-        {{ .Render "summary" }}
+            {{ partial "feature/summary.html" . }}
         {{ end }}
         </div>
         {{ end }}
@@ -83,7 +83,7 @@
         {{ else }}
         <div class="columns is-multiline">
         {{range index .Site.Taxonomies.highway $highway.Params.slug }}
-        {{ .Render "tile"}}
+        {{ partial "sign/tile.html" . }}
         {{ end }}
         </div>
         {{ end }}

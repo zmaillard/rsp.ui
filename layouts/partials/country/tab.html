@@ -13,13 +13,13 @@
 <div class="tabs is-medium">
     <ul>
 
-        <li {{ if eq .Params.slug $usPage.Params.slug }} class="is-active" {{ end }}><a {{ if ne .Params.slug $usPage.Params.slug }} href="{{ $usPage.RelPermalink }}"{{ end }}>United States <span
+        <li data-test="country-tab-item" {{ if eq .Params.slug $usPage.Params.slug }} class="is-active" {{ end }}><a data-test="country-tab-item-name" {{ if ne .Params.slug $usPage.Params.slug }} href="{{ $usPage.RelPermalink }}"{{ end }}>United States <span
                 class="is-size-7 tag is-rounded">{{len $usPage.Pages}}</span></a></li>
-        <li {{ if eq .Params.slug $canadaPage.Params.slug }} class="is-active" {{ end }}><a {{ if ne .Params.slug $canadaPage.Params.slug }} href="{{ $canadaPage.RelPermalink }}"{{ end }}>Canada <span
+        <li data-test="country-tab-item" {{ if eq .Params.slug $canadaPage.Params.slug }} class="is-active" {{ end }}><a data-test="country-tab-item-name" {{ if ne .Params.slug $canadaPage.Params.slug }} href="{{ $canadaPage.RelPermalink }}"{{ end }}>Canada <span
                 class="is-size-7 tag is-rounded">{{len $canadaPage.Pages}}</span></a></li>
-        <li {{ if eq .Params.slug $costaRicaPage.Params.slug }} class="is-active" {{ end }}><a {{ if ne .Params.slug $costaRicaPage.Params.slug }} href="{{ $costaRicaPage.RelPermalink }}"{{ end }}>Costa Rica <span
+        <li data-test="country-tab-item" {{ if eq .Params.slug $costaRicaPage.Params.slug }} class="is-active" {{ end }}><a data-test="country-tab-item-name" {{ if ne .Params.slug $costaRicaPage.Params.slug }} href="{{ $costaRicaPage.RelPermalink }}"{{ end }}>Costa Rica <span
                 class="is-size-7 tag is-rounded">{{len $costaRicaPage.Pages}}</span></a></li>
-        <li {{ if eq .Params.slug $mexicoPage.Params.slug }} class="is-active" {{ end }}><a {{ if ne .Params.slug $mexicoPage.Params.slug }} href="{{ $mexicoPage.RelPermalink }}"{{ end }}>México <span
+        <li data-test="country-tab-item" {{ if eq .Params.slug $mexicoPage.Params.slug }} class="is-active" {{ end }}><a data-test="country-tab-item-name" {{ if ne .Params.slug $mexicoPage.Params.slug }} href="{{ $mexicoPage.RelPermalink }}"{{ end }}>México <span
                 class="is-size-7 tag is-rounded">{{len $mexicoPage.Pages}}</span></a></li>
 
     </ul>
@@ -30,9 +30,9 @@
 
 
 {{ if le $pageCount 50 }}
-{{ .Render "all" }}
+{{ partial "country/all.html" .  }}
 {{ else }}
-<h2 class="subtitle">Browse By {{.Params.subdivisionname}}</h2>
+<h2 class="subtitle" data-test="country-browse-by-subdivision">Browse By {{.Params.subdivisionname}}</h2>
 <div class="columns is-multiline is-mobile">
     {{ with .Params.states }}
     {{ range sort . "name" "asc" }}
@@ -57,7 +57,7 @@
     {{ end }}
 </div>
 <div class="is-divider"></div>
-<h2 class="subtitle">Browse By Highway</h2>
+<h2 class="subtitle" data-test="country-browse-by-highway">Browse By Highway</h2>
 <div class="columns is-multiline is-mobile">
     {{ with .Params.highwayTypes }}
     {{ range sort . "name" "asc" }}

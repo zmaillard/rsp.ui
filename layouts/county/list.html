@@ -3,6 +3,8 @@
 {{ $stateSlug := .Params.stateSlug }}
 {{ $statePath := printf "/%s/%s" "state" $stateSlug}}
 {{ $countyName := .Params.name }}
+{{ $countySlug := .Params.slug }}
+
 
 {{ $state := $.Site.GetPage $statePath }}
 {{ $countryPath := printf "/%s/%s" "country" $state.Params.countryslug }}
@@ -35,6 +37,7 @@
 {{ end }}
 {{ end }}
 </h5>
+
 {{ end }}
 
 <div class="block">
@@ -48,14 +51,13 @@
 {{ else }}
 <h4 class="title is-4"  >No Place Associated</h4>
 {{ end }}
-
 <div class="columns is-centered is-multiline">
 
     {{ range .Pages }}
 {{ $signId := .Params.imageid}}
 {{ $signpath := printf "/%s/%s" "sign" $signId}}
 {{ with $.Site.GetPage $signpath }}
-{{.Render "tile" }}
+{{ partial "sign/tile.html" . }}
 {{ end }}
 {{ end }}
 </div>
@@ -70,11 +72,16 @@
         {{ $signId := .Params.imageid}}
         {{ $signpath := printf "/%s/%s" "sign" $signId}}
         {{ with $.Site.GetPage $signpath }}
-        {{.Render "tile" }}
+        {{ partial "sign/tile.html" . }}
         {{ end }}
         {{ end }}
     </div>
     {{ end }}
+
+    <span class="icon is-small">
+                <i class="fa fa-random"></i>
+            </span>
+    <a href="https://random.roadsign.pictures/statesubdivision/{{$countySlug}}">Show Random Sign From {{$countyName}}</a>
 
 </div>
 {{ end }}

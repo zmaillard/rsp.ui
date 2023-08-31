@@ -76,7 +76,7 @@
                     {{ $path := printf "/%s/%v" "feature" $name }}
                     {{ with $.Site.GetPage $path }}
                     <div class="has-background-light">
-                    {{ .Render "embed" }}
+                    {{ partial "feature/embed.html" . }}
                     </div>
                     {{ end }}
                     {{ end }}
