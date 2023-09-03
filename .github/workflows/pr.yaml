@@ -1,0 +1,43 @@
+name: Test RoadSign Pictures
+on: [pull_request]
+
+jobs:
+  build-and-test:
+    needs: version
+    environment: Production
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: '0.110.0'
+          extended: true
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '^16.17.1'
+      - uses: actions/setup-go@v4
+        with:
+          go-version: '^1.20.0'
+      - run: go run main.go
+        env:
+          RSP_DB_USER: ${{ secrets.DB_USER }}
+          RSP_DB_HOST: ${{ secrets.DB_HOST }}
+          RSP_DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          RSP_DB_PORT: ${{ secrets.DB_PORT }}
+          RSP_DB_NAME: ${{ secrets.DB_NAME }}
+      - run: npm install
+      - name: Cypress run
+        uses: cypress-io/github-action@v6
+        with:
+          start: hugo serve
+          wait-on: 'http://localhost:1313'
+        env:
+          HUGO_PARAMS_W3WAPIKEY: ${{ secrets.HUGO_PARAMS_W3WAPIKEY }}
+          HUGO_PARAMS_SEARCHINDEX: ${{ secrets.HUGO_PARAMS_SEARCHINDEX }}
+          HUGO_PARAMS_SEARCHKEY: ${{ secrets.HUGO_PARAMS_SEARCHKEY }}
+          HUGO_PARAMS_SEARCHURL: ${{ secrets.HUGO_PARAMS_SEARCHURL }}
+          HUGO_PARAMS_VERSION: ${{ needs.version.outputs.tag }}
+          HUGO_PARAMS_SIGNBASEURL: ${{ vars.HUGO_PARAMS_SIGNBASEURL }}
+          HUGO_PARAMS_SHIELDBASEURL: ${{ vars.HUGO_PARAMS_SHIELDBASEURL }}
+

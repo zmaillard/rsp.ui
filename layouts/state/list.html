@@ -40,18 +40,18 @@
 
 {{ $countryPath := printf "/%s/%s" "country" .Params.countryslug }}
 {{ $country := $.Site.GetPage $countryPath }}
-<nav class="breadcrumb" aria-label="breadcrumbs">
+<nav class="breadcrumb" aria-label="breadcrumbs" data-test="breadcrumb">
     <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="{{$country.RelPermalink}}">{{$country.Params.name}}</a></li>
-        <li class="is-active"><a href="#" aria-current="page">{{.Params.name}}</a></li>
+        <li data-test="breadcrumb-home"><a href="/">Home</a></li>
+        <li data-test="breadcrumb-country"><a href="{{$country.RelPermalink}}">{{$country.Params.name}}</a></li>
+        <li data-test="breadcrumb-state" class="is-active"><a href="#" aria-current="page">{{.Params.name}}</a></li>
     </ul>
 </nav>
 
 
 <section class="section">
     <div class="container-top">
-        <h3 class="title is-3">Signs From {{.Params.name}}</h3>
+        <h3 class="title is-3" data-test="state-title">Signs From {{.Params.name}}</h3>
         <section class="hero">
             {{ $path := printf "/%s/%s" "sign" .Params.featured}}
             {{ with $.Site.GetPage $path }}
