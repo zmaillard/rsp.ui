@@ -9,17 +9,17 @@
 {{ $state := $.Site.GetPage $statePath }}
 {{ $countryPath := printf "/%s/%s" "country" $state.Params.countryslug }}
 {{ $country := $.Site.GetPage $countryPath }}
-<nav class="breadcrumb" aria-label="breadcrumbs">
+<nav class="breadcrumb" aria-label="breadcrumbs" data-test="breadcrumb">
     <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="{{$country.RelPermalink}}">{{$country.Params.name}}</a></li>
-        <li><a href="{{$state.RelPermalink}}">{{$state.Params.name}}</a></li>
-        <li class="is-active"><a href="#" aria-current="page">{{.Params.name}}</a></li>
+        <li data-test="breadcrumb-home"><a href="/">Home</a></li>
+        <li data-test="breadcrumb-country"><a href="{{$country.RelPermalink}}">{{$country.Params.name}}</a></li>
+        <li data-test="breadcrumb-state"><a href="{{$state.RelPermalink}}">{{$state.Params.name}}</a></li>
+        <li data-test="breadcrumb-county" class="is-active"><a href="#" aria-current="page">{{.Params.name}}</a></li>
     </ul>
 </nav>
 
 {{ with $state }}
-<h3 class="title is-3">{{$countyName}}, {{.Params.name}}</h3>
+<h3 class="title is-3" data-test="county-title">{{$countyName}}, {{.Params.name}}</h3>
 {{ end }}
 
 {{ $signTotal := where .Pages "Params.place" "!=" nil }}

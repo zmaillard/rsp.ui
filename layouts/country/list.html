@@ -1,8 +1,8 @@
 {{ define "main" }}
-<nav class="breadcrumb" aria-label="breadcrumbs">
+<nav class="breadcrumb" aria-label="breadcrumbs" data-test="breadcrumb">
     <ul>
-        <li><a href="/">Home</a></li>
-        <li class="is-active"><a href="#" aria-current="page">{{.Params.name}}</a></li>
+        <li data-test="breadcrumb-home"><a href="/">Home</a></li>
+        <li data-test="breadcrumb-country" class="is-active"><a href="#" aria-current="page">{{.Params.name}}</a></li>
     </ul>
 </nav>
 {{ partial "country/tab.html" .  }}
