@@ -124,7 +124,7 @@
                 <a href="{{$hwyTypePage.RelPermalink}}">{{.Params.name}}</a>
                 </p>
                 <ul class="browse-flat-list">
-                {{range $htidx, $hwy := sort ( $allHighways.Get $typ ) ".Params.name"  }}
+                {{range $htidx, $hwy := sort ( $allHighways.Get $typ ) ".Params.sort"  }}
 
                 {{ partial "highway/flat.html" . }}
 
