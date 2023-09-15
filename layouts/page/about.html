@@ -1,0 +1,67 @@
+{{ define "main" }}
+<section>
+    <div class="container">
+        <div class="columns is-multiline">
+            <div class="column is-12">
+                <h1 class="title is-3">About roadsign.pictures</h1>
+                <div class="content">
+                    <b>Version:</b> {{.Site.Params.VERSION}} <br/>
+                    <b>Total Signs:</b> {{.Site.Data.images.imageCount}}
+
+                    <h2 class="title is-4">Signs By Country/State</h2>
+
+                    <ul>
+                    {{ range .Site.Taxonomies.country.ByCount }}
+                        {{ $countryCount := len .WeightedPages }}
+                        {{ $countrySlug := .Name }}
+                        {{ $countryPagePath := printf "/%s/%s" "country" .Name }}
+                        {{ with $.Site.GetPage $countryPagePath }}
+                        <li><a href="{{.RelPermalink}}">{{ .Params.name }}</a><span class="is-size-7 tag is-rounded">{{$countryCount}}</span>
+                        <ul>
+                            {{ range .Site.Taxonomies.state.ByCount }}
+                                {{ $stateCount := len .WeightedPages }}
+                                {{ $statePagePath := printf "/%s/%s" "state" .Name }}
+                                {{ with $.Site.GetPage $statePagePath }}
+                                {{ if eq $countrySlug .Params.countryslug }}
+                                <li><a href="{{.RelPermalink}}">{{ .Params.name }}</a><span class="is-size-7 tag is-rounded">{{$stateCount}}</span></li>
+                                {{ end }}
+                            {{ end }}
+                            {{ end }}
+                        </ul>
+                        </li>
+                        {{ end }}
+                    {{ end }}
+                    </ul>
+                    {{ $counter := newScratch }}
+                    {{ $recentForYear := newScratch }}
+                    <h3 class="subtitle is-5">By Date Taken</h3>
+                    {{ range .Site.Taxonomies.country.Alphabetical  }}
+                    {{ range .WeightedPages }}
+                    {{ $yearStr := .Params.date.Format "2006" | string }}
+                    {{ $prevRecent := $recentForYear.Get $yearStr }}
+                    {{ $curRecent := .Params.recent }}
+                    {{ if not $prevRecent }}
+                    {{  $recentForYear.Set $yearStr $curRecent }}
+                    {{ end }}
+                    {{ $counter.Add $yearStr 1 }}
+                    {{ end }}
+                    {{ end }}
+                    <ul>
+                     {{ range $k, $v :=  $counter.Values }}
+                        {{ $recentSlug := $recentForYear.Get $k }}
+                        {{ $recentPagePath := printf "/%s/%s" "recent" $recentSlug }}
+                        {{ with $.Site.GetPage $recentPagePath }}
+                        <li><a href="{{.RelPermalink}}">{{ $k }}</a><span class="is-size-7 tag is-rounded">{{$v}}</span></li>
+                        {{ end }}
+                        {{ end }}
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+
+{{ end }}
