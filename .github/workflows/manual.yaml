@@ -57,7 +57,7 @@ jobs:
           HUGO_PARAMS_SHIELDBASEURL: ${{ vars.HUGO_PARAMS_SHIELDBASEURL }}
 
       - name: Copy Files To Azure
-        run: "azcopy sync public/ https://rspstaticwebsite.blob.core.windows.net/%24web${SAS_TOKEN}"
+        run: "azcopy sync public/ https://rspstaticwebsite.blob.core.windows.net/web${SAS_TOKEN}"
         shell: bash
         env:
           SAS_TOKEN: ${{ secrets.AZ_SAS_TOKEN }}
