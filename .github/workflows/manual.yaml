@@ -59,7 +59,7 @@ jobs:
         run: pip3 install --upgrade b2
 
       - name: Copy Files To Backblaze
-        run: "b2 sync --delete --dryRun public/ b2://roadsign-pictures/"
+        run: "b2 sync --delete public/ b2://roadsign-pictures/"
         shell: bash
         env:
           B2_APPLICATION_KEY_ID: ${{ secrets.B2_APPLICATION_KEY_ID }}
