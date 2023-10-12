@@ -55,9 +55,12 @@ jobs:
           HUGO_PARAMS_VERSION: ${{ needs.version.outputs.tag }}
           HUGO_PARAMS_SIGNBASEURL: ${{ vars.HUGO_PARAMS_SIGNBASEURL }}
           HUGO_PARAMS_SHIELDBASEURL: ${{ vars.HUGO_PARAMS_SHIELDBASEURL }}
+      - name: Install B2
+        run: pip3 install --upgrade b2
 
-      - name: Copy Files To Azure
-        run: "azcopy sync public/ https://rspstaticwebsite.blob.core.windows.net/web${SAS_TOKEN}"
+      - name: Copy Files To Backblaze
+        run: "b2 sync --delete --dryRun public/ b2://roadsign-pictures/"
         shell: bash
         env:
-          SAS_TOKEN: ${{ secrets.AZ_SAS_TOKEN }}
+          B2_APPLICATION_KEY_ID: ${{ secrets.B2_APPLICATION_KEY_ID }}
+          B2_APPLICATION_KEY: ${{ secrets.B2_APPLICATION_KEY }}
