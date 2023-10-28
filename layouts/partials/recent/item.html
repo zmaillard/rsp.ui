@@ -8,61 +8,69 @@
 {{ end }}
 {{ end }}
 
-<div class="columns">
-<div class="column is-full">
+<section class="container mx-auto">
 {{ $fixedDate := printf "%s-%s" .Page.Title "01" }}
-<h3 class="title is-3">Signs Taken {{time.Format "January 2006"  $fixedDate}}</h3>
-    <nav class="level">
-        <div class="level-left">
+
+    <h3 class="text-3xl font-bold dark:text-white">Signs Taken {{time.Format "January 2006"  $fixedDate}}</h3>
+    <div class="grid grid-cols-2">
+        <div class="justify-self-start text-gray-900 dark:text-white">
         {{ if gt $idx 0 }}
             {{ with (index $orderedRecents (sub $idx 1)) }}
             {{ $fixedDate := printf "%s-%s" .Term "01" }}
-            <div class="level-item">
-            <i class="fa-solid fa-arrow-left"></i>
+            <svg
+                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="w-6 h-6 inline">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+            </svg>
             <a href="{{.Page.RelPermalink}}">{{time.Format "January 2006"  $fixedDate}}</a>
-            </div>
             {{ end }}
         {{ end }}
         </div>
-        <div class="level-right">
+        <div class="end text-gray-900 justify-self-end dark:text-white">
         {{ if lt $idx (sub $total 1) }}
             {{ with (index $orderedRecents (add $idx 1)) }}
             {{ $fixedDate := printf "%s-%s" .Term "01" }}
-            <div class="level-item">
             <a href="{{.Page.RelPermalink}}">{{time.Format "January 2006"  $fixedDate}}</a>
-            <i class="fa-solid fa-arrow-right"></i>
-            </div>
-            {{ end }}
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                 stroke="currentColor" class="w-6 h-6 inline">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+            </svg>            {{ end }}
         {{ end }}
         </div>
-    </nav>
-<div class="columns is-centered is-multiline">
+    </div>
+    <div class="grid grid-cols-4 gap-4">
 {{ range .Pages }}
 {{ partial "sign/tile.html" . }}
 {{ end }}
 </div>
-    <nav class="level">
-        <div class="level-left">
-        {{ if gt $idx 0 }}
-        {{ with (index $orderedRecents (sub $idx 1)) }}
-        {{ $fixedDate := printf "%s-%s" .Term "01" }}
-        <div class="level-item">
-            <i class="fa-solid fa-arrow-left"></i>
+    <div class="grid grid-cols-2">
+        <div class="justify-self-start text-gray-900 dark:text-white">
+            {{ if gt $idx 0 }}
+            {{ with (index $orderedRecents (sub $idx 1)) }}
+            {{ $fixedDate := printf "%s-%s" .Term "01" }}
+            <svg
+                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="w-6 h-6 inline">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+            </svg>
             <a href="{{.Page.RelPermalink}}">{{time.Format "January 2006"  $fixedDate}}</a>
+            {{ end }}
+            {{ end }}
         </div>
-        {{ end }}
-        {{ end }}
-        </div>
-        <div class="level-right">
-        {{ if lt $idx (sub $total 1) }}
-        {{ with (index $orderedRecents (add $idx 1)) }}
-        {{ $fixedDate := printf "%s-%s" .Term "01" }}
-        <div class="level-item">
+        <div class="justify-self-end text-gray-900 dark:text-white">
+            {{ if lt $idx (sub $total 1) }}
+            {{ with (index $orderedRecents (add $idx 1)) }}
+            {{ $fixedDate := printf "%s-%s" .Term "01" }}
             <a href="{{.Page.RelPermalink}}">{{time.Format "January 2006"  $fixedDate}}</a>
-            <i class="fa-solid fa-arrow-right"></i>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                 stroke="currentColor" class="w-6 h-6 inline">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+            </svg>            {{ end }}
+            {{ end }}
         </div>
-        {{ end }}
-        {{ end }}
-        </div>
-    </nav>
-</div>
+    </div>
+</section>
