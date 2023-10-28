@@ -8,7 +8,7 @@
 {{ with $.Site.GetPage $path }}
 
 {{ $borderClass :=  cond (in $toHighways  $slug  ) "shield-to-border" "" }}
-<a href="{{.RelPermalink}}#{{$featId}}"><img class="shield-padding {{ $borderClass }}"
+<a href="{{.RelPermalink}}#{{$featId}}"><img class="inline"
         src="{{ site.Params.SHIELDBASEURL }}Shields/20x/{{ .Params.imagename }}" alt="{{ .Params.name }}"></a>
 {{ end }}
 {{ end }}

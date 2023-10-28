@@ -10,18 +10,62 @@
 {{ $costaRicaPath :=  printf "/%s/%s" "country" "costa-rica" }}
 {{ $costaRicaPage := $.Site.GetPage $costaRicaPath }}
 
-<div class="tabs is-medium">
-    <ul>
+{{ $tabActive := "inline-block p-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500" }}
+{{ $tabDefault := "inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" }}
 
-        <li data-test="country-tab-item" {{ if eq .Params.slug $usPage.Params.slug }} class="is-active" {{ end }}><a data-test="country-tab-item-name" {{ if ne .Params.slug $usPage.Params.slug }} href="{{ $usPage.RelPermalink }}"{{ end }}>United States <span
-                class="is-size-7 tag is-rounded">{{len $usPage.Pages}}</span></a></li>
-        <li data-test="country-tab-item" {{ if eq .Params.slug $canadaPage.Params.slug }} class="is-active" {{ end }}><a data-test="country-tab-item-name" {{ if ne .Params.slug $canadaPage.Params.slug }} href="{{ $canadaPage.RelPermalink }}"{{ end }}>Canada <span
-                class="is-size-7 tag is-rounded">{{len $canadaPage.Pages}}</span></a></li>
-        <li data-test="country-tab-item" {{ if eq .Params.slug $costaRicaPage.Params.slug }} class="is-active" {{ end }}><a data-test="country-tab-item-name" {{ if ne .Params.slug $costaRicaPage.Params.slug }} href="{{ $costaRicaPage.RelPermalink }}"{{ end }}>Costa Rica <span
-                class="is-size-7 tag is-rounded">{{len $costaRicaPage.Pages}}</span></a></li>
-        <li data-test="country-tab-item" {{ if eq .Params.slug $mexicoPage.Params.slug }} class="is-active" {{ end }}><a data-test="country-tab-item-name" {{ if ne .Params.slug $mexicoPage.Params.slug }} href="{{ $mexicoPage.RelPermalink }}"{{ end }}>México <span
-                class="is-size-7 tag is-rounded">{{len $mexicoPage.Pages}}</span></a></li>
+<div
+        class="text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700">
+    <ul class="flex flex-wrap -mb-px">
+        <li class="mr-2">
+            <a {{ if ne .Params.slug $usPage.Params.slug }} href="{{ $usPage.RelPermalink }}" {{ else }} href="#" {{ end
+               }} {{ if eq .Params.slug $usPage.Params.slug }} class="{{$tabActive}}" aria-current="page" {{ else }}
+               class="{{$tabDefault}}" {{ end }}>
+                United States
 
+                <span
+                        class="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300">
+                            {{len $usPage.Pages}}
+                        </span>
+            </a>
+        </li>
+        <li class="mr-2">
+            <a {{ if ne .Params.slug $canadaPage.Params.slug }} href="{{ $canadaPage.RelPermalink }}" {{ else }}
+               href="#" {{ end }}
+               {{ if eq .Params.slug $canadaPage.Params.slug }} class="{{$tabActive}}" aria-current="page" {{ else }}
+               class="{{$tabDefault}}" {{ end }}>
+                Canada
+
+                <span
+                        class="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300">
+                            {{len $canadaPage.Pages}}
+                        </span>
+
+            </a>
+        </li>
+        <li class="mr-2">
+            <a {{ if ne .Params.slug $costaRicaPage.Params.slug }} href="{{ $costaRicaPage.RelPermalink }}" {{ else }}
+               href="#" {{ end }}
+               {{ if eq .Params.slug $costaRicaPage.Params.slug }} class="{{$tabActive}}" aria-current="page" {{ else }}
+               class="{{$tabDefault}}" {{ end }}>
+                Costa Rica
+                <span
+                        class="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300">
+                            {{len $costaRicaPage.Pages}}
+                        </span>
+
+            </a>
+        </li>
+        <li class="mr-2">
+            <a {{ if ne .Params.slug $mexicoPage.Params.slug }} href="{{ $mexicoPage.RelPermalink }}" {{ else }}
+               href="#" {{ end }} {{ if eq .Params.slug $mexicoPage.Params.slug }} class="{{$tabActive}}"
+               aria-current="page" {{ else }} class="{{$tabDefault}}" {{ end }}>
+                México
+                <span
+                        class="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300">
+                            {{len $mexicoPage.Pages}}
+                        </span>
+            </a>
+        </li>
     </ul>
 </div>
 
@@ -32,21 +76,25 @@
 {{ if le $pageCount 50 }}
 {{ partial "country/all.html" .  }}
 {{ else }}
-<h2 class="subtitle" data-test="country-browse-by-subdivision">Browse By {{.Params.subdivisionname}}</h2>
-<div class="columns is-multiline is-mobile">
+<h2 class="text-4xl font-extrabold dark:text-white">Browse By {{.Params.subdivisionname}}</h2>
+<div class="grid grid-cols-4 gap-4">
     {{ with .Params.states }}
     {{ range sort . "name" "asc" }}
     {{ $name := .slug }}
     {{ $statePath := printf "/%s/%s" "state" $name }}
     {{ with $.Site.GetPage $statePath }}
     {{ if .Params.featured }}
-    <div class="column is-one-quarter browse-grid-text">
-        <div class="thumbnail">
-            <a href="{{.RelPermalink}}">
-                <img  loading="lazy" src="{{site.Params.SIGNBASEURL}}{{.Params.featured}}/{{.Params.featured}}_m.jpg">
-            </a>
-            <div class="caption is-text-overflow">{{.Params.name}}<span
-                    class="is-size-7 tag is-rounded">{{.Params.imageCount}}</span></div>
+    <div
+            class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+        <a href="{{.RelPermalink}}">
+            <img class="rounded-t-lg" loading="lazy"
+                 src="{{site.Params.SIGNBASEURL}}{{.Params.featured}}/{{.Params.featured}}_m.jpg">
+        </a>
+        <div class="p-5">
+            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{.Params.name}}
+                <span
+                        class="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300">{{.Params.imageCount}}</span>
+            </h5>
         </div>
     </div>
     {{ else }}
@@ -56,24 +104,27 @@
     {{ end }}
     {{ end }}
 </div>
-<div class="is-divider"></div>
-<h2 class="subtitle" data-test="country-browse-by-highway">Browse By Highway</h2>
-<div class="columns is-multiline is-mobile">
+<hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
+<h2 class="text-4xl font-extrabold dark:text-white">Browse By Highway</h2>
+<div class="grid grid-cols-4 gap-4">
     {{ with .Params.highwayTypes }}
     {{ range sort . "name" "asc" }}
     {{ $name := .slug }}
     {{ $hwyTypePath := printf "/%s/%s" "highwaytype" $name }}
     {{ with $.Site.GetPage $hwyTypePath }}
-    <div class="column is-one-quarter browse-grid-text">
-        <div class="thumbnail">
+    <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
             <a href="{{.RelPermalink}}">
-                <img loading="lazy" src="{{site.Params.SIGNBASEURL}}{{.Params.featured}}/{{.Params.featured}}_m.jpg">
+                <img  class="rounded-t-lg" loading="lazy" src="{{site.Params.SIGNBASEURL}}{{.Params.featured}}/{{.Params.featured}}_m.jpg">
             </a>
-            <div class="caption is-text-overflow">{{.Params.name}}<span
-                    class="is-size-7 tag is-rounded">{{.Params.imageCount}}</span></div>
+        <div class="p-5">
+        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{.Params.name}}
+            <span
+                    class="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300">{{.Params.imageCount}}</span>
+        </h5>
         </div>
     </div>
     {{ end }}
     {{ end }}
     {{ end }}
     {{ end }}
+</div>

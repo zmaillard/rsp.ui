@@ -1,90 +1,131 @@
 {{ define "main" }}
-
 {{ $highwayTypePath := printf "/%s/%s" "highwaytype" .Params.highwayType.slug }}
 {{ $highwayType := $.Site.GetPage $highwayTypePath }}
 {{ $countryPath := printf "/%s/%s" "country" $highwayType.Params.Country }}
 {{ $country := $.Site.GetPage $countryPath }}
-<nav class="breadcrumb" aria-label="breadcrumbs">
-    <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="{{$country.RelPermalink}}">{{$country.Params.name}}</a></li>
-        <li><a href="{{$highwayType.RelPermalink}}">{{$highwayType.Params.name}}</a></li>
-        <li class="is-active"><a href="#" aria-current="page">{{.Params.name}}</a></li>
-    </ul>
-</nav>
 
-    {{$highway := . }}
-    {{$stateCount := len $highway.Params.states }}
-    {{ $orderedStates := slice }}
-    <div class="has-text-centered">
-    <figure class="image is-inline-block">
-    <img onerror="this.onerror=null; this.remove();" src="{{site.Params.SHIELDBASEURL}}Shields/{{$highway.Params.imagename}}"/>
-    </figure>
-    <h3 class="title is-3 has-text-centered">{{ $highway.Params.name }}</h3>
+{{$highway := . }}
+{{$stateCount := len $highway.Params.states }}
+{{ $orderedStates := slice }}
+<section class="container mx-auto">
+    <!-- Breadcrumb -->
+    <nav class="flex" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-1 md:space-x-3">
+            <li class="inline-flex items-center">
+                <a href="#"
+                   class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
+                    <svg class="w-3 h-3 mr-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                         fill="currentColor" viewBox="0 0 20 20">
+                        <path
+                                d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z" />
+                    </svg>
+                    Home
+                </a>
+            </li>
+            <li>
+                <div class="flex items-center">
+                    <svg class="w-3 h-3 mx-1 text-gray-400" aria-hidden="true"
+                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                              stroke-width="2" d="m1 9 4-4-4-4" />
+                    </svg>
+                    <a href="{{$country.RelPermalink}}"
+                       class="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white">{{$country.Params.name}}</a>
+                </div>
+            </li>
+            <li>
+                <div class="flex items-center">
+                    <svg class="w-3 h-3 mx-1 text-gray-400" aria-hidden="true"
+                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                              stroke-width="2" d="m1 9 4-4-4-4" />
+                    </svg>
+                    <a href="{{$highwayType.RelPermalink}}"
+                       class="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white">{{$highwayType.Params.name}}</a>
+                </div>
+            </li>
+            <li aria-current="page">
+                <div class="flex items-center">
+                    <svg class="w-3 h-3 mx-1 text-gray-400" aria-hidden="true"
+                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                              stroke-width="2" d="m1 9 4-4-4-4" />
+                    </svg>
+                    <span
+                            class="ml-1 text-sm font-medium text-gray-500 md:ml-2 dark:text-gray-400">{{.Params.name}}</span>
+                </div>
+            </li>
+        </ol>
+    </nav>
+        <img class="h-auto max-w-lg mx-auto" onerror="this.onerror=null; this.remove();" src="{{site.Params.SHIELDBASEURL}}Shields/{{$highway.Params.imagename}}"/>
+    <h2 class="text-4xl font-bold dark:text-white text-center">{{ $highway.Params.name }}</h2>
+
+    {{ if (and (eq $stateCount 1) ( isset $highway.Params "features" )) }}
+    <div class="grid grid-cols-4 gap-4">
+        {{ range $highway.Params.features }}
+        {{ $fpath := printf "/%s/%v" "feature" . }}
+        {{ with $.Site.GetPage $fpath }}
+        {{ partial "feature/summary.html" . }}
+        {{ end }}
+        {{ end }}
     </div>
-        {{ if (and (eq $stateCount 1) ( isset $highway.Params "features" )) }}
-        <div class="columns is-multiline">
-            {{ range $highway.Params.features }}
-            {{ $fpath := printf "/%s/%v" "feature" . }}
-            {{ with $.Site.GetPage $fpath }}
-            {{ partial "feature/summary.html" . }}
-            {{ end }}
-            {{ end }}
-        </div>
 
-        {{ else if .Page.Params.features }}
-        {{ with .Page.Params.features }}
-        {{ $allFeatures := . }}
+    {{ else if .Page.Params.features }}
+    {{ with .Page.Params.features }}
+    {{ $allFeatures := . }}
 
-        {{ $listOfStates := slice }}
-        {{ $totalList := newScratch }}
-        {{ $idx := 0 }}
-            {{ range $allFeatures }}
-            {{ $path := printf "/%s/%v" "feature" . }}
-            {{ with $.Site.GetPage $path }}
-            {{ if (and (in $highway.Params.states .Params.state.slug) (not (in (last 1 $orderedStates) .Params.state.slug ) )) }}
-            {{ $orderedStates = $orderedStates | append .Params.state.slug }}
-            {{ $totalList.Set (string $idx) $listOfStates }}
-            {{ $idx = add $idx 1 }}
-            {{ $listOfStates = slice }}
-            {{ end }}
-            {{ $listOfStates = $listOfStates | append . }}
-            {{ end }}
-            {{ end }}
-            {{ $totalList.Set (string $idx) $listOfStates }}
+    {{ $listOfStates := slice }}
+    {{ $totalList := newScratch }}
+    {{ $idx := 0 }}
+    {{ range $allFeatures }}
+    {{ $path := printf "/%s/%v" "feature" . }}
+    {{ with $.Site.GetPage $path }}
+    {{ if (and (in $highway.Params.states .Params.state.slug) (not (in (last 1 $orderedStates) .Params.state.slug ) )) }}
+    {{ $orderedStates = $orderedStates | append .Params.state.slug }}
+    {{ $totalList.Set (string $idx) $listOfStates }}
+    {{ $idx = add $idx 1 }}
+    {{ $listOfStates = slice }}
+    {{ end }}
+    {{ $listOfStates = $listOfStates | append . }}
+    {{ end }}
+    {{ end }}
+    {{ $totalList.Set (string $idx) $listOfStates }}
 
-            <div class="has-text-centered">
-            {{ $prettyState := slice }}
-            {{ range $orderedStates }}
-            {{ $statePagePath := printf "/%s/%s" "state" . }}
-            {{ with $.Site.GetPage $statePagePath }}
-            {{ $anchor := $.RenderString  (printf "[%s](#%s)" .Params.name .Params.slug)  }}
-            {{ $prettyState = $prettyState | append $anchor }}
-            {{ end }}
-            {{ end }}
-            <h5 class="title is-5 has-text-centered">{{ delimit $prettyState ", " " and "}}</h5>
-            </div>
-
-        {{ range $k, $v :=  $orderedStates }}
-        {{ $scratchIndex := (string (add $k 1)) }}
-        {{ $statePagePath := printf "/%s/%s" "state" $v }}
+    <div class="has-text-centered">
+        {{ $prettyState := slice }}
+        {{ range $orderedStates }}
+        {{ $statePagePath := printf "/%s/%s" "state" . }}
         {{ with $.Site.GetPage $statePagePath }}
-        <h4 class="title is-4" id="{{.Params.slug}}" >{{ .Params.name }}</h4>
+        {{ $anchor := $.RenderString  (printf "[%s](#%s)" .Params.name .Params.slug)  }}
+        {{ $prettyState = $prettyState | append $anchor }}
         {{ end }}
+        {{ end }}
+        <h5 class="title is-5 has-text-centered">{{ delimit $prettyState ", " " and "}}</h5>
+    </div>
 
-        <div class="columns is-multiline">
+    {{ range $k, $v :=  $orderedStates }}
+    {{ $scratchIndex := (string (add $k 1)) }}
+    {{ $statePagePath := printf "/%s/%s" "state" $v }}
+    {{ with $.Site.GetPage $statePagePath }}
+    <h4 class="title is-4" id="{{.Params.slug}}" >{{ .Params.name }}</h4>
+    {{ end }}
+
+    <div class="grid grid-cols-4 gap-4">
         {{ range $totalList.Get $scratchIndex }}
-            {{ partial "feature/summary.html" . }}
+        {{ partial "feature/summary.html" . }}
         {{ end }}
-        </div>
-        {{ end }}
+    </div>
+    {{ end }}
 
-        {{ end }}
-        {{ else }}
-        <div class="columns is-multiline">
+    {{ end }}
+    {{ else }}
+    <div class="grid grid-cols-4 gap-4">
         {{range index .Site.Taxonomies.highway $highway.Params.slug }}
         {{ partial "sign/tile.html" . }}
         {{ end }}
-        </div>
-        {{ end }}
+    </div>
+    {{ end }}
+
+</section>
+
 {{ end }}

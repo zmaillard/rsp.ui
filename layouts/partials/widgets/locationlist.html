@@ -2,7 +2,7 @@
 {{ $placeSlug := . }}
 {{ $path := printf "/%s/%s" "place" $placeSlug }}
 {{ with $.Site.GetPage $path }}
-<a class="button is-text is-marginless is-paddingless is-small" href="{{.RelPermalink}}">{{ .Params.name }}</a>
+<a class="p-0 text-xs text-gray-700 dark:text-gray-400 underline hover:no-underline" href="{{.RelPermalink}}">{{ .Params.name }}</a>
 {{ end }}
 {{ end }}
 
@@ -10,19 +10,19 @@
 {{ $countySlug := . }}
 {{ $path := printf "/%s/%s" "county" $countySlug  }}
 {{ with $.Site.GetPage $path }}
-<a class="button is-text is-marginless is-paddingless is-small" href="{{.RelPermalink}}">{{ .Params.name }}</a>
+<a class="p-0 text-xs text-gray-700 dark:text-gray-400 underline hover:no-underline" href="{{.RelPermalink}}">{{ .Params.name }}</a>
 {{ end }}
 {{ end }}
 
 {{ $stateSlug := .Params.state }}
 {{ $path := printf "/%s/%s" "state" $stateSlug }}
 {{ with $.Site.GetPage $path }}
-<a class="button is-text is-marginless is-paddingless is-small" href="{{.RelPermalink}}">{{ .Params.name }}</a>
+<a class="p-0 text-xs text-gray-700 dark:text-gray-400 underline hover:no-underline" href="{{.RelPermalink}}">{{ .Params.name }}</a>
 {{ end }}
 
 
 {{ $countrySlug := .Params.country }}
 {{ $path := printf "/%s/%s" "country" $countrySlug }}
 {{ with $.Site.GetPage $path }}
-<a class="button is-text is-marginless is-paddingless is-small" href="{{.RelPermalink}}">{{ .Params.name }}</a>
+<a class="p-0 text-xs text-gray-700 dark:text-gray-400 underline hover:no-underline" href="{{.RelPermalink}}">{{ .Params.name }}</a>
 {{ end }}
