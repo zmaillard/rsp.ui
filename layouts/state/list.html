@@ -40,103 +40,128 @@
 
 {{ $countryPath := printf "/%s/%s" "country" .Params.countryslug }}
 {{ $country := $.Site.GetPage $countryPath }}
-<nav class="breadcrumb" aria-label="breadcrumbs">
-    <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="{{$country.RelPermalink}}">{{$country.Params.name}}</a></li>
-        <li class="is-active"><a href="#" aria-current="page">{{.Params.name}}</a></li>
-    </ul>
-</nav>
-
-
-<section class="section">
-    <div class="container-top">
-        <h3 class="title is-3">Signs From {{.Params.name}}</h3>
-        <section class="hero">
-            {{ $path := printf "/%s/%s" "sign" .Params.featured}}
-            {{ with $.Site.GetPage $path }}
-            <figure class="image {{ if gt .Params.imageHeight .Params.imageWidth }}  is-3by4  {{ else }} is-4by3 {{ end }} width">
-                <a id="state-featured" href="{{.RelPermalink}}">
-                    <img id="state-featured-img" src="{{site.Params.SIGNBASEURL}}{{.Params.imageid}}/{{.Params.imageid}}_l.jpg"
-                        alt="{{.Params.title}}" style="opacity: 1; transition: opacity 0.15s linear 0s;" />
+<section class="container mx-auto">
+    <!-- Breadcrumb -->
+    <nav class="flex" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-1 md:space-x-3">
+            <li class="inline-flex items-center">
+                <a href="#"
+                   class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
+                    <svg class="w-3 h-3 mr-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                         fill="currentColor" viewBox="0 0 20 20">
+                        <path
+                                d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z" />
+                    </svg>
+                    Home
                 </a>
-            </figure>
-            {{end }}
-        </section>
-        <div>
-            <span class="icon is-small">
-                <i id="refresh-icon" class="fa fa-random"></i>
-            </span>
-            <a id="refresh-random">Show Random Sign From {{.Params.name}}</a>
-        </div>
-        <section class="section">
-            {{ $stateSlug := $.Params.slug }}
-            {{ $countyParams := .Params.counties }}
-            {{ with .Params.subdivisionname }}
-            <div class="box">
-                    <h4 class="title is-4">{{ . }}</h4>
-                    {{ with $countyParams }}
-                            <ul class="browse-flat-list">
-                            {{ range $idx, $counties := sort . "name" }}
-                            {{ $countypath := printf "/%s/%s_%s" "county" $stateSlug $counties.slug }}
-                            {{ $c := . }}
-                            {{ with $.Site.GetPage $countypath }}
-                            <li>
-                                <a class="is-size-6" href="{{.RelPermalink}}">
-                                    {{$c.name}}
-                                </a>
-                                <span class="tag is-rounded is-info is-light">{{ .Params.imagecount }}</span>
-                            </li>
-                            {{ end }}
-                            {{ end }}
-                            </ul>
-                    {{ end }}
-            </div>
+            </li>
+            <li>
+                <div class="flex items-center">
+                    <svg class="w-3 h-3 mx-1 text-gray-400" aria-hidden="true"
+                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                              stroke-width="2" d="m1 9 4-4-4-4" />
+                    </svg>
+                    <a href="{{$country.RelPermalink}}"
+                       class="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white">{{$country.Params.name}}</a>
+                </div>
+            </li>
+            <li aria-current="page">
+                <div class="flex items-center">
+                    <svg class="w-3 h-3 mx-1 text-gray-400" aria-hidden="true"
+                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                              stroke-width="2" d="m1 9 4-4-4-4" />
+                    </svg>
+                    <span
+                            class="ml-1 text-sm font-medium text-gray-500 md:ml-2 dark:text-gray-400">{{.Params.name}}</span>
+                </div>
+            </li>
+        </ol>
+    </nav>
+    <h2 class="text-4xl font-extrabold dark:text-white">Signs From {{.Params.name}}</h2>
+    {{ $path := printf "/%s/%s" "sign" .Params.featured}}
+    {{ with $.Site.GetPage $path }}
+    <a id="state-featured" href="{{.RelPermalink}}">
+    <img class="h-auto max-w-full rounded-lg" id="state-featured-img"
+         src="{{site.Params.SIGNBASEURL}}{{.Params.imageid}}/{{.Params.imageid}}_l.jpg"
+         alt="{{.Params.title}}" />
+    </a>
+    {{ end }}
+    <div class="p-0 text-s text-gray-700 dark:text-gray-400  justify-self-start">
+        <svg class="inline w-4 h-4 text-gray-800 dark:text-white" aria-hidden="true"
+             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M16 1v5h-5M2 19v-5h5m10-4a8 8 0 0 1-14.947 3.97M1 10a8 8 0 0 1 14.947-3.97" />
+        </svg>
+        <a id="refresh-random" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Show Random Sign From {{.Params.name}}</a>
+    </div>
+
+    {{ $stateSlug := $.Params.slug }}
+    {{ $countyParams := .Params.counties }}
+    {{ with .Params.subdivisionname }}
+    <div class="max-w-full p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+    <h4 class="text-2xl font-bold dark:text-white">{{ . }}</h4>
+        {{ with $countyParams }}
+        <ul class="flex flex-wrap items-center justify-center text-gray-900 dark:text-white browse-flat-list">
+            {{ range $idx, $counties := sort . "name" }}
+            {{ $countypath := printf "/%s/%s_%s" "county" $stateSlug $counties.slug }}
+            {{ $c := . }}
+            {{ with $.Site.GetPage $countypath }}
+            <li>
+                <a class="font-medium text-blue-600 dark:text-blue-500 hover:underline" href="{{.RelPermalink}}">
+                    {{$c.name}}
+                </a>
+                <span class="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300">{{ .Params.imagecount }}</span>
+            </li>
             {{ end }}
-            <div class="box">
-                <h4 class="title is-4">Localities</h4>
-                    {{ with .Params.places }}
-                        <ul class="browse-flat-list">
-                        {{ range $idx, $places := sort . "name" }}
-                        {{ $placepath := printf "/%s/%s_%s" "place" $stateSlug $places.slug }}
-                        {{ $c := . }}
-                        {{ with $.Site.GetPage $placepath }}
-                        <li>
-                         <a class="is-size-6" href="{{.RelPermalink}}">
-                        {{$c.name}}
-                         <span class="tag is-rounded is-info is-light">{{ .Params.imagecount }}</span>
-                        </a>
-                        </li>
-                        {{ end }}
-                        {{ end }}
-                        </ul>
-                {{ end }}
-            </div>
-            {{ with $highwayTypeMapScratch.Get "highway-type-page" }}
-            <div class="box">
-                <h4 class="title is-4">Highways</h4>
-                {{ range sort . ".Params.Sort" }}
-                {{ $typ := .Params.name }}
-                {{ $hwyTypePagePath := printf "/%s/%s" "highwaytype" .Params.slug }}
-                {{ $hwyTypePage := $.Site.GetPage $hwyTypePagePath }}
-                <div class="block">
-                <p class="title is-size-5">
+            {{ end }}
+        </ul>
+        {{ end }}
+    </div>
+    {{ end }}
+    <div class="max-w-full p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+        <h4 class="text-2xl font-bold dark:text-white">Localities</h4>
+        {{ with .Params.places }}
+        <ul class="flex flex-wrap items-center justify-center text-gray-900 dark:text-white browse-flat-list">
+            {{ range $idx, $places := sort . "name" }}
+            {{ $placepath := printf "/%s/%s_%s" "place" $stateSlug $places.slug }}
+            {{ $c := . }}
+            {{ with $.Site.GetPage $placepath }}
+            <li>
+                <a class="font-medium text-blue-600 dark:text-blue-500 hover:underline" href="{{.RelPermalink}}">
+                    {{$c.name}}
+                    <span class="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300">{{ .Params.imagecount }}</span>
+                </a>
+            </li>
+            {{ end }}
+            {{ end }}
+        </ul>
+        {{ end }}
+    </div>
+    {{ with $highwayTypeMapScratch.Get "highway-type-page" }}
+    <div class="max-w-full p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+        <h4 class="text-2xl font-bold dark:text-white">Highways</h4>
+        {{ range sort . ".Params.Sort" }}
+        {{ $typ := .Params.name }}
+        {{ $hwyTypePagePath := printf "/%s/%s" "highwaytype" .Params.slug }}
+        {{ $hwyTypePage := $.Site.GetPage $hwyTypePagePath }}
+            <p class="title is-size-5">
                 <a href="{{$hwyTypePage.RelPermalink}}">{{.Params.name}}</a>
-                </p>
-                <ul class="browse-flat-list">
+            </p>
+            <ul class="flex flex-wrap items-center justify-center text-gray-900 dark:text-white browse-flat-list">
                 {{range $htidx, $hwy := sort ( $allHighways.Get $typ ) ".Params.sort"  }}
 
                 {{ partial "highway/flat.html" . }}
 
                 {{ end }}
-                </ul>
-                </div>
-                {{ end }}
-            </div>
-            {{ end }}
-        </section>
+            </ul>
+        {{ end }}
     </div>
+    {{ end }}
 </section>
+
+
 <script>
     (function () {
         const $button = document.getElementById("refresh-random");

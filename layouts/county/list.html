@@ -9,23 +9,67 @@
 {{ $state := $.Site.GetPage $statePath }}
 {{ $countryPath := printf "/%s/%s" "country" $state.Params.countryslug }}
 {{ $country := $.Site.GetPage $countryPath }}
-<nav class="breadcrumb" aria-label="breadcrumbs">
-    <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="{{$country.RelPermalink}}">{{$country.Params.name}}</a></li>
-        <li><a href="{{$state.RelPermalink}}">{{$state.Params.name}}</a></li>
-        <li class="is-active"><a href="#" aria-current="page">{{.Params.name}}</a></li>
-    </ul>
-</nav>
+<section class="container mx-auto">
+    <!-- Breadcrumb -->
+    <nav class="flex" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-1 md:space-x-3">
+            <li class="inline-flex items-center">
+                <a href="#"
+                   class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
+                    <svg class="w-3 h-3 mr-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                         fill="currentColor" viewBox="0 0 20 20">
+                        <path
+                                d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z" />
+                    </svg>
+                    Home
+                </a>
+            </li>
+            <li>
+                <div class="flex items-center">
+                    <svg class="w-3 h-3 mx-1 text-gray-400" aria-hidden="true"
+                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                              stroke-width="2" d="m1 9 4-4-4-4" />
+                    </svg>
+                    <a href="{{$country.RelPermalink}}"
+                       class="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white">{{$country.Params.name}}</a>
+                </div>
+            </li>
+            <li>
+                <div class="flex items-center">
+                    <svg class="w-3 h-3 mx-1 text-gray-400" aria-hidden="true"
+                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                              stroke-width="2" d="m1 9 4-4-4-4" />
+                    </svg>
+                    <a href="{{$state.RelPermalink}}"
+                       class="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white">{{$state.Params.name}}</a>
+                </div>
+            </li>
+            <li aria-current="page">
+                <div class="flex items-center">
+                    <svg class="w-3 h-3 mx-1 text-gray-400" aria-hidden="true"
+                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                              stroke-width="2" d="m1 9 4-4-4-4" />
+                    </svg>
+                    <span
+                            class="ml-1 text-sm font-medium text-gray-500 md:ml-2 dark:text-gray-400">{{.Params.name}}</span>
+                </div>
+            </li>
+        </ol>
+    </nav>
+
+
 
 {{ with $state }}
-<h3 class="title is-3">{{$countyName}}, {{.Params.name}}</h3>
+    <h3 class="text-3xl font-bold dark:text-white">{{$countyName}}, {{.Params.name}}</h3>
 {{ end }}
 
 {{ $signTotal := where .Pages "Params.place" "!=" nil }}
 
 {{ $groupedPlaces := $signTotal.GroupByParam "place" }}
-<h5 class="subtitle is-5">Localities:
+    <h5 class="text-xl font-bold dark:text-white">Localities:
 {{ if gt (len $groupedPlaces) 1 }}
 {{ range $idx, $val := $groupedPlaces }}
 {{ $placePath := printf "/%s/%s" "place" $val.Key}}
@@ -33,7 +77,7 @@
 {{ if gt $idx 0 }}
 |
 {{ end }}
-<a href="#{{.Params.slug}}">{{ .Params.name }}</a>
+<a href="#{{.Params.slug}}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ .Params.name }}</a>
 {{ end }}
 {{ end }}
 </h5>
@@ -46,12 +90,12 @@
 {{ $placePage := $.Site.GetPage $placePath}}
 {{ if $placePage }}
 {{ with $.Site.GetPage $placePath }}
-<h4 class="title is-4" id="{{.Params.slug}}"  ><a href="{{.RelPermalink}}">{{ .Params.name }}</a></h4>
+    <h4 id="{{.Params.slug}}" class="text-2xl font-bold dark:text-white"><a href="{{.RelPermalink}}">{{ .Params.name }}</a></h4>
 {{ end }}
 {{ else }}
-<h4 class="title is-4"  >No Place Associated</h4>
+<h4 class="text-2xl font-bold dark:text-white"  >No Place Associated</h4>
 {{ end }}
-<div class="columns is-centered is-multiline">
+<div class="grid grid-cols-4 gap-4">
 
     {{ range .Pages }}
 {{ $signId := .Params.imageid}}
@@ -65,8 +109,8 @@
 
     {{ $noPlaces := where .Pages "Params.place" "==" nil }}
     {{ with $noPlaces }}
-    <h4 class="title is-4" >No Place Associated</h4>
-    <div class="columns is-centered is-multiline">
+    <h4 class="text-2xl font-bold dark:text-white"  >No Place Associated</h4>
+    <div class="grid grid-cols-4 gap-4">
 
         {{ range . }}
         {{ $signId := .Params.imageid}}
@@ -78,10 +122,16 @@
     </div>
     {{ end }}
 
-    <span class="icon is-small">
-                <i class="fa fa-random"></i>
-            </span>
-    <a href="https://random.roadsign.pictures/statesubdivision/{{$countySlug}}">Show Random Sign From {{$countyName}}</a>
+
+    <div class="p-0 text-s text-gray-700 dark:text-gray-400  justify-self-start">
+        <svg class="inline w-4 h-4 text-gray-800 dark:text-white" aria-hidden="true"
+             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M16 1v5h-5M2 19v-5h5m10-4a8 8 0 0 1-14.947 3.97M1 10a8 8 0 0 1 14.947-3.97" />
+        </svg>
+        <a href="https://random.roadsign.pictures/statesubdivision/{{$countySlug}}" id="refresh-random" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Show Random Sign From {{$countyName}}</a>
+    </div>
 
 </div>
+</section>
 {{ end }}

@@ -1,7 +1,7 @@
 <li>
-<a class="is-6" href="{{ .RelPermalink }}">
-<img class="shield-padding shield-flat-list-vertical" onerror="this.onerror=null; this.remove();"
+<a class="font-medium text-blue-600 dark:text-blue-500 hover:underline" href="{{ .RelPermalink }}">
+<img class="inline" onerror="this.onerror=null; this.remove();"
 src="{{site.Params.SHIELDBASEURL}}Shields/20x/{{ .Params.imagename }}" alt="{{ .Params.name }}">
-<span class="shield-flat-list-vertical">{{.Params.name}}</span>
+{{.Params.name}}
 </a>
 </li>

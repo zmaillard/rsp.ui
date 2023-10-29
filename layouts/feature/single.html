@@ -87,20 +87,20 @@
         </ol>
     </nav>
 
-
-    <div class="columns ">
-        <div class="column is-centered is-full">
-            <h1 class="title">{{ .Params.name}}</h1>
-        </div>
-    </div>
-    <div class="columns is-centered">
-        <div class="column is-one-third">
+    <h3 class="text-3xl font-bold dark:text-white">{{ .Params.name }}</h3>
+    <div class="grid grid-cols-2">
+        <div class="justify-self-start text-gray-900 dark:text-white">
             {{ with .Params.prev}}
             {{ range . }}
             <div>
                 {{ $slug := .fromfeatureid }}
                 {{ $path := printf "/%s/%v" "feature" $slug  }}
-                <i class="fa-solid fa-arrow-left"></i>
+                <svg
+                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="w-6 h-6 inline">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+                </svg>
                 {{ with .roadname }}
                 {{ . }}
                 {{ end }}
@@ -108,7 +108,7 @@
                 {{ $hwypath := printf "/%s/%v" "highway" .  }}
                 {{ with $.Site.GetPage $hwypath }}
                 <a href="{{.RelPermalink}}">
-                    <img class="shield-padding" src="{{site.Params.SHIELDBASEURL}}Shields/20x/{{ .Params.imageName }}" alt="{{ .Params.name }}" />
+                    <img class="inline" src="{{site.Params.SHIELDBASEURL}}Shields/20x/{{ .Params.imageName }}" alt="{{ .Params.name }}" />
                 </a>
                 {{ end }}
                 {{ end }}
@@ -119,7 +119,7 @@
             {{ end }}
             {{ end }}
         </div>
-        <div class="column is-offset-one-third is-one-third" >
+        <div class="justify-self-end text-gray-900 dark:text-white">
             {{ with .Params.next}}
             {{ range . }}
             <div>
@@ -132,21 +132,24 @@
                 {{ $hwypath := printf "/%s/%v" "highway" .  }}
                 {{ with $.Site.GetPage $hwypath }}
                 <a href="{{.RelPermalink}}">
-                    <img onerror="this.onerror=null; this.remove();" class="shield-padding" src="{{site.Params.SHIELDBASEURL}}Shields/20x/{{ .Params.imageName }}" alt="{{ .Params.name }}" />
+                    <img onerror="this.onerror=null; this.remove();" class="inline" src="{{site.Params.SHIELDBASEURL}}Shields/20x/{{ .Params.imageName }}" alt="{{ .Params.name }}" />
                 </a>
                 {{ end }}
                 {{ end }}
                 {{ with $.Site.GetPage $path }}
                 <a href="{{.RelPermalink}}">{{.Params.name}}</a>
-                <i class="fa-solid fa-arrow-right"></i>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                     stroke="currentColor" class="w-6 h-6 inline">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                </svg>
                 {{ end }}
             </div>
             {{ end }}
             {{ end }}
+
         </div>
     </div>
-
-
 
     <div class="grid grid-cols-4 gap-4">
         {{ range .Params.signs }}
@@ -158,8 +161,5 @@
         {{ end }}
     </div>
 </section>
-
-
-
 
 {{ end }}

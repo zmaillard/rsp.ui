@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+ul.browse-flat-list li:first-child a:before { content: ''; }
+
+/*
+ul.browse-flat-list { list-style-type: none; }
+ul.browse-flat-list li {
+    display: inline;
+}*/
+
+
+ul.browse-flat-list li a:before {
+    content: '\2022';
+    /*font-weight: bold;
+    text-decoration: none;
+    color: black;*/
+}
