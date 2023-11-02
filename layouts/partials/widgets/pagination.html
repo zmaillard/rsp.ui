@@ -19,9 +19,11 @@
 
 {{- if in $validFormats $format }}
   {{- if gt $page.Paginator.TotalPages 1 }}
-  <nav class="pagination is-small pagination-{{ $format }}" role="navigation" aria-label="pagination">
-      {{- partial (printf "partials/inline/pagination/%s" $format) $page }}
+<div class="flex justify-center">
+<nav aria-label="Pagination">
+  {{- partial (printf "partials/inline/pagination/%s" $format) $page }}
   </nav>
+</div>
   {{- end }}
 {{- else }}
   {{- errorf $msg2 (delimit $validFormats ", ") }}
@@ -33,18 +35,12 @@
   {{- with .Paginator }}
     {{- $currentPageNumber := .PageNumber }}
 
+    {{ $prev := .Prev }}
 
-    {{- with .Prev }}
-        <a href="{{ .URL }}" aria-label="Previous" class="page-link pagination-previous" role="button"><span aria-hidden="true">Previous</span></a>
-    {{- else }}
-        <a aria-disabled="true" aria-label="Previous" class="page-link pagination-previous" role="button" tabindex="-1"><span aria-hidden="true">Previous</span></a>
-    {{- end }}
+    {{ $next := .Next }}
 
-    {{- with .Next }}
-        <a href="{{ .URL }}" aria-label="Next" class="page-link pagination-next" role="button"><span aria-hidden="true">Next</span></a>
-    {{- else }}
-        <a aria-disabled="true" aria-label="Next" class="page-link pagination-next" role="button" tabindex="-1"><span aria-hidden="true">Next</span></a>
-    {{- end }}
+
+
 
     {{- $slots := 5 }}
     {{- $start := math.Max 1 (sub .PageNumber (math.Floor (div $slots 2))) }}
@@ -52,20 +48,59 @@
     {{- if lt (add (sub $end $start) 1) $slots }}
       {{- $start = math.Max 1 (add (sub $end $slots) 1) }}
     {{- end }}
-
+<ul class="flex items-center -space-x-px h-8 text-sm">
+  {{- with $prev }}
+  <li>
+    <a href="{{.URL}}" class="flex items-center justify-center px-3 h-8 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+      <span class="sr-only">Previous</span>
+      <svg class="w-2.5 h-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4"/>
+      </svg>
+    </a>
+  </li>
+  {{- else }}
+  <li>
+    <a class="flex items-center justify-center px-3 h-8 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+      <span class="sr-only">Previous</span>
+      <svg class="w-2.5 h-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4"/>
+      </svg>
+    </a>
+  </li>
+  {{- end }}
     {{- range $k := seq $start $end }}
-    <ul class="pagination-list">
+
       {{- if eq $.Paginator.PageNumber $k }}
-      <li>
-        <a aria-current="page" aria-label="Page {{ $k }}" class="page-link pagination-link is-current" role="button">{{ $k }}</a>
-      </li>
+  <li>
+    <a aria-current="page" class="z-10 flex items-center justify-center px-3 h-8 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">{{ $k }}</a>
+  </li>
       {{- else }}
-      <li class="page-item">
-        <a href="{{ (index $.Paginator.Pagers (sub $k 1)).URL }}" aria-label="Page {{ $k }}" class="page-link pagination-link" role="button">{{ $k }}</a>
-      </li>
+  <li>
+    <a href="{{ (index $.Paginator.Pagers (sub $k 1)).URL }}" aria-label="Page {{ $k }}"  class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">{{ $k }}</a>
+  </li>
       {{- end }}
-    </ul>
+
     {{- end }}
+  {{- with $next }}
+  <li>
+    <a href="{{.URL}}" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+      <span class="sr-only">Next</span>
+      <svg class="w-2.5 h-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+      </svg>
+    </a>
+  </li>
+  {{- else }}
+  <li>
+    <a  class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+      <span class="sr-only">Next</span>
+      <svg class="w-2.5 h-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+      </svg>
+    </a>
+  </li>
+  {{- end }}
+</ul>
 
 
   {{- end }}

@@ -5,11 +5,12 @@
 {{ end }}
 
 {{ define "main" }}
-<header class="header">
-  <div id="autocomplete"></div>
-</header>
-
-<div class="container">
+<section class="container mx-auto">
+  <div class="flex justify-center">
+    <div id="autocomplete"></div>
+  </div>
+  <div class="flex justify-center">
+  <div class="container">
   <div>
     <div id="categories"></div>
   </div>
@@ -18,10 +19,13 @@
     <div id="pagination"></div>
   </div>
 </div>
+  </div>
+</section>
 {{ end }}
 
 {{ define "footer" }}
 {{ $jsBundle := resources.Get "js/search.js" | js.Build | fingerprint  }}
+<input type="hidden" id="schnauz" value="{{.Site.Params}}" />
 <input type="hidden" id="search-url" value="{{.Site.Params.SEARCHURL}}" />
 <input type="hidden" id="search-api-key" value="{{.Site.Params.SEARCHKEY}}" />
 <input type="hidden" id="search-index" value="{{.Site.Params.SEARCHINDEX}}" />

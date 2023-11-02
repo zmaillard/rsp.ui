@@ -40,16 +40,13 @@
             </li>
         </ol>
     </nav>
-<div class="columns body-columns">
-    <div class="column is-half infinite-scroll is-offset-one-quarter">
-        <h3 class="title is-3 has-text-centered">Signs Tagged With {{ $name }}</h3>
-            <div class="image-list block">
-                {{ range .Paginator.Pages }}
-                {{ partial "sign/summary.html" .  }}
-                {{ end }}
-            </div>
-            {{ template "partials/widgets/pagination.html" . }}
-    </div>
-</div>
+    <h2 class="text-4xl font-extrabold dark:text-white">Signs Tagged With {{ $name }}</h2>
+
+
+        {{ range .Paginator.Pages }}
+        {{ partial "sign/summary.html" .  }}
+        {{ end }}
+
+    {{ template "partials/widgets/pagination.html" . }}
 </section>
 {{ end }}

@@ -1,23 +1,43 @@
-<div class="card sign-card">
-    <header class="card-header">
-        <p class="card-header-title">{{ .Title}}</p>
-    </header>
+<div class="flex justify-center pb-3">
+<div
+        class="max-w-2xl bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
 
-    <div class="card-image">
-        <figure class="image {{ if gt .Params.imageHeight .Params.imageWidth }}  is-3by4  {{ else }} is-4by3 {{ end }}  "><a href="/sign/{{ .Params.imageid}}">
-                <img loading="lazy"  src="{{site.Params.SIGNBASEURL}}{{ .Params.imageid}}/{{ .Params.imageid}}_l.jpg"
-                    alt="{{ .Title }}" style="opacity: 1; transition: opacity 0.15s linear 0s;"></a></figure>
+    {{ $signpage := printf "/%s/%s" "sign" .Params.imageid }}
+    {{ $imageid := .Params.imageid }}
+    {{ $dimClass := "is-3by4" }}
+    {{ if gt .Params.imageHeight .Params.imageWidth }} {{ $dimClass = "is-3by4" }}  {{ else }} {{ $dimClass = "is-4by3" }}  {{ end }}
+    {{ $title := .Title }}
+    {{with .GetPage $signpage}}
+    <a href="/sign/{{ .Params.imageid}}">
+        <img class="h-auto max-w-full mx-auto"
+             data-src="{{site.Params.SIGNBASEURL}}{{ $imageid}}/{{ $imageid}}_l.jpg"
+             src="{{site.Params.SIGNBASEURL}}{{ $imageid}}/{{ $imageid}}_l.jpg"
+             alt="{{ .Title }}" style="opacity: 1; transition: opacity 0.15s linear 0s;"></a>
+    {{ end }}
+
+    <div class="p-5">
+        <a href="#">
+            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ .Title}}</h5>
+        </a>
+        <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{ .Content }}</p>
+        {{ with .Params.date}}
+        <p class="mb-3 font-normal text-xs  text-gray-700 dark:text-gray-400">Taken {{ .Format "01-02-2006"}}</p>
+        {{ end }}
     </div>
-    <div class="card-content">
-        <div class="content">{{ .Content }}</div>
-    </div>
-    <nav class="card-footer level">
-        <div class="level-left">
-            <div class="level-item">
-                        {{ partial "widgets/shieldlist.html" . }}
-                        <span class="fa fa-map-marker-alt fa-w-12"></span>
-                        {{ partial "widgets/locationlist.html" . }}
-               </div>
+    <div class="flex flex-wrap">
+        <div class="p-5">
+            {{ partial "widgets/shieldlist.html" . }}
+
+            <svg class="inline w-4 h-4 text-gray-800 dark:text-white" xmlns="http://www.w3.org/2000/svg"
+                 fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+            </svg>
+            {{ partial "widgets/locationlist.html" . }}
         </div>
-    </nav>
+    </div>
+
+</div>
 </div>
