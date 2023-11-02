@@ -1,99 +1,93 @@
-import {autocomplete, getAlgoliaResults} from "@algolia/autocomplete-js";
-import {
-    meilisearchAutocompleteClient,
-    getMeilisearchResults,
-} from '@meilisearch/autocomplete-client';
+import {instantMeiliSearch} from "@meilisearch/instant-meilisearch";
+import instantsearch from "instantsearch.js";
+import {configure, hits, index, pagination, panel, refinementList, searchBox} from "instantsearch.js/es/widgets";
+import { connectInfiniteHits} from "instantsearch.js/es/connectors";
 
-const searchClient = meilisearchAutocompleteClient ({
-    url: document.getElementById('search-url').value,
-    apiKey: document.getElementById('search-api-key').value
+
+const SIGNBASEURL = document.getElementById('sign-base-url').value;
+
+
+const searchClient = instantMeiliSearch (
+    document.getElementById('search-url').value,
+    document.getElementById('search-api-key').value,
+    {
+        placeholderSearch: false, // default: true.
+        primaryKey: 'id', // default: undefined
+    },
+);
+
+let lastRenderArgs;
+
+const infiniteHits = connectInfiniteHits(
+    (renderArgs, isFirstRender) => {
+        const {hits, showMore, widgetParams} = renderArgs;
+        const { container } = widgetParams;
+
+        lastRenderArgs = renderArgs;
+
+        if (isFirstRender) {
+            const sentinel = document.createElement('div');
+            var $ul = document.createElement('ul');
+            $ul.className = 'max-w-2xl divide-y divide-gray-200 dark:divide-gray-700';
+            container.appendChild($ul);
+            container.appendChild(sentinel);
+
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && !lastRenderArgs.isLastPage) {
+                        showMore();
+                    }
+                })
+            });
+
+            observer.observe(sentinel);
+
+            return;
+        }
+
+        container.querySelector('ul').innerHTML = hits
+            .map(
+                hit =>
+                    `<li class="pb-3 sm:pb-4">
+                        <div class="flex items-center space-x-4">
+                            <div class="flex-shrink-0">
+                                <a href="/sign/${hit.id}">
+                                    <img class="w-32 h-32 rounded" src="${SIGNBASEURL}${hit.id}/${hit.id}_t.jpg" alt="${hit.title}" />
+                                </a>
+                            </div>
+                                     <div class="flex-1 min-w-0">
+            <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                ${instantsearch.highlight({ attribute: 'title', hit })}
+            </p>
+            <p class="text-sm text-gray-500  dark:text-gray-400">
+                ${instantsearch.highlight({ attribute: 'description', hit })}
+            </p>
+         </div>
+                        </div>
+                     </li>`
+            ).join("");
+    }
+)
+
+const search = instantsearch({
+    indexName: 'signs',
+    searchClient,
+    insights: false,
 });
 
-autocomplete({
-    container: '#autocomplete',
-    placeholder: 'Search for signs',
-    getSources({query}) {
-        return [
-            {
-                sourceId: 'signs',
-                getItems() {
-                    return getMeilisearchResults({
-                        searchClient,
-                        queries: [
-                            {
-                                indexName: 'signs',
-                                query,
-                            }
-                        ]
-                    })
-                },
-                templates: {
-                    item({item, components, html}) {
-                        return html`<div class="aa-ItemWrapper">
-                            <div class="aa-ItemContent">
-                                <div class="aa-ItemIcon aa-ItemIcon--alignTop">
-                                    <img
-                                            src="${item.image}"
-                                            alt="${item.name}"
-                                            width="40"
-                                            height="40"
-                                    />
-                                </div>
-                                <div class="aa-ItemContentBody">
-                                    <div class="aa-ItemContentTitle">
-                                        ${components.Highlight({
-                                            hit: item,
-                                            attribute: 'name',
-                                        })}
-                                    </div>
-                                    <div class="aa-ItemContentDescription">
-                                        ${components.Snippet({
-                                            hit: item,
-                                            attribute: 'description',
-                                        })}
-                                    </div>
-                                </div>
-                                <div class="aa-ItemActions">
-                                    <button
-                                            class="aa-ItemActionButton aa-DesktopOnly aa-ActiveOnly"
-                                            type="button"
-                                            title="Select"
-                                    >
-                                        <svg
-                                                viewBox="0 0 24 24"
-                                                width="20"
-                                                height="20"
-                                                fill="currentColor"
-                                        >
-                                            <path
-                                                    d="M18.984 6.984h2.016v6h-15.188l3.609 3.609-1.406 1.406-6-6 6-6 1.406 1.406-3.609 3.609h13.172v-4.031z"
-                                            />
-                                        </svg>
-                                    </button>
-                                    <button
-                                            class="aa-ItemActionButton"
-                                            type="button"
-                                            title="Add to cart"
-                                    >
-                                        <svg
-                                                viewBox="0 0 24 24"
-                                                width="18"
-                                                height="18"
-                                                fill="currentColor"
-                                        >
-                                            <path
-                                                    d="M19 5h-14l1.5-2h11zM21.794 5.392l-2.994-3.992c-0.196-0.261-0.494-0.399-0.8-0.4h-12c-0.326 0-0.616 0.156-0.8 0.4l-2.994 3.992c-0.043 0.056-0.081 0.117-0.111 0.182-0.065 0.137-0.096 0.283-0.095 0.426v14c0 0.828 0.337 1.58 0.879 2.121s1.293 0.879 2.121 0.879h14c0.828 0 1.58-0.337 2.121-0.879s0.879-1.293 0.879-2.121v-14c0-0.219-0.071-0.422-0.189-0.585-0.004-0.005-0.007-0.010-0.011-0.015zM4 7h16v13c0 0.276-0.111 0.525-0.293 0.707s-0.431 0.293-0.707 0.293h-14c-0.276 0-0.525-0.111-0.707-0.293s-0.293-0.431-0.293-0.707zM15 10c0 0.829-0.335 1.577-0.879 2.121s-1.292 0.879-2.121 0.879-1.577-0.335-2.121-0.879-0.879-1.292-0.879-2.121c0-0.552-0.448-1-1-1s-1 0.448-1 1c0 1.38 0.561 2.632 1.464 3.536s2.156 1.464 3.536 1.464 2.632-0.561 3.536-1.464 1.464-2.156 1.464-3.536c0-0.552-0.448-1-1-1s-1 0.448-1 1z"
-                                            />
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        `
-                    }
-                }
+search.addWidgets([
+    searchBox({
+        container: '#searchbox',
+    }),
+    infiniteHits({
+        container: document.querySelector('#hits')
+    })
+    /*configure({
+        hitsPerPage: 8,
+    }), ,*/
+    /*pagination({
+        container: '#pagination',
+    }),*/
+]);
 
-            }
-        ]
-    }
-})
+search.start();
