@@ -102,6 +102,7 @@
     {{ with .Params.subdivisionname }}
     <div class="max-w-full p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
     <h4 class="text-2xl font-bold dark:text-white">{{ . }}</h4>
+
         {{ with $countyParams }}
         <ul class="flex flex-wrap items-center justify-center text-gray-900 dark:text-white browse-flat-list">
             {{ range $idx, $counties := sort . "name" }}
@@ -146,9 +147,9 @@
         {{ $typ := .Params.name }}
         {{ $hwyTypePagePath := printf "/%s/%s" "highwaytype" .Params.slug }}
         {{ $hwyTypePage := $.Site.GetPage $hwyTypePagePath }}
-            <p class="title is-size-5">
-                <a href="{{$hwyTypePage.RelPermalink}}">{{.Params.name}}</a>
-            </p>
+        <h2 class="mb-2 text-lg font-semibold text-gray-900 dark:text-white">
+                <a class="hover:underline" href="{{$hwyTypePage.RelPermalink}}">{{.Params.name}}</a>
+        </h2>
             <ul class="flex flex-wrap items-center justify-center text-gray-900 dark:text-white browse-flat-list">
                 {{range $htidx, $hwy := sort ( $allHighways.Get $typ ) ".Params.sort"  }}
 

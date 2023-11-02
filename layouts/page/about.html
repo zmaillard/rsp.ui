@@ -1,67 +1,89 @@
 {{ define "main" }}
-<section>
-    <div class="container">
-        <div class="columns is-multiline">
-            <div class="column is-12">
-                <h1 class="title is-3">About roadsign.pictures</h1>
-                <div class="content">
-                    <b>Version:</b> {{.Site.Params.VERSION}} <br/>
-                    <b>Total Signs:</b> {{.Site.Data.images.imageCount}}
-
-                    <h2 class="title is-4">Signs By Country/State</h2>
-
-                    <ul>
-                    {{ range .Site.Taxonomies.country.ByCount }}
-                        {{ $countryCount := len .WeightedPages }}
-                        {{ $countrySlug := .Name }}
-                        {{ $countryPagePath := printf "/%s/%s" "country" .Name }}
-                        {{ with $.Site.GetPage $countryPagePath }}
-                        <li><a href="{{.RelPermalink}}">{{ .Params.name }}</a><span class="is-size-7 tag is-rounded">{{$countryCount}}</span>
-                        <ul>
-                            {{ range .Site.Taxonomies.state.ByCount }}
-                                {{ $stateCount := len .WeightedPages }}
-                                {{ $statePagePath := printf "/%s/%s" "state" .Name }}
-                                {{ with $.Site.GetPage $statePagePath }}
-                                {{ if eq $countrySlug .Params.countryslug }}
-                                <li><a href="{{.RelPermalink}}">{{ .Params.name }}</a><span class="is-size-7 tag is-rounded">{{$stateCount}}</span></li>
-                                {{ end }}
-                            {{ end }}
-                            {{ end }}
-                        </ul>
-                        </li>
-                        {{ end }}
-                    {{ end }}
-                    </ul>
-                    {{ $counter := newScratch }}
-                    {{ $recentForYear := newScratch }}
-                    <h3 class="subtitle is-5">By Date Taken</h3>
-                    {{ range .Site.Taxonomies.country.Alphabetical  }}
-                    {{ range .WeightedPages }}
-                    {{ $yearStr := .Params.date.Format "2006" | string }}
-                    {{ $prevRecent := $recentForYear.Get $yearStr }}
-                    {{ $curRecent := .Params.recent }}
-                    {{ if not $prevRecent }}
-                    {{  $recentForYear.Set $yearStr $curRecent }}
-                    {{ end }}
-                    {{ $counter.Add $yearStr 1 }}
-                    {{ end }}
-                    {{ end }}
-                    <ul>
-                     {{ range $k, $v :=  $counter.Values }}
-                        {{ $recentSlug := $recentForYear.Get $k }}
-                        {{ $recentPagePath := printf "/%s/%s" "recent" $recentSlug }}
-                        {{ with $.Site.GetPage $recentPagePath }}
-                        <li><a href="{{.RelPermalink}}">{{ $k }}</a><span class="is-size-7 tag is-rounded">{{$v}}</span></li>
-                        {{ end }}
-                        {{ end }}
-                    </ul>
-
+<section class="container mx-auto">
+    <!-- Breadcrumb -->
+    <nav class="flex" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-1 md:space-x-3">
+            <li class="inline-flex items-center">
+                <a href="#"
+                   class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
+                    <svg class="w-3 h-3 mr-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                         fill="currentColor" viewBox="0 0 20 20">
+                        <path
+                                d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z" />
+                    </svg>
+                    Home
+                </a>
+            </li>
+            <li aria-current="page">
+                <div class="flex items-center">
+                    <svg class="w-3 h-3 mx-1 text-gray-400" aria-hidden="true"
+                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                              stroke-width="2" d="m1 9 4-4-4-4" />
+                    </svg>
+                    <span
+                            class="ml-1 text-sm font-medium text-gray-500 md:ml-2 dark:text-gray-400">About</span>
                 </div>
-            </div>
-        </div>
-    </div>
+            </li>
+        </ol>
+    </nav>
+    <h2 class="text-4xl font-extrabold dark:text-white">About roadsign.pictures</h2>
 
+    <div class="p-4">
+            <b>Version:</b> {{.Site.Params.VERSION}} <br/>
+            <b>Total Signs:</b> {{.Site.Data.images.imageCount}}
+
+            <h2 class="mb-2 text-lg font-semibold text-gray-900 dark:text-white">Signs By Country/State</h2>
+
+            <ul class="space-y-4 text-gray-500 list-disc list-inside dark:text-gray-400">
+                {{ range .Site.Taxonomies.country.ByCount }}
+                {{ $countryCount := len .WeightedPages }}
+                {{ $countrySlug := .Name }}
+                {{ $countryPagePath := printf "/%s/%s" "country" .Name }}
+                {{ with $.Site.GetPage $countryPagePath }}
+                <li><a class="font-medium text-blue-600 dark:text-blue-500 hover:underline" href="{{.RelPermalink}}">{{ .Params.name }}</a><span class="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300">{{$countryCount}}</span>
+                    <ul class="pl-5 mt-2 space-y-1 list-disc list-inside">
+                    {{ range .Site.Taxonomies.state.ByCount }}
+                        {{ $stateCount := len .WeightedPages }}
+                        {{ $statePagePath := printf "/%s/%s" "state" .Name }}
+                        {{ with $.Site.GetPage $statePagePath }}
+                        {{ if eq $countrySlug .Params.countryslug }}
+                        <li><a class="font-medium text-blue-600 dark:text-blue-500 hover:underline" href="{{.RelPermalink}}">{{ .Params.name }}</a><span class="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300">{{$stateCount}}</span></li>
+                        {{ end }}
+                        {{ end }}
+                        {{ end }}
+                    </ul>
+                </li>
+                {{ end }}
+                {{ end }}
+            </ul>
+            {{ $counter := newScratch }}
+            {{ $recentForYear := newScratch }}
+            <h2 class="mb-2 text-lg font-semibold text-gray-900 dark:text-white">By Date Taken</h2>
+
+        {{ range .Site.Taxonomies.country.Alphabetical  }}
+            {{ range .WeightedPages }}
+            {{ $yearStr := .Params.date.Format "2006" | string }}
+            {{ $prevRecent := $recentForYear.Get $yearStr }}
+            {{ $curRecent := .Params.recent }}
+            {{ if not $prevRecent }}
+            {{  $recentForYear.Set $yearStr $curRecent }}
+            {{ end }}
+            {{ $counter.Add $yearStr 1 }}
+            {{ end }}
+            {{ end }}
+        <ul class="max-w-md space-y-1 text-gray-500 list-disc list-inside dark:text-gray-400">
+                {{ range $k, $v :=  $counter.Values }}
+                {{ $recentSlug := $recentForYear.Get $k }}
+                {{ $recentPagePath := printf "/%s/%s" "recent" $recentSlug }}
+                {{ with $.Site.GetPage $recentPagePath }}
+                <li><a class="font-medium text-blue-600 dark:text-blue-500 hover:underline" href="{{.RelPermalink}}">{{ $k }}</a><span class="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300">{{$v}}</span></li>
+                {{ end }}
+                {{ end }}
+            </ul>
+    </div>
 </section>
+
 
 
 {{ end }}
