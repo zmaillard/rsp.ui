@@ -77,7 +77,7 @@
 {{ partial "country/all.html" .  }}
 {{ else }}
 <h2 class="text-4xl font-extrabold dark:text-white">Browse By {{.Params.subdivisionname}}</h2>
-<div class="grid grid-cols-4 gap-4">
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
     {{ with .Params.states }}
     {{ range sort . "name" "asc" }}
     {{ $name := .slug }}
@@ -106,7 +106,7 @@
 </div>
 <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
 <h2 class="text-4xl font-extrabold dark:text-white">Browse By Highway</h2>
-<div class="grid grid-cols-4 gap-4">
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
     {{ with .Params.highwayTypes }}
     {{ range sort . "name" "asc" }}
     {{ $name := .slug }}

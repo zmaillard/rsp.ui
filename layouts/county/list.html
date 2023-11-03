@@ -95,7 +95,7 @@
 {{ else }}
 <h4 class="text-2xl font-bold dark:text-white"  >No Place Associated</h4>
 {{ end }}
-<div class="grid grid-cols-4 gap-4">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
 
     {{ range .Pages }}
 {{ $signId := .Params.imageid}}
@@ -110,7 +110,7 @@
     {{ $noPlaces := where .Pages "Params.place" "==" nil }}
     {{ with $noPlaces }}
     <h4 class="text-2xl font-bold dark:text-white"  >No Place Associated</h4>
-    <div class="grid grid-cols-4 gap-4">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
 
         {{ range . }}
         {{ $signId := .Params.imageid}}

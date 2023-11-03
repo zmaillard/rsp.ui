@@ -6,7 +6,7 @@ on:
       - '.github/workflows/manual.yaml'
     branches:
       - main
-      - test
+      - preview
 jobs:
   version:
     runs-on: ubuntu-latest
@@ -31,7 +31,7 @@ jobs:
     environment: Staging
     runs-on: ubuntu-latest
     needs: version
-    if: github.ref == 'refs/heads/test'
+    if: github.ref == 'refs/heads/preview'
     steps:
       - uses: actions/checkout@v3
       - name: Setup Hugo
@@ -53,6 +53,7 @@ jobs:
           RSP_DB_PORT: ${{ secrets.DB_PORT }}
           RSP_DB_NAME: ${{ secrets.DB_NAME }}
       - run: npm install
+      - run: npx tailwindcss -i ./assets/css/input.css -o ./assets/css/index.css --jit --minify
       - run: hugo --gc --minify --environment preview
         env:
           HUGO_PARAMS_W3WAPIKEY: ${{ secrets.HUGO_PARAMS_W3WAPIKEY }}
@@ -63,14 +64,11 @@ jobs:
           HUGO_PARAMS_SIGNBASEURL: ${{ vars.HUGO_PARAMS_SIGNBASEURL }}
           HUGO_PARAMS_SHIELDBASEURL: ${{ vars.HUGO_PARAMS_SHIELDBASEURL }}
 
-      - run: npm install netlify-cli
+      - uses: superfly/flyctl-actions/setup-flyctl@master
 
-      - name: Deploy
-        run: netlify deploy --dir=public --prod
-        shell: bash
+      - run: flyctl deploy --remote-only
         env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 
   deploy-production:
     needs: version

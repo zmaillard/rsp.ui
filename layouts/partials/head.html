@@ -8,7 +8,7 @@
 
 {{ $options := (dict "includePaths" (slice "node_modules")) }}
 
-{{ $css := resources.Get "css/index.css" }}
+{{ $css := resources.Get "css/index.css" | fingerprint "md5" }}
 
 <link rel="stylesheet" href="{{ $css.Permalink }}">
 

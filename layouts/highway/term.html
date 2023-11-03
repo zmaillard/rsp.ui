@@ -61,8 +61,8 @@
     <h2 class="text-4xl font-bold dark:text-white text-center">{{ $highway.Params.name }}</h2>
 
     {{ if (and (eq $stateCount 1) ( isset $highway.Params "features" )) }}
-    <div class="grid grid-cols-4 gap-4">
-        {{ range $highway.Params.features }}
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+    {{ range $highway.Params.features }}
         {{ $fpath := printf "/%s/%v" "feature" . }}
         {{ with $.Site.GetPage $fpath }}
         {{ partial "feature/summary.html" . }}
@@ -110,7 +110,7 @@
     <h4 class="title is-4" id="{{.Params.slug}}" >{{ .Params.name }}</h4>
     {{ end }}
 
-    <div class="grid grid-cols-4 gap-4">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {{ range $totalList.Get $scratchIndex }}
         {{ partial "feature/summary.html" . }}
         {{ end }}
@@ -119,7 +119,7 @@
 
     {{ end }}
     {{ else }}
-    <div class="grid grid-cols-4 gap-4">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {{range index .Site.Taxonomies.highway $highway.Params.slug }}
         {{ partial "sign/tile.html" . }}
         {{ end }}
