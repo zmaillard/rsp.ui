@@ -12,7 +12,7 @@
 {{ $country := $.Site.GetPage $countryPath }}
 <section class="container mx-auto">
     <!-- Breadcrumb -->
-    <nav class="flex" aria-label="Breadcrumb">
+    <nav class="flex pb-5" aria-label="Breadcrumb">
         <ol class="inline-flex items-center space-x-1 md:space-x-3">
             <li class="inline-flex items-center">
                 <a href="#"
@@ -63,7 +63,8 @@
 
 
 {{ with $state }}
-    <h3 class="text-3xl font-bold dark:text-white">{{$placeName}}, {{.Params.name}}</h3>
+    {{ $pageTitle := printf "%s, %s" $placeName .Params.name }}
+    {{ template "partials/widgets/pagetitle.html" $pageTitle }}
 {{ end }}
 
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">

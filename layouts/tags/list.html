@@ -3,7 +3,7 @@
 {{ $scratch := newScratch }}
 <section class="container mx-auto">
     <!-- Breadcrumb -->
-    <nav class="flex" aria-label="Breadcrumb">
+    <nav class="flex pb-5" aria-label="Breadcrumb">
         <ol class="inline-flex items-center space-x-1 md:space-x-3">
             <li class="inline-flex items-center">
                 <a href="#"
@@ -29,7 +29,8 @@
             </li>
         </ol>
     </nav>
-    <h3 class="text-3xl font-bold dark:text-white">Tags</h3>
+    {{ template "partials/widgets/pagetitle.html" "Tags" }}
+
     {{ range $idx, $term := .Data.Terms.Alphabetical }}
 
     {{ $name := index $.Site.Data.tags $term.Page.Title }}
@@ -46,7 +47,7 @@
 
     {{ range (uniq $letters) }}
 
-    <section class="section">
+    <section class="p-2">
         <h4 class="text-2xl font-bold dark:text-white">{{ . }}</h4>
 
         {{ range $idx, $term := $scratch.Get . }}

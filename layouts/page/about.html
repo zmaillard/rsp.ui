@@ -1,7 +1,7 @@
 {{ define "main" }}
 <section class="container mx-auto">
     <!-- Breadcrumb -->
-    <nav class="flex" aria-label="Breadcrumb">
+    <nav class="flex pb-5" aria-label="Breadcrumb">
         <ol class="inline-flex items-center space-x-1 md:space-x-3">
             <li class="inline-flex items-center">
                 <a href="#"
@@ -27,7 +27,8 @@
             </li>
         </ol>
     </nav>
-    <h2 class="text-4xl font-extrabold dark:text-white">About roadsign.pictures</h2>
+    {{ $title := "About roadsign.pictures" }}
+    {{ template "partials/widgets/pagetitle.html" $title }}
 
     <div class="p-4">
             <b>Version:</b> {{.Site.Params.VERSION}} <br/>
