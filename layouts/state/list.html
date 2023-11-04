@@ -89,18 +89,18 @@
     </a>
     {{ end }}
     <div class="p-0 text-s text-gray-700 dark:text-gray-400  justify-self-start">
-        <svg class="inline w-4 h-4 text-gray-800 dark:text-white" aria-hidden="true"
+        <svg id="refresh-random-icon" class="inline w-4 h-4 text-gray-800 dark:text-white" aria-hidden="true"
              xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M16 1v5h-5M2 19v-5h5m10-4a8 8 0 0 1-14.947 3.97M1 10a8 8 0 0 1 14.947-3.97" />
         </svg>
-        <a id="refresh-random" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Show Random Sign From {{.Params.name}}</a>
+        <a id="refresh-random" class="hover:cursor-pointer font-medium text-blue-600 dark:text-blue-500 hover:underline">Show Random Sign From {{.Params.name}}</a>
     </div>
 
     {{ $stateSlug := $.Params.slug }}
     {{ $countyParams := .Params.counties }}
     {{ with .Params.subdivisionname }}
-    <div class="max-w-full p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+    <div class="max-w-full m-4 p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
     <h4 class="text-2xl font-bold dark:text-white">{{ . }}</h4>
 
         {{ with $countyParams }}
@@ -121,7 +121,7 @@
         {{ end }}
     </div>
     {{ end }}
-    <div class="max-w-full p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+    <div class="max-w-full  m-4 p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
         <h4 class="text-2xl font-bold dark:text-white">Localities</h4>
         {{ with .Params.places }}
         <ul class="flex flex-wrap items-center justify-center text-gray-900 dark:text-white browse-flat-list">
@@ -141,7 +141,7 @@
         {{ end }}
     </div>
     {{ with $highwayTypeMapScratch.Get "highway-type-page" }}
-    <div class="max-w-full p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+    <div class="max-w-full  m-4 p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
         <h4 class="text-2xl font-bold dark:text-white">Highways</h4>
         {{ range sort . ".Params.Sort" }}
         {{ $typ := .Params.name }}
@@ -168,20 +168,17 @@
         const $button = document.getElementById("refresh-random");
         const $img = document.getElementById("state-featured-img");
         const $link = document.getElementById("state-featured");
-        const $refreshIcon = document.getElementById("refresh-icon");
+        const $refreshIcon = document.getElementById("refresh-random-icon");
         $button.addEventListener("click", function () {
-            $refreshIcon.classList.remove("fa-random");
-            $refreshIcon.classList.add("fa-arrows-rotate")
-            $refreshIcon.classList.toggle("fa-spin");
+            $refreshIcon.classList.toggle("animate-spin");
 
             fetch('https://random.roadsign.pictures/state/{{.Params.slug}}?idonly')
                 .then(f=>f.json())
                 .then(f=>{
                     $img.src = "{{site.Params.SIGNBASEURL}}" + f.imageId + "/" + f.imageId + '_l.jpg';
                     $link.href = "/sign/" + f.imageId;
-                    $refreshIcon.classList.add("fa-random");
-                    $refreshIcon.classList.remove("fa-arrows-rotate")
-                    $refreshIcon.classList.toggle("fa-spin");
+                    $refreshIcon.classList.toggle("animate-spin");
+
                 });
         });
     })();
