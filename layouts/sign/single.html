@@ -18,10 +18,8 @@
             {{ end }}
 
             <div class="p-5">
-                <a href="#">
-                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ .Title}}</h5>
-                </a>
-                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{ .Content }}</p>
+                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ .Title}}</h5>
+                <div class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{ .Content }}</div>
                 {{ with .Params.date}}
                 <p class="mb-3 font-normal text-xs  text-gray-700 dark:text-gray-400">Taken {{ .Format "01-02-2006"}}</p>
                 {{ end }}
@@ -79,8 +77,6 @@
 
         </div>
     </div>
-</section>
-<section class="container mx-auto">
 
     <div class="mx-auto max-w-xl p-2">
         <h4 class="text-xl font-bold dark:text-white text-center">Next Sign</h4>
