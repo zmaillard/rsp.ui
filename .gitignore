@@ -17,3 +17,5 @@ hugo.linux
 
 .DS_Store
 /.envrc
+
+assets/css/index.css
