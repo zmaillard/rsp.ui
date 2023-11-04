@@ -31,6 +31,8 @@
        </a></span>
         </div>
     </footer>
+    {{ $flowbite := resources.Get "js/flowbite/flowbite.js" }}
+    <script src="{{$flowbite.RelPermalink}}" ></script>
 </body>
 
 </html>
