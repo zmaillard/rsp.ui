@@ -76,7 +76,8 @@
 {{ if le $pageCount 50 }}
 {{ partial "country/all.html" .  }}
 {{ else }}
-<h2 class="text-4xl font-extrabold dark:text-white">Browse By {{.Params.subdivisionname}}</h2>
+{{ $browseSubTitle := printf "Browse By %s" .Params.subdivisionname }}
+{{ template "partials/widgets/pagetitle.html" $browseSubTitle }}
 <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
     {{ with .Params.states }}
     {{ range sort . "name" "asc" }}
@@ -105,7 +106,9 @@
     {{ end }}
 </div>
 <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
-<h2 class="text-4xl font-extrabold dark:text-white">Browse By Highway</h2>
+
+{{ $browseHwyTitle := "Browse By Highway" }}
+{{ template "partials/widgets/pagetitle.html" $browseHwyTitle }}
 <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
     {{ with .Params.highwayTypes }}
     {{ range sort . "name" "asc" }}

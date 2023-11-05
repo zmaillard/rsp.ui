@@ -42,7 +42,7 @@
 {{ $country := $.Site.GetPage $countryPath }}
 <section class="container mx-auto">
     <!-- Breadcrumb -->
-    <nav class="flex" aria-label="Breadcrumb">
+    <nav class="flex pb-5" aria-label="Breadcrumb">
         <ol class="inline-flex items-center space-x-1 md:space-x-3">
             <li class="inline-flex items-center">
                 <a href="#"
@@ -79,7 +79,9 @@
             </li>
         </ol>
     </nav>
-    <h2 class="text-4xl font-extrabold dark:text-white">Signs From {{.Params.name}}</h2>
+    {{ $title := printf "Signs From %s" .Params.name }}
+    {{ template "partials/widgets/pagetitle.html" $title }}
+
     {{ $path := printf "/%s/%s" "sign" .Params.featured}}
     {{ with $.Site.GetPage $path }}
     <a id="state-featured" href="{{.RelPermalink}}">
