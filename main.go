@@ -58,6 +58,21 @@ func main() {
 		panic(err)
 	}
 
+	err = generator.SaveLookup(cfg.HugoPath, signs.GetPlaceLookup())
+	if err != nil {
+		panic(err)
+	}
+
+	err = generator.SaveLookup(cfg.HugoPath, signs.GetCountyLookup())
+	if err != nil {
+		panic(err)
+	}
+
+	err = generator.SaveLookup(cfg.HugoPath, signs.GetStateLookup())
+	if err != nil {
+		panic(err)
+	}
+
 	for _, v := range signs {
 		err = generator.SaveItem(cfg.HugoPath, v.ConvertToDto())
 		if err != nil {

@@ -10,42 +10,6 @@ import (
 	"time"
 )
 
-type HighwaySigns []HighwaySign
-
-func (HighwaySigns) OutLookupFiles() []string {
-	return []string{"netlify/edge-functions/common/images.json", "data/images.json"}
-}
-
-func (hs HighwaySigns) GetLookup() ([]byte, error) {
-	// Make sure there are actually records
-	if len(hs) == 0 {
-		return json.Marshal(map[string]interface{}{
-			"images":     []string{},
-			"mostRecent": "",
-			"imageCount": 0,
-		})
-
-	}
-	var images []string
-
-	dateTaken := hs[0].DateTaken
-
-	for _, v := range hs {
-		if dateTaken.Before(v.DateTaken) {
-			dateTaken = v.DateTaken
-		}
-		images = append(images, v.ImageId.String())
-
-	}
-	res := map[string]interface{}{
-		"images":     images,
-		"mostRecent": dateTaken,
-		"imageCount": len(images),
-	}
-
-	return json.Marshal(res)
-}
-
 type HighwaySign struct {
 	ID               uint           `gorm:"column:id;primaryKey"`
 	Title            string         `gorm:"column:title"`
@@ -111,4 +75,151 @@ func (s HighwaySign) ConvertToDto() generator.Generator {
 	}
 
 	return highwaySignDto
+}
+
+type HighwaySigns []HighwaySign
+
+func (hs HighwaySigns) GetStateLookup() generator.Lookup {
+	return &highwaySignsByState{
+		&hs,
+	}
+}
+
+func (hs HighwaySigns) GetPlaceLookup() generator.Lookup {
+	return &highwaySignsByPlace{
+		&hs,
+	}
+}
+
+func (hs HighwaySigns) GetCountyLookup() generator.Lookup {
+	return &highwaySignsByCounty{
+		&hs,
+	}
+}
+
+func (HighwaySigns) OutLookupFiles() []string {
+	return []string{"netlify/edge-functions/common/images.json", "data/images.json"}
+}
+
+func (hs HighwaySigns) GetLookup() ([]byte, error) {
+	// Make sure there are actually records
+	if len(hs) == 0 {
+		return json.Marshal(map[string]interface{}{
+			"images":     []string{},
+			"mostRecent": "",
+			"imageCount": 0,
+		})
+
+	}
+	var images []string
+
+	dateTaken := hs[0].DateTaken
+
+	for _, v := range hs {
+		if dateTaken.Before(v.DateTaken) {
+			dateTaken = v.DateTaken
+		}
+		images = append(images, v.ImageId.String())
+
+	}
+	res := map[string]interface{}{
+		"images":     images,
+		"mostRecent": dateTaken,
+		"imageCount": len(images),
+	}
+
+	return json.Marshal(res)
+}
+
+type highwaySignsByState struct {
+	*HighwaySigns
+}
+
+func (h highwaySignsByState) GetLookup() ([]byte, error) {
+	hs := *h.HighwaySigns
+	// Make sure there are actually records
+	if len(hs) == 0 {
+		return json.Marshal(map[string]interface{}{})
+	}
+	images := make(map[string][]string)
+
+	for _, v := range hs {
+		_, ok := images[v.State]
+		if !ok {
+			images[v.State] = make([]string, 0)
+		}
+		images[v.State] = append(images[v.State], v.ImageId.String())
+
+	}
+
+	return json.Marshal(images)
+}
+
+func (h highwaySignsByState) OutLookupFiles() []string {
+	return []string{"data/state.json"}
+}
+
+type highwaySignsByPlace struct {
+	*HighwaySigns
+}
+
+func (h highwaySignsByPlace) GetLookup() ([]byte, error) {
+	hs := *h.HighwaySigns
+	// Make sure there are actually records
+	if len(hs) == 0 {
+		return json.Marshal(map[string]interface{}{})
+	}
+	images := make(map[string][]string)
+
+	for _, v := range hs {
+		if v.Place == nil {
+			continue
+		}
+
+		p := *v.Place
+		_, ok := images[p]
+		if !ok {
+			images[p] = make([]string, 0)
+		}
+		images[p] = append(images[p], v.ImageId.String())
+	}
+
+	return json.Marshal(images)
+}
+
+func (h highwaySignsByPlace) OutLookupFiles() []string {
+	return []string{"data/place.json"}
+}
+
+type highwaySignsByCounty struct {
+	*HighwaySigns
+}
+
+func (h highwaySignsByCounty) GetLookup() ([]byte, error) {
+	hs := *h.HighwaySigns
+	// Make sure there are actually records
+	if len(hs) == 0 {
+		return json.Marshal(map[string]interface{}{})
+	}
+	images := make(map[string][]string)
+
+	for _, v := range hs {
+		if v.StateSubdivision == nil {
+			continue
+		}
+
+		county := *v.StateSubdivision
+		_, ok := images[county]
+		if !ok {
+			images[county] = make([]string, 0)
+		}
+		images[county] = append(images[county], v.ImageId.String())
+	}
+
+	return json.Marshal(images)
+}
+
+func (h highwaySignsByCounty) OutLookupFiles() []string {
+	return []string{"data/county.json"}
+
 }
