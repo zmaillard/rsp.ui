@@ -2,12 +2,11 @@
 <li class="pb-3 sm:pb-4">
     <div class="flex items-center space-x-4">
         <div class="flex-shrink-0">
-            <img class="w-8 w-8" onerror="this.onerror=null; this.remove();" src="{{site.Params.SHIELDBASEURL}}Shields/{{.Params.imageName}}">
+            <img alt="{{.Params.name}}" class="w-8 w-8" onerror="this.onerror=null; this.remove();" src="{{site.Params.SHIELDBASEURL}}Shields/{{.Params.imageName}}">
         </div>
-        <div class="flex-1 min-w-0">
-            <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+        <div class="flex-1 min-w-0 text-gray-900  dark:text-white">
+            <p class="text-sm font-medium ">
                 <strong><a href="{{.RelPermalink}}">{{.Params.name}}</a></strong> <small>{{ $signCount  }} Signs</small>
-            </p>
             {{ $hasState := isset .Params "states" }}
             {{ if $hasState }}
 
@@ -40,6 +39,8 @@
             <br /> <strong>Places:</strong> {{ partial "widgets/highwayplacelist.html" . }}
             {{ end }}
             {{ end }}
+            </p>
+
         </div>
     </div>
 </li>

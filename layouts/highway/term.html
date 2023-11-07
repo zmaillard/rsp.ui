@@ -92,7 +92,6 @@
     {{ end }}
     {{ $totalList.Set (string $idx) $listOfStates }}
 
-    <div class="has-text-centered">
         {{ $prettyState := slice }}
         {{ range $orderedStates }}
         {{ $statePagePath := printf "/%s/%s" "state" . }}
@@ -101,14 +100,13 @@
         {{ $prettyState = $prettyState | append $anchor }}
         {{ end }}
         {{ end }}
-        <h5 class="title is-5 has-text-centered">{{ delimit $prettyState ", " " and "}}</h5>
-    </div>
+        <h2 class="text-2xl font-bold dark:text-white">{{ delimit $prettyState ", " " and "}}</h2>
 
     {{ range $k, $v :=  $orderedStates }}
     {{ $scratchIndex := (string (add $k 1)) }}
     {{ $statePagePath := printf "/%s/%s" "state" $v }}
     {{ with $.Site.GetPage $statePagePath }}
-    <h4 class="title is-4" id="{{.Params.slug}}" >{{ .Params.name }}</h4>
+    <h3 class="text-xl font-bold dark:text-white" id="{{.Params.slug}}" >{{ .Params.name }}</h3>
     {{ end }}
 
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
