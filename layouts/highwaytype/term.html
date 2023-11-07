@@ -44,7 +44,7 @@
         </ol>
     </nav>
     <h3 class="text-3xl font-bold dark:text-white">{{ .Params.name }}</h3>
-    <ul class="max-w-md divide-y divide-gray-200 dark:divide-gray-700">
+    <ul class="pt-4 max-w-2xl divide-y divide-gray-200 dark:divide-gray-700">
         {{ range sort .Params.highways  }}
         {{ $path := printf "/%s/%s" "highway" . }}
         {{ with $.Site.GetPage $path }}
