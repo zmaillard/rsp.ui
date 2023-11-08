@@ -57,9 +57,10 @@
             </li>
         </ol>
     </nav>
-        <img class="h-auto max-w-lg" onerror="this.onerror=null; this.remove();" src="{{site.Params.SHIELDBASEURL}}Shields/{{$highway.Params.imagename}}"/>
-    {{ template "partials/widgets/pagetitle.html" $highway.Params.name }}
-
+    <div class="mx-auto max-w-fit">
+        <img class="h-auto max-w-lg mx-auto" onerror="this.onerror=null; this.remove();" src="{{site.Params.SHIELDBASEURL}}Shields/{{$highway.Params.imagename}}"/>
+        {{ template "partials/widgets/pagetitle.html" $highway.Params.name }}
+    </div>
 
     {{ if (and (eq $stateCount 1) ( isset $highway.Params "features" )) }}
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
