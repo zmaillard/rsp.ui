@@ -1,1 +1,27 @@
-<h1 class="text-3xl font-bold dark:text-white">{{ . }}</h1>
+{{- $validAlign := slice "center" "no-center" }}
+{{- $msg1 := "title is not set" }}
+{{- $msg2 := "center or no-center" }}
+
+{{- $text := . }}
+{{- $align := "no-center" }}
+
+{{- if reflect.IsMap . }}
+    {{- with .text }}
+        {{- $text = . }}
+    {{- else }}
+        {{- errorf $msg1 }}
+    {{- end }}
+    {{- with .align }}
+        {{- $align = lower . }}
+    {{- end }}
+{{- end }}
+
+{{- if in $validAlign $align }}
+<h1 class="text-3xl font-bold dark:text-white {{ if eq $align "center"}}text-center{{end}}">{{ $text }}</h1>
+{{- else }}
+{{- errorf $msg2 }}
+{{- end -}}
+
+
+
+

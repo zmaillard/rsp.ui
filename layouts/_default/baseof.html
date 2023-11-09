@@ -11,7 +11,7 @@
     {{- block "main" . }}{{- end }}
     {{- partial "footer.html" . -}}
     {{- block "footer" . }}{{- end }}
-    <footer class="p-4 bg-white md:p-8 lg:p-10 dark:bg-gray-800">
+    <footer class="p-4 bg-white md:p-8 lg:p-10 dark:bg-gray-800 mt-4">
         {{ $recent := printf "/recent/%s" (.Site.Data.images.mostRecent | time.Format "2006-01") }}
         {{ $page := $.Site.GetPage $recent }}
         {{ $aboutPage := $.Site.GetPage "/about" }}
