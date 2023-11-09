@@ -75,7 +75,7 @@
 {{ range $idx, $val := $groupedPlaces }}
 {{ $placePath := printf "/%s/%s" "place" $val.Key}}
 {{ with $.Site.GetPage $placePath}}
-{{ if gt $idx 0 }}
+{{ if gt $idx 1 }}
 |
 {{ end }}
 <a href="#{{.Params.slug}}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ .Params.name }}</a>

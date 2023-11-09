@@ -57,11 +57,11 @@
             </li>
         </ol>
     </nav>
-        <img class="h-auto max-w-lg" onerror="this.onerror=null; this.remove();" src="{{site.Params.SHIELDBASEURL}}Shields/{{$highway.Params.imagename}}"/>
-    {{ template "partials/widgets/pagetitle.html" $highway.Params.name }}
-
-
     {{ if (and (eq $stateCount 1) ( isset $highway.Params "features" )) }}
+    <div class="mx-auto max-w-fit">
+        <img class="h-auto max-w-lg mx-auto" onerror="this.onerror=null; this.remove();" src="{{site.Params.SHIELDBASEURL}}Shields/{{$highway.Params.imagename}}"/>
+        {{ template "partials/widgets/pagetitle.html" $highway.Params.name }}
+    </div>
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
     {{ range $highway.Params.features }}
         {{ $fpath := printf "/%s/%v" "feature" . }}
@@ -70,8 +70,11 @@
         {{ end }}
         {{ end }}
     </div>
-
     {{ else if .Page.Params.features }}
+    <div class="mx-auto max-w-fit">
+        <img class="h-auto max-w-lg mx-auto" onerror="this.onerror=null; this.remove();" src="{{site.Params.SHIELDBASEURL}}Shields/{{$highway.Params.imagename}}"/>
+        {{ template "partials/widgets/pagetitle.html" (dict "text"  $highway.Params.name "align" "center") }}
+
     {{ with .Page.Params.features }}
     {{ $allFeatures := . }}
 
@@ -96,20 +99,22 @@
         {{ range $orderedStates }}
         {{ $statePagePath := printf "/%s/%s" "state" . }}
         {{ with $.Site.GetPage $statePagePath }}
-        {{ $anchor := $.RenderString  (printf "[%s](#%s)" .Params.name .Params.slug)  }}
+        {{ $anchor := (printf "<a class='text-blue-600 dark:text-blue-500 hover:underline' href='#%s'>%s</a>" .Params.slug .Params.name )  }}
+
         {{ $prettyState = $prettyState | append $anchor }}
         {{ end }}
         {{ end }}
-        <h2 class="text-2xl font-bold dark:text-white">{{ delimit $prettyState ", " " and "}}</h2>
-
+        <h2 class="text-2xl font-bold dark:text-white text-center ">{{ delimit $prettyState ", " " and "}}</h2>
+    </div>
     {{ range $k, $v :=  $orderedStates }}
     {{ $scratchIndex := (string (add $k 1)) }}
     {{ $statePagePath := printf "/%s/%s" "state" $v }}
     {{ with $.Site.GetPage $statePagePath }}
-    <h3 class="text-xl font-bold dark:text-white" id="{{.Params.slug}}" >{{ .Params.name }}</h3>
+    <h3 class="text-2xl font-bold dark:text-white" id="{{.Params.slug}}" >{{ .Params.name }}</h3>
+
     {{ end }}
 
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+    <div class="grid grid-cols-2 mb-2 lg:grid-cols-4 gap-4">
         {{ range $totalList.Get $scratchIndex }}
         {{ partial "feature/summary.html" . }}
         {{ end }}
@@ -118,6 +123,10 @@
 
     {{ end }}
     {{ else }}
+    <div class="mx-auto max-w-fit">
+        <img class="h-auto max-w-lg mx-auto" onerror="this.onerror=null; this.remove();" src="{{site.Params.SHIELDBASEURL}}Shields/{{$highway.Params.imagename}}"/>
+        {{ template "partials/widgets/pagetitle.html" $highway.Params.name }}
+    </div>
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {{range index .Site.Taxonomies.highway $highway.Params.slug }}
         {{ partial "sign/tile.html" . }}

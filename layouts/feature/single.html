@@ -66,7 +66,7 @@
                 {{ $hwypath := printf "/%s/%v" "highway" .  }}
                 {{ with $.Site.GetPage $hwypath }}
                 <a class="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white" href="{{.RelPermalink}}">
-                    <img class="inline" src="{{site.Params.SHIELDBASEURL}}Shields/20x/{{ .Params.imageName }}" alt="{{ .Params.name }}" />
+                    <img class="inline"  onerror="this.onerror=null; this.remove();" src="{{site.Params.SHIELDBASEURL}}Shields/20x/{{ .Params.imageName }}" alt="{{ .Params.name }}" />
                 </a>
                 {{ end }}
                 {{ end }}
@@ -108,7 +108,7 @@
                 {{ $hwypath := printf "/%s/%v" "highway" .  }}
                 {{ with $.Site.GetPage $hwypath }}
                 <a href="{{.RelPermalink}}">
-                    <img class="inline" src="{{site.Params.SHIELDBASEURL}}Shields/20x/{{ .Params.imageName }}" alt="{{ .Params.name }}" />
+                    <img class="inline"  onerror="this.onerror=null; this.remove();" src="{{site.Params.SHIELDBASEURL}}Shields/20x/{{ .Params.imageName }}" alt="{{ .Params.name }}" />
                 </a>
                 {{ end }}
                 {{ end }}
