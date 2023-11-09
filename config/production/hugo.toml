@@ -1,1 +1,4 @@
 baseURL = 'https://roadsign.pictures'
+
+[params]
+    randomURL = 'https://random.roadsign.pictures'

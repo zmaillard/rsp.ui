@@ -1,1 +1,4 @@
 baseURL = 'http://localhost:1313'
+
+[params]
+    randomURL = 'https://worker-rust.zmaillard-cloudflare.workers.dev'

@@ -83,7 +83,7 @@
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M16 1v5h-5M2 19v-5h5m10-4a8 8 0 0 1-14.947 3.97M1 10a8 8 0 0 1 14.947-3.97" />
         </svg>
-        <a href="https://random.roadsign.pictures/place/{{$stateSlug}}/{{.Params.slug}}" id="refresh-random" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Show Random Sign From {{$placeName}}</a>
+        <a href="{{$.Site.Params.randomURL}}/place/{{$stateSlug}}/{{.Params.slug}}" id="refresh-random" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Show Random Sign From {{$placeName}}</a>
     </div>
 
 </section>

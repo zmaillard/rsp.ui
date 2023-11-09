@@ -1,1 +1,4 @@
 baseURL = 'https://preview.roadsign.pictures'
+
+[params]
+    randomURL = 'https://worker-rust.zmaillard-cloudflare.workers.dev'
