@@ -1,7 +1,7 @@
 import {instantMeiliSearch} from "@meilisearch/instant-meilisearch";
 import instantsearch from "instantsearch.js";
 import {configure, hits, index, pagination, panel, refinementList, searchBox} from "instantsearch.js/es/widgets";
-import { connectInfiniteHits} from "instantsearch.js/es/connectors";
+import {connectInfiniteHits} from "instantsearch.js/es/connectors";
 
 
 const SIGNBASEURL = document.getElementById('sign-base-url').value;
@@ -17,6 +17,7 @@ const searchClient = instantMeiliSearch (
 );
 
 let lastRenderArgs;
+
 
 const infiniteHits = connectInfiniteHits(
     (renderArgs, isFirstRender) => {
