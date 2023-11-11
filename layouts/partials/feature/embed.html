@@ -18,7 +18,7 @@
             {{ $hwypath := printf "/%s/%v" "highway" .  }}
             {{ with $.Site.GetPage $hwypath }}
             <a href="{{.RelPermalink}}">
-                <img alt="{{ .Params.name }}" class="inline" src="{{site.Params.SHIELDBASEURL}}Shields/20x/{{ .Params.imageName }}" />
+                <img alt="{{ .Params.name }}" onerror="this.onerror=null; this.remove();" class="inline" src="{{site.Params.SHIELDBASEURL}}Shields/20x/{{ .Params.imageName }}" />
             </a>
             {{end}}
             {{ end }}

@@ -82,6 +82,7 @@
     {{ $title := printf "Signs From %s" .Params.name }}
     {{ template "partials/widgets/pagetitle.html" $title }}
 
+    {{ if .Params.featured }}
     {{ $path := printf "/%s/%s" "sign" .Params.featured}}
     {{ with $.Site.GetPage $path }}
     <a id="state-featured" href="{{.RelPermalink}}">
@@ -161,6 +162,9 @@
             </ul>
         {{ end }}
     </div>
+    {{ end }}
+    {{ else }}
+    {{ partial "state/all.html" .  }}
     {{ end }}
 </section>
 
