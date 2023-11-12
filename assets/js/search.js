@@ -1,6 +1,6 @@
 import {instantMeiliSearch} from "@meilisearch/instant-meilisearch";
 import instantsearch from "instantsearch.js";
-import {configure, hits, index, pagination, panel, refinementList, searchBox} from "instantsearch.js/es/widgets";
+import {searchBox} from "instantsearch.js/es/widgets";
 import {connectInfiniteHits} from "instantsearch.js/es/connectors";
 
 
@@ -79,16 +79,12 @@ const search = instantsearch({
 search.addWidgets([
     searchBox({
         container: '#searchbox',
+        placeholder: 'Search for signs',
+        showLoadingIndicator: true,
     }),
     infiniteHits({
         container: document.querySelector('#hits')
     })
-    /*configure({
-        hitsPerPage: 8,
-    }), ,*/
-    /*pagination({
-        container: '#pagination',
-    }),*/
 ]);
 
 search.start();
