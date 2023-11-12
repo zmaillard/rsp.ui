@@ -1,25 +1,13 @@
 {{ define "main" }}
-<section>
-    <div class="container">
-        <div class="columns is-multiline">
-            <div class="column is-12">
-                <h1 class="title has-text-centered">roadsign.pictures</h1>
-                <h2 class="subtitle has-text-centered">A gallery of road sign photographs taken across North America
-                </h2>
-                <hr>
+<section class="container mx-auto">
+    <h1 class="mb-4 text-3xl font-extrabold leading-none tracking-tight text-gray-900 md:text-4xl dark:text-white">roadsign.pictures</h1>
+    <h2 class="mb-4 text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">A gallery of road sign photographs taken across North America</h2>
 
-            </div>
-</div>
-</div>
-</section>
-<section>
     {{ $usPath := printf "/%s/%s" "country" "united-states" }}
     {{ $usPage := $.Site.GetPage $usPath }}
 
     {{ partial "country/tab.html" $usPage }}
 
-
 </section>
-
 
 {{ end }}

@@ -1,103 +1,95 @@
 {{ define "main" }}
-<div class="columns has-same-height is-gapless is-centered">
-    <div class="column is-two-thirds image-list">
-        <div class="card">
-            <div class="card-header">
-                <div class="card-header-title">
-                    <h3 class="title has-text-centered has-text-weight-medium is-4">{{ .Title}}</h3>
-                </div>
-            </div>
-            <div class="card-image">
+<section class="container mx-auto">
+    <div class="flex justify-center">
+        <div
+                class="max-w-2xl bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
 
-                {{ $signpage := printf "/%s/%s" "sign" .Params.imageid }}
-                {{ $imageid := .Params.imageid }}
-                {{ $dimClass := "is-3by4" }}
-                {{ if gt .Params.imageHeight .Params.imageWidth }} {{ $dimClass = "is-3by4" }}  {{ else }} {{ $dimClass = "is-4by3" }}  {{ end }}
-                {{ $title := .Title }}
-                {{with .GetPage $signpage}}
-                <figure class="image width {{ $dimClass }}"><a href="/sign/{{ .Params.imageid}}">
-                        <img class="lazy-initial lazy-complete"
-                            data-src="{{site.Params.SIGNBASEURL}}{{ $imageid}}/{{ $imageid}}_l.jpg"
-                            src="{{site.Params.SIGNBASEURL}}{{ $imageid}}/{{ $imageid}}_l.jpg"
-                            alt="{{ .Title }}" style="opacity: 1; transition: opacity 0.15s linear 0s;"></a></figure>
+            {{ $signpage := printf "/%s/%s" "sign" .Params.imageid }}
+            {{ $imageid := .Params.imageid }}
+            {{ $dimClass := "is-3by4" }}
+            {{ if gt .Params.imageHeight .Params.imageWidth }} {{ $dimClass = "is-3by4" }}  {{ else }} {{ $dimClass = "is-4by3" }}  {{ end }}
+            {{ $title := .Title }}
+            {{with .GetPage $signpage}}
+            <a href="/sign/{{ .Params.imageid}}">
+                <img class="h-auto max-w-full mx-auto"
+                     data-src="{{site.Params.SIGNBASEURL}}{{ $imageid}}/{{ $imageid}}_l.jpg"
+                     src="{{site.Params.SIGNBASEURL}}{{ $imageid}}/{{ $imageid}}_l.jpg"
+                     alt="{{ .Title }}" style="opacity: 1; transition: opacity 0.15s linear 0s;"></a>
+            {{ end }}
+
+            <div class="p-5">
+                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ .Title}}</h5>
+                <div class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{ .Content }}</div>
+                {{ with .Params.date}}
+                <p class="mb-3 font-normal text-xs  text-gray-700 dark:text-gray-400">Taken {{ .Format "01-02-2006"}}</p>
                 {{ end }}
             </div>
-            <div class="card-content">
-                <div class="content">
-                    <p class="is-size-6">{{ .Content }}</p>
-                </div>
-                <div class="content">
-                    {{ with .Params.date}}
-                    <div class="is-size-7">Taken {{ .Format "01-02-2006"}}</div>
-                    {{ end }}
-
-
-                    {{ with .Params.point }}
-                    <img
+            <div class="p-5">
+                {{ with .Params.point }}
+                <img
                         src="https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/geojson(%7B%22type%22%3A%22Point%22%2C%22coordinates%22%3A%5B{{.longitude}}%2C{{.latitude}}%20%5D%7D)/{{.longitude}},{{.latitude}},11/1024x200?access_token=pk.eyJ1Ijoic2FnZWJydXNoZ2lzIiwiYSI6ImNqZnQxMjdodDA0Y28zNHB0OXpvNnMyYjQifQ.ut3IkXblOzLoHDYQzymKhQ">
-                    {{ end }}
-                    <div class="level">
-                        <div class="level-left" id="w3wbody">
-
-                        </div>
-                        <div class="level-right">
-                            {{ with .Params.point }}
-                            {{$latitude := .latitude }}
-                            {{$longitude := .longitude }}
-                        {{ $nearbyPage := printf "/%s" "nearby"  }}
-                        {{ with $.Site.GetPage $nearbyPage}}
-                            {{$link := printf "$s?lat=%v&lng=%v" .RelPermalink $latitude $longitude}}
-                            <span class="is-size-7">
+                {{ end }}
+                <div class="gap-8 sm:grid sm:grid-cols-2">
+                    <div id="w3wbody" class="p-0 text-xs text-gray-700 dark:text-gray-400  justify-self-start"></div>
+                    {{ with .Params.point }}
+                    {{$latitude := .latitude }}
+                    {{$longitude := .longitude }}
+                    {{ $nearbyPage := printf "/%s" "nearby"  }}
+                    {{ with $.Site.GetPage $nearbyPage}}
+                    {{$link := printf "$s?lat=%v&lng=%v" .RelPermalink $latitude $longitude}}
+                    <div class="underline hover:no-underline text-xs justify-self-end text-gray-700 dark:text-gray-400 ">
                             <a href="{{.RelPermalink}}?lat={{$latitude}}&lng={{$longitude}}">Nearby Signs</a>
-                            </span>
-                            {{end}}
-                            {{end}}
-                        </div>
-                    </div>
-                    {{ with .Params.tags }}
-                    <div class="block">
-                    <div class="tagList">
-                        {{ range . }}
-                        {{ $tagName := . }}
-                        {{ $path := printf "/%s/%s" "tags" $tagName }}
-                        {{ with $.Site.GetPage $path }}
-                        {{ $tagDisplay := index  $.Site.Data.tags $tagName }}
-                        <a href="{{.RelPermalink}}">
-                            <span class="is-size-7 tag is-rounded">{{ $tagDisplay }}</span>
-                        </a>
-                        {{ end }}
-                        {{ end }}
-                    </div>
-                    </div>
-                    {{ end }}
-
-                    {{ with .Params.featureid }}
-                    {{ $name := . }}
-                    {{ $path := printf "/%s/%v" "feature" $name }}
-                    {{ with $.Site.GetPage $path }}
-                    <div class="has-background-light">
-                    {{ partial "feature/embed.html" . }}
-                    </div>
-                    {{ end }}
-                    {{ end }}
-
+                            </div>
+                    {{end}}
+                    {{end}}
                 </div>
             </div>
-            <nav class="card-footer level">
-                <div class="level-left">
-                    <div class="level-item">
-                        {{ partial "widgets/shieldlist.html" . }}
-                        <span class="fa fa-map-marker-alt fa-w-12"></span>
-                        {{ partial "widgets/locationlist.html" . }}
-                    </div>
+            {{ with .Params.tags }}
+            <div class="flex flex-wrap">
+                <div class="p-5">
+                    {{ range . }}
+                    {{ $tagName := . }}
+                    {{ $path := printf "/%s/%s" "tags" $tagName }}
+                    {{ with $.Site.GetPage $path }}
+                    {{ $tagDisplay := index  $.Site.Data.tags $tagName }}
+                    <a href="{{.RelPermalink}}">
+                        <span
+                                class="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-400 border border-gray-500">{{ $tagDisplay }}</span>
+                    </a>
+                    {{ end }}
+                    {{ end }}
                 </div>
-                <div class="level-left">
+            </div>
+                    {{ end }}
+            <div class="flex flex-wrap">
+                <div class="p-5">
+                    {{ partial "widgets/shieldlist.html" . }}
 
+                    <svg class="w-4 h-4 inline text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 21">
+                        <g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                            <path d="M8 12a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
+                            <path d="M13.8 12.938h-.01a7 7 0 1 0-11.465.144h-.016l.141.17c.1.128.2.252.3.372L8 20l5.13-6.248c.193-.209.373-.429.54-.66l.13-.154Z"/>
+                        </g>
+                    </svg>
+                    {{ partial "widgets/locationlist.html" . }}
                 </div>
-            </nav>
+            </div>
+
+        </div>
     </div>
-</div>
-</div>
+
+    <div class="mx-auto max-w-fit p-2">
+        <h4 class="text-xl font-bold dark:text-white text-center">Next Sign</h4>
+        {{ with .Params.featureid }}
+        {{ $name := . }}
+        {{ $path := printf "/%s/%v" "feature" $name }}
+        {{ with $.Site.GetPage $path }}
+            {{ partial "feature/embed.html" . }}
+        {{ end }}
+        {{ end }}
+    </div>
+</section>
+
 {{ end }}
 
 {{ define "footer" }}
@@ -113,8 +105,7 @@
             var words = f.words;
             var place = f.nearestPlace;
             var link = f.map;
-
-            var node = '<span class="w3wIcon is-size-6">///</span><span class="is-size-7 w3wWords"><a href="' + link +  '">' + words + '</a></span><span class="is-size-7"> Near ' + place + '</span>';
+            var node = '<span style="color: #E11F26;">///</span><a class="p-0 text-xs text-gray-700 dark:text-gray-400 underline hover:no-underline font-medium" href="' + link +  '">' + words + '</a> Near ' + place;
             document.getElementById('w3wbody').innerHTML = node;
         });
 })( "{{.latitude}}", "{{.longitude}}", "{{$apiKey}}" );

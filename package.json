@@ -4,19 +4,19 @@
   "description": "Road Sign Pictures CMS In Hugo",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "tailwind": "npx tailwindcss -i ./assets/css/input.css -o ./assets/css/index.css --jit --watch"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "bulma": "^0.9.4"
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.31",
+    "tailwindcss": "^3.3.5"
   },
   "dependencies": {
-    "@algolia/autocomplete-js": "^1.9.3",
-    "@algolia/autocomplete-theme-classic": "^1.9.3",
-    "@fortawesome/fontawesome-free": "^6.1.2",
-    "@meilisearch/instant-meilisearch": "^0.13.2",
+    "@meilisearch/instant-meilisearch": "^0.13.6",
     "instantsearch.js": "^4.56.1",
-    "latlon-geohash": "^2.0.0"
+    "flowbite": "^2.0.0"
   }
 }

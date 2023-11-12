@@ -1,9 +1,11 @@
-import { instantMeiliSearch } from '@meilisearch/instant-meilisearch'
-import instantsearch from 'instantsearch.js';
-import { connectSearchBox } from 'instantsearch.js/es/connectors';
-import {  hits, pagination } from 'instantsearch.js/es/widgets';
+import {instantMeiliSearch} from "@meilisearch/instant-meilisearch";
+import instantsearch from "instantsearch.js";
+import { connectInfiniteHits} from "instantsearch.js/es/connectors";
 
-const INSTANT_SEARCH_INDEX_NAME = document.getElementById('search-index').value;
+const urlParams = new URLSearchParams(window.location.search);
+const queryLat = urlParams.get('lat');
+const queryLng = urlParams.get('lng');
+const status = document.querySelector("#status");
 const SIGNBASEURL = document.getElementById('sign-base-url').value;
 
 const searchClient = instantMeiliSearch (
@@ -12,26 +14,21 @@ const searchClient = instantMeiliSearch (
     {
         placeholderSearch: false, // default: true.
         primaryKey: 'id', // default: undefined
-    }
+    },
 );
 
-
 const search = instantsearch({
+    indexName: 'signs',
     searchClient,
-    indexName: INSTANT_SEARCH_INDEX_NAME,
+    insights: false,
 });
-
-const urlParams = new URLSearchParams(window.location.search);
-const queryLat = urlParams.get('lat');
-const queryLng = urlParams.get('lng');
-const status = document.querySelector("#status");
 
 if (queryLat && queryLng) {
     const geoItem = {
-            coords: {
-                latitude: parseFloat(queryLat),
-                longitude: parseFloat(queryLng)
-            }
+        coords: {
+            latitude: parseFloat(queryLat),
+            longitude: parseFloat(queryLng)
+        }
     }
 
     success(geoItem)
@@ -45,8 +42,6 @@ if (queryLat && queryLng) {
     }
 
 }
-
-
 
 function success(position) {
     const lat = position.coords.latitude;
@@ -68,36 +63,62 @@ function error() {
 }
 
 
+let lastRenderArgs;
 
-// Mount a virtual search box to manipulate InstantSearch's `query` UI
-// state parameter.
-const virtualSearchBox = connectSearchBox(() => {});
+const infiniteHits = connectInfiniteHits(
+    (renderArgs, isFirstRender) => {
+        const {hits, showMore, widgetParams} = renderArgs;
+        const { container } = widgetParams;
+
+        lastRenderArgs = renderArgs;
+
+        if (isFirstRender) {
+            const sentinel = document.createElement('div');
+            var $ul = document.createElement('ul');
+            $ul.className = 'max-w-2xl divide-y divide-gray-200 dark:divide-gray-700';
+            container.appendChild($ul);
+            container.appendChild(sentinel);
+
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && !lastRenderArgs.isLastPage) {
+                        showMore();
+                    }
+                })
+            });
+
+            observer.observe(sentinel);
+
+            return;
+        }
+
+        container.querySelector('ul').innerHTML = hits
+            .map(
+                hit =>
+                    `<li class="pb-3 sm:pb-4">
+                        <div class="flex items-center space-x-4">
+                            <div class="flex-shrink-0">
+                                <a href="/sign/${hit.id}">
+                                    <img class="w-32 h-32 rounded" src="${SIGNBASEURL}${hit.id}/${hit.id}_t.jpg" alt="${hit.title}" />
+                                </a>
+                            </div>
+                                     <div class="flex-1 min-w-0">
+            <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                ${instantsearch.highlight({ attribute: 'title', hit })}
+            </p>
+            <p class="text-sm text-gray-500  dark:text-gray-400">
+                ${instantsearch.highlight({ attribute: 'description', hit })}
+            </p>
+         </div>
+                        </div>
+                     </li>`
+            ).join("");
+    }
+)
+
 
 search.addWidgets([
-    virtualSearchBox({}),
-    hits({
-        container: '#hits',
-        templates: {
-            item(hit, { html, components }) {
-                return html`<article class="media">
-                    <figure class="media-left">
-                        <p class="image is-4x3">
-                            <a href="/sign/${hit.id}">
-                                <img src="${SIGNBASEURL}${hit.id}/${hit.id}_t.jpg" />
-                            </a>
-                        </p>
-                    </figure>
-                    <div class="media-content">
-                        <div class="content">
-                            <p><strong><a href="/sign/${hit.id}">${hit.title}</a></strong>
-                            <br/>
-                                ${hit.description}
-                            </p>
-                        </div>
-                    </div>
-        </article>`;
-            },
-        }})
+    infiniteHits({
+        container: document.querySelector('#hits')
+    })
 ]);
-
-

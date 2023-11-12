@@ -1,34 +1,38 @@
 <!DOCTYPE html>
-<html class="has-navbar-fixed-top" lang="en">
+<html lang="en">
 
 <head>
     {{- partial "head.html" . -}}
     {{- block "header" . }}{{- end }}
 </head>
 
-<body>
+<body class="bg-white dark:bg-black">
     {{- partial "header.html" . -}}
-    <div class="container wrapper">
-        {{- block "main" . }}{{- end }}
-    </div>
+    {{- block "main" . }}{{- end }}
     {{- partial "footer.html" . -}}
     {{- block "footer" . }}{{- end }}
-    <footer class="footer">
-        <div class="content has-text-centered">
-            <p>
-                {{ $recent := printf "/recent/%s" (.Site.Data.images.mostRecent | time.Format "2006-01") }}
-                {{ $page := $.Site.GetPage $recent }}
-                {{ $aboutPage := $.Site.GetPage "/about" }}
-                <strong>roadsign.pictures</strong> |
-                Last Updated
-                {{ if $page }}
-                <a href="{{$page.RelPermalink}}">{{.Site.Data.images.mostRecent | time.Format ":date_long"}}</a>
+    <footer class="p-4 bg-white md:p-8 lg:p-10 dark:bg-gray-800 mt-4">
+        {{ $recent := printf "/recent/%s" (.Site.Data.images.mostRecent | time.Format "2006-01") }}
+        {{ $page := $.Site.GetPage $recent }}
+        {{ $aboutPage := $.Site.GetPage "/about" }}
+        <div class="mx-auto max-w-screen-xl text-center">
+            <a href="#" class="flex justify-center items-center text-2xl font-semibold text-gray-900 dark:text-white">
+                <img class="mr-2 h-8" src="/images/manifest192.png" />
+                roadsign.pictures
+            </a>
+            <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">Last Updated
+                                {{ $recent := printf "/recent/%s" (.Site.Data.images.mostRecent | time.Format "2006-01") }}
+
+                                {{ if $page }}
+                <a class="hover:underline" href="{{$page.RelPermalink}}">{{.Site.Data.images.mostRecent | time.Format ":date_long"}}
                 {{ else }}
                 {{.Site.Data.images.mostRecent | time.Format ":date_long"}}
-                {{ end }} |
-                <a href="{{$aboutPage.RelPermalink}}">About</a>
+                {{ end }}
+       </a></span>
         </div>
     </footer>
+    {{ $flowbite := resources.Get "js/flowbite/flowbite.js" }}
+    <script src="{{$flowbite.RelPermalink}}" ></script>
 </body>
 
 </html>

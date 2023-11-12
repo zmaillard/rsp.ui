@@ -1,10 +1,12 @@
-
-<div class="columns is-centered is-multiline">
-{{ range .Page.Pages }}
+<section class="p-2">
+    {{ $title := printf "Signs from %s" .Params.name }}
+    {{ template "partials/widgets/pagetitle.html" $title }}
+    {{ range .Page.Pages }}
 {{ $signId := .Params.imageid}}
 {{ $signpath := printf "/%s/%s" "sign" $signId}}
 {{ with $.Site.GetPage $signpath }}
-{{ partial "sign/tile.html" . }}
+    {{ partial "sign/summary.html" .  }}
+
 {{ end }}
 {{ end }}
-</div>
+</section>

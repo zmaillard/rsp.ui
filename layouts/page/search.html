@@ -1,23 +1,55 @@
 {{ define "header" }}
-<link rel="stylesheet" href="https://unpkg.com/instantsearch.css@7/themes/satellite-min.css" />
 {{ $css := resources.Get "css/theme.min.css" }}
 <link rel="stylesheet" href="{{ $css.RelPermalink }}">
+<!-- or include the full Satellite theme -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/instantsearch.css@8.1.0/themes/satellite-min.css" integrity="sha256-p/rGN4RGy6EDumyxF9t7LKxWGg6/MZfGhJM/asKkqvA=" crossorigin="anonymous">
+
 {{ end }}
 
 {{ define "main" }}
-<header class="header">
-  <div id="autocomplete"></div>
-</header>
+<section class="container mx-auto">
+  <!-- Breadcrumb -->
+  <nav class="flex pb-5" aria-label="Breadcrumb">
+    <ol class="inline-flex items-center space-x-1 md:space-x-3">
+      <li class="inline-flex items-center">
+        <a href="/"
+           class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
+          <svg class="w-3 h-3 mr-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+               fill="currentColor" viewBox="0 0 20 20">
+            <path
+                    d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z" />
+          </svg>
+          Home
+        </a>
+      </li>
+      <li aria-current="page">
+        <div class="flex items-center">
+          <svg class="w-3 h-3 mx-1 text-gray-400" aria-hidden="true"
+               xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                  stroke-width="2" d="m1 9 4-4-4-4" />
+          </svg>
+          <span
+                  class="ml-1 text-sm font-medium text-gray-500 md:ml-2 dark:text-gray-400">Search For Signs</span>
+        </div>
+      </li>
+    </ol>
+  </nav>
 
-<div class="container">
-  <div>
-    <div id="categories"></div>
+
+  {{ $title := printf "Search" }}
+
+  {{ template "partials/widgets/pagetitle.html" $title }}
+  <div class="flex justify-center">
+    <div id="searchbox"></div>
   </div>
+  <div class="flex justify-center p-4">
   <div>
     <div id="hits"></div>
     <div id="pagination"></div>
   </div>
 </div>
+</section>
 {{ end }}
 
 {{ define "footer" }}

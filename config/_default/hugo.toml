@@ -16,3 +16,7 @@ enableRobotsTXT = true
   [[module.mounts]]
     source = "assets"
     target = "assets"
+
+  [[module.mounts]]
+    source = "node_modules/flowbite/dist"
+    target = "assets/js/flowbite"

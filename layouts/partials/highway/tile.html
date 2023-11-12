@@ -1,51 +1,46 @@
 {{ $signCount := len .Pages }}
+<li class="pb-3 sm:pb-4">
+    <div class="flex items-center space-x-4">
+        <div class="flex-shrink-0">
+            <img alt="{{.Params.name}}" class="w-8 w-8" onerror="this.onerror=null; this.remove();" src="{{site.Params.SHIELDBASEURL}}Shields/{{.Params.imageName}}">
+        </div>
+        <div class="flex-1 min-w-0 text-gray-900  dark:text-white">
+            <p class="text-sm font-medium ">
+                <strong><a href="{{.RelPermalink}}">{{.Params.name}}</a></strong> <small>{{ $signCount  }} Signs</small>
+            {{ $hasState := isset .Params "states" }}
+            {{ if $hasState }}
 
+            {{ $aState := index .Params.states 0 }}
+            {{ $statePath := printf "/%s/%s" "state" $aState}}
+            {{ $defaultName := "State" }}
+            {{ $defaultSubdivisionNames := "Counties" }}
+            {{ with $.Site.GetPage $statePath }}
+            {{ if isset .Params "subdivisionname" }}
+            {{ $defaultSubdivisionNames = .Params.subdivisionname }}
+            {{ end }}
+            {{ $countryPath := printf "/%s/%s" "country" .Params.countryslug }}
+            {{ with $.Site.GetPage $countryPath }}
+            {{ $defaultName = .Params.subdivisionname }}
 
-<article class="media">
-    <figure class="media-left">
-        <p class="image is-32x32">
-        <a href="{{.RelPermalink}}">
-        <img onerror="this.onerror=null; this.remove();" src="{{site.Params.SHIELDBASEURL}}Shields/{{.Params.imageName}}">
-        </a>
-        </p>
-</figure>
-<div class="media-content">
-<div class="content">
-<p>
-<strong><a href="{{.RelPermalink}}">{{.Params.name}}</a></strong> <small>{{ $signCount  }} Signs</small>
-{{ $hasState := isset .Params "states" }}
-{{ if $hasState }}
+            {{ if eq $aState "district-of-columbia" }}
+            {{ $defaultName = "Federal District" }}
+            {{ end }}
 
-{{ $aState := index .Params.states 0 }}
-{{ $statePath := printf "/%s/%s" "state" $aState}}
-{{ $defaultName := "State" }}
-{{ $defaultSubdivisionNames := "Counties" }}
-{{ with $.Site.GetPage $statePath }}
-    {{ if isset .Params "subdivisionname" }}
-        {{ $defaultSubdivisionNames = .Params.subdivisionname }}
-    {{ end }}
-    {{ $countryPath := printf "/%s/%s" "country" .Params.countryslug }}
-    {{ with $.Site.GetPage $countryPath }}
-    {{ $defaultName = .Params.subdivisionname }}
+            {{ end }}
+            {{ end }}
 
-    {{ if eq $aState "district-of-columbia" }}
-        {{ $defaultName = "Federal District" }}
-    {{ end }}
+            {{ if gt (len .Params.states ) 1 }}
+            <br /> <strong>{{$defaultName | pluralize }}:</strong> {{ partial "widgets/highwaystatelist.html" . }}
+            {{ else }}
+            <br /> <strong>{{$defaultName}}:</strong> {{ partial "widgets/highwaystatelist.html" . }}
+            {{ if isset .Params "counties" }}
+            <br /> <strong>{{$defaultSubdivisionNames}}:</strong> {{ partial "widgets/highwaycountylist.html" . }}
+            {{ end }}
+            <br /> <strong>Places:</strong> {{ partial "widgets/highwayplacelist.html" . }}
+            {{ end }}
+            {{ end }}
+            </p>
 
-    {{ end }}
-{{ end }}
-
-{{ if gt (len .Params.states ) 1 }}
-<br /> <strong>{{$defaultName | pluralize }}:</strong> {{ partial "widgets/highwaystatelist.html" . }}
-{{ else }}
-<br /> <strong>{{$defaultName}}:</strong> {{ partial "widgets/highwaystatelist.html" . }}
-{{ if isset .Params "counties" }}
-    <br /> <strong>{{$defaultSubdivisionNames}}:</strong> {{ partial "widgets/highwaycountylist.html" . }}
-    {{ end }}
-<br /> <strong>Places:</strong> {{ partial "widgets/highwayplacelist.html" . }}
-{{ end }}
-{{ end }}
-</p>
-</div>
-</div>
-</article>
+        </div>
+    </div>
+</li>

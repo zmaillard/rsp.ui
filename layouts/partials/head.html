@@ -8,10 +8,9 @@
 
 {{ $options := (dict "includePaths" (slice "node_modules")) }}
 
-{{ $sass := resources.Get "scss/main.scss" }}
-{{ $style := $sass | resources.ToCSS }}
+{{ $css := resources.Get "css/index.css" | fingerprint "md5" }}
 
-<link rel="stylesheet" href="{{ $style.RelPermalink }}">
+<link rel="stylesheet" href="{{ $css.Permalink }}">
 
 <link rel="canonical" href="{{ .Permalink }}">
 <!--[if lt IE 9]>

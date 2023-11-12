@@ -1,11 +1,10 @@
-import { autocomplete } from '@algolia/autocomplete-js';
-import algoliasearch from 'algoliasearch/lite';
-import { instantMeiliSearch } from '@meilisearch/instant-meilisearch'
-import instantsearch from 'instantsearch.js';
-import historyRouter from 'instantsearch.js/es/lib/routers/history';
-import { connectSearchBox } from 'instantsearch.js/es/connectors';
-import { hierarchicalMenu, hits, pagination } from 'instantsearch.js/es/widgets';
+import {instantMeiliSearch} from "@meilisearch/instant-meilisearch";
+import instantsearch from "instantsearch.js";
+import {searchBox} from "instantsearch.js/es/widgets";
+import {connectInfiniteHits} from "instantsearch.js/es/connectors";
 
+
+const SIGNBASEURL = document.getElementById('sign-base-url').value;
 
 
 const searchClient = instantMeiliSearch (
@@ -14,108 +13,78 @@ const searchClient = instantMeiliSearch (
     {
         placeholderSearch: false, // default: true.
         primaryKey: 'id', // default: undefined
-    }
+    },
 );
 
-const INSTANT_SEARCH_INDEX_NAME = document.getElementById('search-index').value;
-const SIGNBASEURL = document.getElementById('sign-base-url').value;
+let lastRenderArgs;
 
-const instantSearchRouter = historyRouter();
+
+const infiniteHits = connectInfiniteHits(
+    (renderArgs, isFirstRender) => {
+        const {hits, showMore, widgetParams} = renderArgs;
+        const { container } = widgetParams;
+
+        lastRenderArgs = renderArgs;
+
+        if (isFirstRender) {
+            const sentinel = document.createElement('div');
+            var $ul = document.createElement('ul');
+            $ul.className = 'max-w-2xl divide-y divide-gray-200 dark:divide-gray-700';
+            container.appendChild($ul);
+            container.appendChild(sentinel);
+
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && !lastRenderArgs.isLastPage) {
+                        showMore();
+                    }
+                })
+            });
+
+            observer.observe(sentinel);
+
+            return;
+        }
+
+        container.querySelector('ul').innerHTML = hits
+            .map(
+                hit =>
+                    `<li class="pb-3 sm:pb-4">
+                        <div class="flex items-center space-x-4">
+                            <div class="flex-shrink-0">
+                                <a href="/sign/${hit.id}">
+                                    <img class="w-32 h-32 rounded" src="${SIGNBASEURL}${hit.id}/${hit.id}_t.jpg" alt="${hit.title}" />
+                                </a>
+                            </div>
+                                     <div class="flex-1 min-w-0">
+            <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                ${instantsearch.highlight({ attribute: 'title', hit })}
+            </p>
+            <p class="text-sm text-gray-500  dark:text-gray-400">
+                ${instantsearch.highlight({ attribute: 'description', hit })}
+            </p>
+         </div>
+                        </div>
+                     </li>`
+            ).join("");
+    }
+)
 
 const search = instantsearch({
+    indexName: 'signs',
     searchClient,
-    indexName: INSTANT_SEARCH_INDEX_NAME,
-    routing: instantSearchRouter,
+    insights: false,
 });
 
-// Mount a virtual search box to manipulate InstantSearch's `query` UI
-// state parameter.
-const virtualSearchBox = connectSearchBox(() => {});
-
 search.addWidgets([
-    virtualSearchBox({}),
-    hits({
-        container: '#hits',
-        templates: {
-            item(hit, { html, components }) {
-            return html`<article class="media">
-                    <figure class="media-left">
-                        <p class="image is-4x3">
-                            <a href="/sign/${hit.id}">
-                                <img src="${SIGNBASEURL}${hit.id}/${hit.id}_t.jpg" />
-                            </a>
-                        </p>
-                    </figure>
-                    <div class="media-content">
-                        <div class="content">
-                            <p><strong><a href="/sign/${hit.id}">${components.Highlight({ attribute: 'title', hit })}</a></strong>
-                            <br/>
-                                ${hit.description}
-                            </p>
-                        </div>
-                    </div>
-        </article>`;
-        },
-    }}),
-    pagination({
-        container: '#pagination',
+    searchBox({
+        container: '#searchbox',
+        placeholder: 'Search for signs',
+        showLoadingIndicator: true,
     }),
+    infiniteHits({
+        container: document.querySelector('#hits')
+    })
 ]);
 
 search.start();
-
-function navigate(id) {
-    console.log(id)
-    location.href = "/sign/" + id
-}
-
-// Set the InstantSearch index UI state from external events.
-function setInstantSearchUiState(indexUiState) {
-    search.setUiState(uiState => ({
-        ...uiState,
-        [INSTANT_SEARCH_INDEX_NAME]: {
-            ...uiState[INSTANT_SEARCH_INDEX_NAME],
-            // We reset the page when the search state changes.
-            page: 1,
-            ...indexUiState,
-        },
-    }));
-}
-
-// Return the InstantSearch index UI state.
-function getInstantSearchUiState() {
-    const uiState = instantSearchRouter.read();
-
-    return (uiState && uiState[INSTANT_SEARCH_INDEX_NAME]) || {};
-}
-
-const searchPageState = getInstantSearchUiState();
-
-let skipInstantSearchUiStateUpdate = false;
-const { setQuery } = autocomplete({
-    container: '#autocomplete',
-    placeholder: 'Search for signs',
-    detachedMediaQuery: 'none',
-    initialState: {
-        query: searchPageState.query || '',
-    },
-    onSubmit({ state }) {
-        setInstantSearchUiState({ query: state.query });
-    },
-    onReset() {
-        setInstantSearchUiState({ query: '' });
-    },
-    onStateChange({ prevState, state }) {
-        if (!skipInstantSearchUiStateUpdate && prevState.query !== state.query) {
-            setInstantSearchUiState({ query: state.query });
-        }
-        skipInstantSearchUiStateUpdate = false;
-    },
-})
-
-// This keeps Autocomplete aware of state changes coming from routing
-// and updates its query accordingly
-window.addEventListener('popstate', () => {
-    skipInstantSearchUiStateUpdate = true;
-    setQuery(search.helper?.state.query || '');
-});

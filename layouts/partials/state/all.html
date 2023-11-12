@@ -1,0 +1,8 @@
+{{ range .Page.Pages }}
+{{ $signId := .Params.imageid}}
+{{ $signpath := printf "/%s/%s" "sign" $signId}}
+{{ with $.Site.GetPage $signpath }}
+{{ partial "sign/summary.html" .  }}
+
+{{ end }}
+{{ end }}
