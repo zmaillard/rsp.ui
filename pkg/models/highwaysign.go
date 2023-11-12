@@ -98,7 +98,7 @@ func (hs HighwaySigns) GetCountyLookup() generator.Lookup {
 }
 
 func (HighwaySigns) OutLookupFiles() []string {
-	return []string{"netlify/edge-functions/common/images.json", "data/images.json"}
+	return []string{"data/images.json"}
 }
 
 func (hs HighwaySigns) GetLookup() ([]byte, error) {

@@ -1,7 +1,0 @@
-[build]
-command = "echo 'Already Built'"
-publish = "public"
-
-[[edge_functions]]
-path = "/random"
-function = "random"
