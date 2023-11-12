@@ -1,4 +1,4 @@
 baseURL = 'https://roadsign.pictures'
 
 [params]
-    randomURL = 'https://random.roadsign.pictures'
+    randomURL = 'https://random-roadsign-picture.zmaillard-cloudflare.workers.dev'
