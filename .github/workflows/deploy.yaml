@@ -95,6 +95,16 @@ jobs:
           RSP_DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
           RSP_DB_PORT: ${{ secrets.DB_PORT }}
           RSP_DB_NAME: ${{ secrets.DB_NAME }}
+
+      - uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          command: |
+            kv:key put all --namespace-id 032a57eafe57449eb913b66b37af4801 --path data/images.json
+            kv:key put county --namespace-id 032a57eafe57449eb913b66b37af4801 --path data/county.json
+            kv:key put place --namespace-id 032a57eafe57449eb913b66b37af4801 --path data/place.json
+            kv:key put state --namespace-id 032a57eafe57449eb913b66b37af4801 --path data/state.json
+
       - run: npm install
 
       - run: npx tailwindcss -i ./assets/css/input.css -o ./assets/css/index.css --jit --minify
@@ -115,3 +125,4 @@ jobs:
       - run: flyctl deploy -c fly.production.toml --remote-only
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+
