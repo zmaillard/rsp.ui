@@ -27,5 +27,5 @@ func (ht HighwayTypeDto) ToMarkdown() ([]byte, error) {
 }
 
 func (ht HighwayTypeDto) OutFile() string {
-	return fmt.Sprintf("content/highwayType/%s/_index.md", ht.Slug)
+	return fmt.Sprintf("content/highwaytype/%s.md", ht.Slug)
 }
