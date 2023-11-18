@@ -22,31 +22,24 @@
                               stroke-width="2" d="m1 9 4-4-4-4" />
                     </svg>
                     <span
-                            class="ml-1 text-sm font-medium text-gray-500 md:ml-2 dark:text-gray-400">States</span>
+                            class="ml-1 text-sm font-medium text-gray-500 md:ml-2 dark:text-gray-400">Highway Types</span>
                 </div>
             </li>
         </ol>
     </nav>
-    {{ $title := "States" }}
+    {{ $title := "Highway Types" }}
     {{ template "partials/widgets/pagetitle.html" $title }}
 
     <div class="p-4">
         <ul class="space-y-4 text-gray-500 list-disc list-inside dark:text-gray-400">
-            {{ range .Site.Taxonomies.country.ByCount }}
-            {{ $countryCount := len .WeightedPages }}
-            {{ $countrySlug := .Name }}
-            {{ $countryPagePath := printf "/%s/%s" "country" .Name }}
-            {{ with $.Site.GetPage $countryPagePath }}
-            <li><a class="font-medium text-blue-600 dark:text-blue-500 hover:underline" href="{{.RelPermalink}}">{{ .Params.name }}</a><span class="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300">{{$countryCount}}</span>
+            {{ range .Pages.GroupByParam "country" }}
+            {{ $path := printf "/%s/%s" "country" .Key }}
+            {{ $innerPages := .Pages }}
+            {{ with $.Site.GetPage $path }}
+            <li><a class="font-medium text-blue-600 dark:text-blue-500 hover:underline" href="{{.RelPermalink}}">{{ .Params.name }}</a>
                 <ul class="pl-5 mt-2 space-y-1 list-disc list-inside">
-                    {{ range .Site.Taxonomies.state.ByCount }}
-                    {{ $stateCount := len .WeightedPages }}
-                    {{ $statePagePath := printf "/%s/%s" "state" .Name }}
-                    {{ with $.Site.GetPage $statePagePath }}
-                    {{ if eq $countrySlug .Params.countryslug }}
-                    <li><a class="font-medium text-blue-600 dark:text-blue-500 hover:underline" href="{{.RelPermalink}}">{{ .Params.name }}</a><span class="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300">{{$stateCount}}</span></li>
-                    {{ end }}
-                    {{ end }}
+                    {{ range $innerPages }}
+                    <li><a class="font-medium text-blue-600 dark:text-blue-500 hover:underline" href="{{.RelPermalink}}">{{ .Params.name }}</a></li>
                     {{ end }}
                 </ul>
             </li>
@@ -54,6 +47,7 @@
             {{ end }}
         </ul>
     </div>
+
 </section>
 
 

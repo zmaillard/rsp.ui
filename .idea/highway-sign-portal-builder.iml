@@ -4,10 +4,10 @@
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/content/highway" />
-      <excludeFolder url="file://$MODULE_DIR$/content/highwayType" />
       <excludeFolder url="file://$MODULE_DIR$/content/sign" />
       <excludeFolder url="file://$MODULE_DIR$/public" />
       <excludeFolder url="file://$MODULE_DIR$/content" />
+      <excludeFolder url="file://$MODULE_DIR$/content/highwaytype" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

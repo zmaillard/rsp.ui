@@ -28,8 +28,33 @@
                 {{ else }}
                 {{.Site.Data.images.mostRecent | time.Format ":date_long"}}
                 {{ end }}
-       </a></span>
+       </a> | {{.Site.Params.VERSION}} | {{.Site.Data.images.imageCount}} Signs</span>
+
+
+            <ul class="flex flex-wrap justify-center items-center mb-6 text-gray-900 dark:text-white">
+                <li>
+                    {{ $statesPagePath := printf "/%s" "state" }}
+                    {{ $statePage := $.Site.GetPage $statesPagePath }}
+                    <a href="{{$statePage.RelPermalink}}" class="mr-4 hover:underline md:mr-6 ">States</a>
+                </li>
+                <li>
+                    {{ $hwyPagePath := printf "/%s" "highwaytype" }}
+                    {{ $hwyPage := $.Site.GetPage $hwyPagePath }}
+                    <a href="{{$hwyPage.RelPermalink}}" class="mr-4 hover:underline md:mr-6 ">Highways</a>
+                </li>
+                <li>
+                    {{ $tagPath := printf "/%s" "tags" }}
+                    {{ $tagPage := $.Site.GetPage $tagPath }}
+                    <a href="{{$tagPage.RelPermalink}}" class="mr-4 hover:underline md:mr-6">Tags</a>
+                </li>
+                <li>
+                    {{ $aboutPagePath := printf "/%s" "about" }}
+                    {{ $aboutPage := $.Site.GetPage $aboutPagePath }}
+                    <a href="{{$aboutPage.RelPermalink}}" class="mr-4 hover:underline md:mr-6 ">About</a>
+                </li>
+            </ul>
         </div>
+
     </footer>
     {{ $flowbite := resources.Get "js/flowbite/flowbite.js" }}
     <script src="{{$flowbite.RelPermalink}}" ></script>
