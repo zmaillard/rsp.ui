@@ -1,0 +1,66 @@
+{{ define "main" }}
+<section class="container mx-auto">
+    <div class="h-4/6">
+        <div id="map" class="min-h-screen" ></div>
+    </div>
+    <div id="images-current-extent">
+        <img src="https://pub-739418d83a5e4d54b433224deddf7675.r2.dev/5028121865331825320/5028121865331825320_t.jpg" />
+    </div>
+</section>
+{{ end }}
+
+{{ define "header" }}
+<script src='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js'></script>
+<link href='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet' />
+{{ end }}
+
+{{ define "footer" }}
+<script>
+    mapboxgl.accessToken = '{{.Site.Params.MAPBOXTOKEN}}';
+    const map = new mapboxgl.Map({
+        container: 'map', // container ID
+        style: 'mapbox://styles/mapbox/streets-v12', // style URL
+        center: [-74.5, 40], // starting position [lng, lat]
+        zoom: 9 // starting zoom
+    });
+
+    const renderSigns = (signs) => {
+        let html = [];
+      for (let i = 0; i <= signs.length - 1; i++) {
+          html.push("<img class='inline' src='https://pub-739418d83a5e4d54b433224deddf7675.r2.dev/" + signs[i].properties.imageid + "/" + signs[i].properties.imageid + "_t.jpg' />" );
+          curExtentEl.innerHTML = html.join("");
+      }
+    };
+
+    let signs = [];
+    let curExtentEl = document.getElementById("images-current-extent");
+
+    map.on('moveend', () => {
+        const features = map.queryRenderedFeatures({layers: ['sign']});
+
+        if (features) {
+            renderSigns(features);
+        }
+    });
+
+    map.on("load", () => {
+        map.addSource('signs', {
+            type: 'vector',
+            tiles: ['http://localhost:8080/services/signs/tiles/{z}/{x}/{y}.pbf'],
+            minzoom: 0,
+            maxzoom: 16
+        });
+        map.addLayer({
+            id: "sign",
+            type: "circle",
+            source: "signs",
+            "source-layer": "sign",
+            paint: {
+                "circle-radius": 8,
+                "circle-color": "rgba(55,148,179,1)",
+            },
+        });
+    });
+
+</script>
+{{ end }}
