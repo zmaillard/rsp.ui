@@ -73,6 +73,11 @@ func main() {
 		panic(err)
 	}
 
+	err = generator.SaveLookup(cfg.HugoPath, signs.GetGeoJsonLookup())
+	if err != nil {
+		panic(err)
+	}
+
 	for _, v := range signs {
 		err = generator.SaveItem(cfg.HugoPath, v.ConvertToDto())
 		if err != nil {

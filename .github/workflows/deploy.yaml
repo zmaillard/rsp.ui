@@ -126,3 +126,8 @@ jobs:
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 
+      - run: flyctl deploy -c fly.toml --remote-only
+        working-directory: tiles
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+

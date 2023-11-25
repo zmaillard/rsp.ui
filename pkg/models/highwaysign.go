@@ -97,6 +97,12 @@ func (hs HighwaySigns) GetCountyLookup() generator.Lookup {
 	}
 }
 
+func (hs HighwaySigns) GetGeoJsonLookup() generator.Lookup {
+	return &highwaySignsInGeoJson{
+		&hs,
+	}
+}
+
 func (HighwaySigns) OutLookupFiles() []string {
 	return []string{"data/images.json"}
 }
@@ -222,4 +228,62 @@ func (h highwaySignsByCounty) GetLookup() ([]byte, error) {
 func (h highwaySignsByCounty) OutLookupFiles() []string {
 	return []string{"data/county.json"}
 
+}
+
+type highwaySignsInGeoJson struct {
+	*HighwaySigns
+}
+
+func (h highwaySignsInGeoJson) GetLookup() ([]byte, error) {
+	hs := *h.HighwaySigns
+	var jsonItems []geoJsonFeature
+
+	for _, h := range hs {
+		geoJsonFeature := geoJsonFeature{
+			Type: "Feature",
+			Geometry: struct {
+				Type        string    `json:"type"`
+				Coordinates []float64 `json:"coordinates"`
+			}{
+				Type:        "Point",
+				Coordinates: []float64{h.Point.X, h.Point.Y},
+			},
+			Properties: struct {
+				ImageId string `json:"imageid"`
+				Title   string `json:"title"`
+			}{
+				ImageId: h.ImageId.String(),
+				Title:   h.Title,
+			},
+		}
+
+		jsonItems = append(jsonItems, geoJsonFeature)
+	}
+
+	geoFeatures := struct {
+		Type     string           `json:"type"`
+		Features []geoJsonFeature `json:"features"`
+	}{
+		Type:     "FeatureCollection",
+		Features: jsonItems,
+	}
+
+	return json.Marshal(geoFeatures)
+
+}
+
+func (h highwaySignsInGeoJson) OutLookupFiles() []string {
+	return []string{"tiles/signs.json"}
+}
+
+type geoJsonFeature struct {
+	Type     string `json:"type"`
+	Geometry struct {
+		Type        string    `json:"type"`
+		Coordinates []float64 `json:"coordinates"`
+	} `json:"geometry"`
+	Properties struct {
+		ImageId string `json:"imageid"`
+		Title   string `json:"title"`
+	} `json:"properties"`
 }
