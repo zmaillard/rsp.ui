@@ -1,10 +1,15 @@
 {{ define "main" }}
+
 <section class="container mx-auto">
-    <div class="h-4/6">
-        <div id="map" class="min-h-screen" ></div>
-    </div>
-    <div id="images-current-extent">
-        <img src="https://pub-739418d83a5e4d54b433224deddf7675.r2.dev/5028121865331825320/5028121865331825320_t.jpg" />
+    <div class="flex">
+        <div class="flex-1 ">
+            <div class="min-h-screen" id="map"></div>
+        </div>
+        <div class="flex-1 w-32 p-1">
+            <div id="images-current-extent" class="grid grid-cols-2 md:grid-cols-3 gap-4 images-current-extent">
+
+            </div>
+        </div>
     </div>
 </section>
 {{ end }}
@@ -25,15 +30,21 @@
     });
 
     const renderSigns = (signs) => {
+        let max = signs.length > 20 ? 20 : signs.length;
+
         let html = [];
-      for (let i = 0; i <= signs.length - 1; i++) {
-          html.push("<img class='inline' src='https://pub-739418d83a5e4d54b433224deddf7675.r2.dev/" + signs[i].properties.imageid + "/" + signs[i].properties.imageid + "_t.jpg' />" );
+      for (let i = 0; i <= max - 1; i++) {
+          html.push("<div><img loading='lazy' class='h-auto max-w-full rounded-lg' src='https://pub-739418d83a5e4d54b433224deddf7675.r2.dev/" + signs[i].properties.imageid + "/" + signs[i].properties.imageid + "_s.jpg' /></div>" );
           curExtentEl.innerHTML = html.join("");
       }
     };
 
     let signs = [];
     let curExtentEl = document.getElementById("images-current-extent");
+
+    map.on('init', () => {
+        map.resize();
+    });
 
     map.on('moveend', () => {
         const features = map.queryRenderedFeatures({layers: ['sign']});
