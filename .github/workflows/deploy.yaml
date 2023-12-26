@@ -63,6 +63,9 @@ jobs:
           HUGO_PARAMS_VERSION: ${{ needs.version.outputs.oldtag }}
           HUGO_PARAMS_SIGNBASEURL: ${{ vars.HUGO_PARAMS_SIGNBASEURL }}
           HUGO_PARAMS_SHIELDBASEURL: ${{ vars.HUGO_PARAMS_SHIELDBASEURL }}
+          HUGO_PARAMS_MAP_TILE: ${{ vars.HUGO_PARAMS_MAP_TILE }}
+          HUGO_PARAMS_MAPBOXTOKEN: ${{ secrets.HUGO_PARAMS_MAPBOXTOKEN }}
+
 
       - uses: superfly/flyctl-actions/setup-flyctl@master
 
@@ -118,7 +121,8 @@ jobs:
           HUGO_PARAMS_VERSION: ${{ needs.version.outputs.tag }}
           HUGO_PARAMS_SIGNBASEURL: ${{ vars.HUGO_PARAMS_SIGNBASEURL }}
           HUGO_PARAMS_SHIELDBASEURL: ${{ vars.HUGO_PARAMS_SHIELDBASEURL }}
-
+          HUGO_PARAMS_MAP_TILE: ${{ vars.HUGO_PARAMS_MAP_TILE }}
+          HUGO_PARAMS_MAPBOXTOKEN: ${{ secrets.HUGO_PARAMS_MAPBOXTOKEN }}
 
       - uses: superfly/flyctl-actions/setup-flyctl@master
 
