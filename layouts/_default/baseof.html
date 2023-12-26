@@ -48,6 +48,11 @@
                     <a href="{{$tagPage.RelPermalink}}" class="mr-4 hover:underline md:mr-6">Tags</a>
                 </li>
                 <li>
+                    {{ $mapPath := printf "/%s" "map" }}
+                    {{ $mapPage := $.Site.GetPage $mapPath }}
+                    <a href="{{$mapPage.RelPermalink}}" class="mr-4 hover:underline md:mr-6">Map</a>
+                </li>
+                <li>
                     {{ $aboutPagePath := printf "/%s" "about" }}
                     {{ $aboutPage := $.Site.GetPage $aboutPagePath }}
                     <a href="{{$aboutPage.RelPermalink}}" class="mr-4 hover:underline md:mr-6 ">About</a>
