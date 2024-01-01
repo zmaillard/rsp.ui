@@ -1,0 +1,17 @@
+[package]
+name = "highway-sign-portal-index-builder"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+meilisearch-sdk = "0.24.3"
+serde = { version = "1.0.130", features = ["derive"] }
+anyhow = "1.0.76"
+geo-types = "0.7.12"
+time= { version = "0.3.1", features = ["serde-human-readable"] }
+serde_json = "1.0.108"
+config = "0.13.4"
+tokio-postgres = { version = "0.7.2", features = ["with-time-0_3", "with-serde_json-1", "with-geo-types-0_7"] }
+tokio = { features = ["macros", "rt"], version = "1.35.1" }
