@@ -165,7 +165,7 @@ async fn main() -> Result<()>{
     }
 
     // Update the last_indexed column
-    client.execute("UPDATE rsp.sign.highway_sign SET last_indexed = now() WHERE last_indexed is null or last_indexed < last_update", &[]).await?;
+    client.execute("UPDATE sign.highwaysign SET last_indexed = now() WHERE last_indexed is null or last_indexed < last_update", &[]).await?;
 
     Ok(())
 }
