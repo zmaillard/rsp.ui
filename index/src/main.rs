@@ -101,7 +101,7 @@ async fn main() -> Result<()>{
     let sign_index = meilisearch.index("signs");
 
     let mut row_vect:Vec<Sign> = Vec::new();
-    for row in client.query("SELECT imageid, title, sign_description, date_taken, country_slug, country_name, state_slug, state_name, county_name, county_slug, place_name, place_slug, hwys, point::geometry::point FROM rsp.sign.vwindexsign", &[]).await? {
+    for row in client.query("SELECT imageid, title, sign_description, date_taken, country_slug, country_name, state_slug, state_name, county_name, county_slug, place_name, place_slug, hwys, point::geometry::point FROM rsp.sign.vwindexsign where last_indexed is null or last_indexed < last_update", &[]).await? {
         let imageid: i64 = row.get(0);
 
         let title: &str = row.get(1);
@@ -163,6 +163,9 @@ async fn main() -> Result<()>{
     if row_vect.len() > 0 {
         sign_index.add_or_update(&row_vect,Some("id")).await?;
     }
+
+    // Update the last_indexed column
+    client.execute("UPDATE rsp.sign.highway_sign SET last_indexed = now() WHERE last_indexed is null or last_indexed < last_update", &[]).await?;
 
     Ok(())
 }
