@@ -63,7 +63,7 @@ impl AppSettings {
         settings.try_deserialize::<Self>().unwrap()
     }
     pub fn database_connection_string(&self) -> String {
-        format!("user={} password={} host={} port={} dbname={}",
+        format!("user={} password={} host={} port={} dbname={} sslmode=require",
                 self.postgres_user,
                 self.postgres_password,
                 self.postgres_host,
