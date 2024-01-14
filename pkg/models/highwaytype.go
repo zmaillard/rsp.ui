@@ -19,7 +19,7 @@ type HighwayType struct {
 }
 
 func (HighwayType) TableName() string {
-	return "vwhugohighwaytype"
+	return "sign.vwhugohighwaytype"
 }
 
 func (ht HighwayType) ConvertToDto() generator.Generator {

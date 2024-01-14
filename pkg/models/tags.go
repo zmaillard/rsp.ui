@@ -14,7 +14,7 @@ type Tag struct {
 }
 
 func (*Tag) TableName() string {
-	return "tag"
+	return "sign.tag"
 }
 
 func (Tags) OutLookupFiles() []string {

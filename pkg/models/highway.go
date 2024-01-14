@@ -22,7 +22,7 @@ type Highway struct {
 }
 
 func (Highway) TableName() string {
-	return "vwhugohighway"
+	return "sign.vwhugohighway"
 }
 
 func (h Highway) ConvertToDto() generator.Generator {

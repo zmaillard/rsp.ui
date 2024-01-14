@@ -22,7 +22,7 @@ type Feature struct {
 }
 
 func (Feature) TableName() string {
-	return "vwhugofeature"
+	return "sign.vwhugofeature"
 }
 
 func (f Feature) X() float64 {
