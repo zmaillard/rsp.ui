@@ -31,7 +31,7 @@ type HighwaySign struct {
 }
 
 func (HighwaySign) TableName() string {
-	return "vwhugohighwaysign"
+	return "sign.vwhugohighwaysign"
 }
 
 func (s HighwaySign) X() float64 {

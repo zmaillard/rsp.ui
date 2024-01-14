@@ -13,5 +13,5 @@ type FeatureLink struct {
 }
 
 func (FeatureLink) TableName() string {
-	return "vwhugofeaturelink"
+	return "sign.vwhugofeaturelink"
 }

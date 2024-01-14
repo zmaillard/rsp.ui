@@ -16,7 +16,7 @@ type County struct {
 }
 
 func (County) TableName() string {
-	return "vwhugocounty"
+	return "sign.vwhugocounty"
 }
 
 func (c County) ConvertToDto() generator.Generator {

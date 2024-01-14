@@ -15,7 +15,7 @@ type Place struct {
 }
 
 func (Place) TableName() string {
-	return "vwhugoplace"
+	return "sign.vwhugoplace"
 }
 
 func (s Place) ConvertToDto() generator.Generator {

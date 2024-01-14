@@ -8,5 +8,19 @@
       <jdbc-url>jdbc:postgresql://converse.postgres.database.azure.com:5432/rsp</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="Neon - RSP" uuid="25f3aa17-615a-42d3-aa56-4029b8a93600">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://ep-black-dawn-34735286.us-west-2.aws.neon.tech:5432/rsp</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
+    <data-source source="LOCAL" name="Neon - RSP (Read)" uuid="af8f1f98-6816-424e-a8c0-0de18937f2f1">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://ep-black-dawn-34735286.us-west-2.aws.neon.tech:5432/rsp</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>

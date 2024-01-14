@@ -19,7 +19,7 @@ type Country struct {
 }
 
 func (Country) TableName() string {
-	return "vwhugocountry"
+	return "sign.vwhugocountry"
 }
 
 func (c Country) ConvertToDto() generator.Generator {

@@ -22,7 +22,7 @@ type State struct {
 }
 
 func (State) TableName() string {
-	return "vwhugostate"
+	return "sign.vwhugostate"
 }
 
 type adminArea struct {
