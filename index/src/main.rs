@@ -1,4 +1,3 @@
-use tokio_postgres::{ NoTls};
 use tokio_postgres::types::Json;
 use anyhow::Result;
 use config::Config;
@@ -6,6 +5,7 @@ use serde::{Deserialize, Serialize};
 use geo_types::{{Point as GeoPoint}};
 use time::PrimitiveDateTime;
 use tokio;
+
 #[derive(Serialize, Debug)]
 pub struct Sign {
     id: String,
@@ -88,7 +88,21 @@ const FLUSH:usize = 25;
 #[tokio::main(flavor= "current_thread")]
 async fn main() -> Result<()>{
     let app_settings = AppSettings::new();
-    let (client, connection) = tokio_postgres::connect(app_settings.database_connection_string().as_str(), NoTls).await?;
+
+    let mut roots = rustls::RootCertStore::empty();
+
+    for cert in rustls_native_certs::load_native_certs().expect("could not load platform certs") {
+        roots.add(cert).unwrap();
+    }
+
+    // Setup TLS
+    let config = rustls::ClientConfig::builder()
+        .with_root_certificates(roots)
+        .with_no_client_auth();
+
+    let tls = tokio_postgres_rustls::MakeRustlsConnect::new(config);
+
+    let (client, connection) = tokio_postgres::connect(app_settings.database_connection_string().as_str(), tls).await?;
 
     tokio::spawn(async move {
         if let Err(e) = connection.await {
