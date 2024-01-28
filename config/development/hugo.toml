@@ -1,4 +1,1 @@
 baseURL = 'http://localhost:1313'
-
-[params]
-    randomURL = 'https://random-roadsign-picture.zmaillard-cloudflare.workers.dev'

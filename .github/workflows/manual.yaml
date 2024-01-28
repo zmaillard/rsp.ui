@@ -73,6 +73,7 @@ jobs:
           HUGO_PARAMS_SHIELDBASEURL: ${{ vars.HUGO_PARAMS_SHIELDBASEURL }}
           HUGO_PARAMS_MAPTILE: ${{ vars.HUGO_PARAMS_MAPTILE }}
           HUGO_PARAMS_MAPBOXTOKEN: ${{ secrets.HUGO_PARAMS_MAPBOXTOKEN }}
+          HUGO_PARAMS_RANDOMURL: ${{ vars.HUGO_PARAMS_RANDOMURL }}
 
       - run: cargo run
         working-directory: index
