@@ -178,7 +178,7 @@
         $button.addEventListener("click", function () {
             $refreshIcon.classList.toggle("animate-spin");
 
-            fetch('{{$.Site.Params.randomURL}}/state/{{.Params.slug}}?idonly')
+            fetch('{{$.Site.Params.RANDOMURL}}/state/{{.Params.slug}}?idonly')
                 .then(f=>f.json())
                 .then(f=>{
                     $img.src = "{{site.Params.SIGNBASEURL}}" + f.imageId + "/" + f.imageId + '_l.jpg';

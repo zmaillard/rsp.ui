@@ -1,4 +1,1 @@
 baseURL = 'https://preview.roadsign.pictures'
-
-[params]
-    randomURL = 'https://random-roadsign-picture.zmaillard-cloudflare.workers.dev'
