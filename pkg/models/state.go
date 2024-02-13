@@ -42,6 +42,7 @@ func (s State) ConvertToDto() generator.Generator {
 		SubdivisionName: s.SubdivisionName,
 		ImageCount:      s.ImageCount,
 		Layout:          "state",
+		Output:          []string{"html", "list"},
 		Highways:        s.Highways,
 		CountrySlug:     s.CountrySlug,
 		Featured:        s.Featured,

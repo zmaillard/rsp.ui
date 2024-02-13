@@ -43,6 +43,7 @@ type AdminAreaStateDto struct {
 	ImageCount      int
 	Highways        []string
 	Layout          string
+	Output          []string `yaml:"outputs,omitempty"`
 	CountrySlug     string
 	Featured        string `yaml:"featured,omitempty"`
 	Counties        []AdminAreaSlimDto

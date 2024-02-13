@@ -37,7 +37,7 @@
 {{ end }}
 {{ end }}
 
-
+{{ $name := .Params.name }}
 {{ $countryPath := printf "/%s/%s" "country" .Params.countryslug }}
 {{ $country := $.Site.GetPage $countryPath }}
 <section class="container mx-auto">
@@ -98,8 +98,11 @@
                   d="M16 1v5h-5M2 19v-5h5m10-4a8 8 0 0 1-14.947 3.97M1 10a8 8 0 0 1 14.947-3.97" />
         </svg>
         <a id="refresh-random" class="hover:cursor-pointer font-medium text-blue-600 dark:text-blue-500 hover:underline">Show Random Sign From {{.Params.name}}</a>
+        {{ with .OutputFormats.Get "list" }}
+        |
+        <a class="hover:cursor-pointer font-medium text-blue-600 dark:text-blue-500 hover:underline" href="{{ .RelPermalink }}">All Signs From {{$name}}</a>
+        {{ end }}
     </div>
-
     {{ $stateSlug := $.Params.slug }}
     {{ $countyParams := .Params.counties }}
     {{ with .Params.subdivisionname }}
