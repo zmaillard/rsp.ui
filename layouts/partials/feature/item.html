@@ -1,0 +1,81 @@
+{{ $featureId := .featureid }}
+{{ with .ctx }}
+<div>
+
+    {{ $slug := "" }}
+    {{ if ne .fromfeatureid $featureId }}
+    {{ $slug = .fromfeatureid }}
+    {{ else }}
+    {{ $slug = .tofeatureid }}
+    {{ end }}
+    {{ $path := printf "/%s/%v" "feature" $slug  }}
+    {{ if eq "W" .bearing }}
+    <svg
+            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+            stroke="currentColor" class="w-6 h-6 inline">
+        <path stroke-linecap="round" stroke-linejoin="round"
+              d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+    </svg>
+    {{ else if eq "NW" .bearing }}
+    <svg
+            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+            stroke="currentColor" class="w-6 h-6 inline">
+        <path stroke-linecap="round" stroke-linejoin="round" transform="rotate(45 12 12)"
+              d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+    </svg>
+    {{ else if eq "SW" .bearing }}
+    <svg
+            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+            stroke="currentColor" class="w-6 h-6 inline">
+        <path stroke-linecap="round" stroke-linejoin="round" transform="rotate(-45 12 12)"
+              d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+    </svg>
+    {{ else if eq "S" .bearing }}
+    <svg
+            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+            stroke="currentColor" class="w-6 h-6 inline">
+        <path stroke-linecap="round" stroke-linejoin="round" transform="rotate(-90 12 12)"
+              d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+    </svg>
+    {{ end }}
+    {{ with .roadname }}
+    {{ . }}
+    {{ end }}
+    {{ range .highways }}
+    {{ $hwypath := printf "/%s/%v" "highway" .  }}
+    {{ with site.GetPage $hwypath }}
+    <a href="{{.RelPermalink}}">
+        <img class="inline"  onerror="this.onerror=null; this.remove();" src="{{site.Params.SHIELDBASEURL}}Shields/20x/{{ .Params.imageName }}" alt="{{ .Params.name }}" />
+    </a>
+    {{ end }}
+    {{ end }}
+    {{ with site.GetPage $path }}
+    <a href="{{.RelPermalink}}">{{.Params.name}}</a>
+    {{ end }}
+    {{ if eq "E" .bearing }}
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+         stroke="currentColor" class="w-6 h-6 inline">
+        <path stroke-linecap="round" stroke-linejoin="round"
+              d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+    </svg>
+    {{ else if eq "SE" .bearing }}
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+         stroke="currentColor" class="w-6 h-6 inline">
+        <path stroke-linecap="round" stroke-linejoin="round" transform="rotate(45,12,12)"
+              d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+    </svg>
+    {{ else if eq "NE" .bearing }}
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+         stroke="currentColor" class="w-6 h-6 inline">
+        <path stroke-linecap="round" stroke-linejoin="round" transform="rotate(-45,12,12)"
+              d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+    </svg>
+    {{ else if eq "N" .bearing }}
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+         stroke="currentColor" class="w-6 h-6 inline">
+        <path stroke-linecap="round" stroke-linejoin="round" transform="rotate(-90,12,12)"
+              d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+    </svg>
+    {{ end }}
+</div>
+{{ end }}

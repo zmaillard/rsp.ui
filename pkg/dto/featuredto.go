@@ -34,5 +34,4 @@ func (f FeatureDto) ToMarkdown() ([]byte, error) {
 	formattedYaml := addYamlFrontAndEndMatter(y)
 
 	return formattedYaml, nil
-
 }
