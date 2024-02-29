@@ -10,6 +10,8 @@ type FeatureLink struct {
 	FromFeature   Feature        `gorm:"references:FromFeatureId;foreignKey:ID" `
 	ToFeature     Feature        `gorm:"references:ToFeatureId;foreignKey:ID" `
 	Highways      pq.StringArray `gorm:"column:highways;type:text[]"`
+	FromPoint     Point          `gorm:"column:from_point"`
+	ToPoint       Point          `gorm:"column:to_point"`
 }
 
 func (FeatureLink) TableName() string {

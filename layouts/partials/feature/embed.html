@@ -1,66 +1,63 @@
+{{ $adjFeats := newScratch }}
+{{ $adjFeats.Set "N" (slice) }}
+{{ $adjFeats.Set "NE" (slice) }}
+{{ $adjFeats.Set "E" (slice) }}
+{{ $adjFeats.Set "SE" (slice) }}
+{{ $adjFeats.Set "S" (slice) }}
+{{ $adjFeats.Set "SW" (slice) }}
+{{ $adjFeats.Set "W" (slice) }}
+{{ $adjFeats.Set "NW" (slice) }}
+
+{{ $highways := slice }}
+{{ range .Params.next }}
+{{ if .bearing }}
+{{ $adjFeats.Set .bearing (slice . ) }}
+{{ end }}
+{{ range .highways }}
+{{ $highways = $highways | append  . }}
+{{ end }}
+{{ end }}
+{{ range .Params.prev }}
+{{ if .bearing }}
+{{ $adjFeats.Set .bearing (slice . ) }}
+{{ end }}
+{{ range .highways }}
+{{ $highways = $highways | append  . }}
+{{ end }}
+{{ end }}
+
+{{ $featureId := .Params.featureid }}
+
 <div class="grid grid-cols-3 gap-4">
     <div class="justify-self-start text-gray-900 dark:text-white">
-        {{ with .Params.prev}}
-        {{ range . }}
-        <div>
-            {{ $slug := .fromfeatureid }}
-            {{ $path := printf "/%s/%v" "feature" $slug  }}
-            <svg
-                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="w-6 h-6 inline">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                      d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
-            </svg>
-            {{ with .roadname }}
-            {{ . }}
-            {{ end }}
-            {{ range .highways }}
-            {{ $hwypath := printf "/%s/%v" "highway" .  }}
-            {{ with $.Site.GetPage $hwypath }}
-            <a href="{{.RelPermalink}}">
-                <img alt="{{ .Params.name }}" onerror="this.onerror=null; this.remove();" class="inline" src="{{site.Params.SHIELDBASEURL}}Shields/20x/{{ .Params.imageName }}" />
-            </a>
-            {{end}}
-            {{ end }}
-            {{ with $.Site.GetPage $path }}
-            <a href="{{.RelPermalink}}">{{.Params.name}}</a>
-            {{ end }}
-        </div>
+        {{ range $adjFeats.Get "NW"}}
+        {{ partial "feature/item.html" (dict "ctx" . "featureid" $featureId) }}
         {{ end }}
+        {{ range $adjFeats.Get "W"}}
+        {{ partial "feature/item.html" (dict "ctx" . "featureid" $featureId) }}
+        {{ end }}
+        {{ range $adjFeats.Get "SW"}}
+        {{ partial "feature/item.html" (dict "ctx" . "featureid" $featureId) }}
+        {{ end }}
+        {{ range $adjFeats.Get "S"}}
+        {{ partial "feature/item.html" (dict "ctx" . "featureid" $featureId) }}
         {{ end }}
     </div>
     <div class="justify-self-center text-gray-900 dark:text-white">
 
     </div>
     <div class="justify-self-end text-gray-900 dark:text-white">
-        {{ with .Params.next}}
-        {{ range . }}
-        <div>
-            {{ $slug := .tofeatureid }}
-            {{ $path := printf "/%s/%v" "feature" $slug  }}
-            {{ with .roadname }}
-            {{ . }}
-            {{ end }}
-            {{ range .highways }}
-            {{ $hwypath := printf "/%s/%v" "highway" .  }}
-            {{ with $.Site.GetPage $hwypath }}
-            <a href="{{.RelPermalink}}">
-                <img alt="{{ .Params.name }}" class="inline" onerror="this.onerror=null; this.remove();" src="{{site.Params.SHIELDBASEURL}}Shields/20x/{{ .Params.imageName }}" />
-            </a>
-            {{ end }}
-            {{end}}
-            {{ with $.Site.GetPage $path }}
-            <a href="{{.RelPermalink}}">{{.Params.name}}</a>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                 stroke="currentColor" class="w-6 h-6 inline">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                      d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-            </svg>
-            {{ end }}
-        </div>
+        {{ range $adjFeats.Get "N"}}
+        {{ partial "feature/item.html" (dict "ctx" . "featureid" $featureId) }}
         {{ end }}
+        {{ range $adjFeats.Get "NE"}}
+        {{ partial "feature/item.html" (dict "ctx" . "featureid" $featureId) }}
         {{ end }}
-
-
+        {{ range $adjFeats.Get "E"}}
+        {{ partial "feature/item.html" (dict "ctx" . "featureid" $featureId) }}
+        {{ end }}
+        {{ range $adjFeats.Get "SE"}}
+        {{ partial "feature/item.html" (dict "ctx" . "featureid" $featureId) }}
+        {{ end }}
     </div>
 </div>

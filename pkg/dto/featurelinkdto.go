@@ -6,4 +6,6 @@ type FeatureLinkDto struct {
 	FromFeatureId uint `yaml:"fromfeatureid"`
 	ToFeatureId   uint `yaml:"tofeatureid"`
 	Highways      []string
+	Direction     float64
+	Bearing       string
 }
