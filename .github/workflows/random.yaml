@@ -10,5 +10,4 @@ jobs:
     with:
       apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       workingDirectory: random
-      command: |
-        deploy --minify src/index.ts
+      command: deploy --minify src/index.ts
