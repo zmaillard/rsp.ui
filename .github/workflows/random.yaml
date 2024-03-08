@@ -6,8 +6,10 @@ on:
     branches:
       - main
 jobs:
-  - uses: cloudflare/wrangler-action@v3
-    with:
-      apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-      workingDirectory: random
-      command: deploy --minify src/index.ts
+  runs-on: ubuntu-latest
+  steps:
+    - uses: cloudflare/wrangler-action@v3
+      with:
+        apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        workingDirectory: random
+        command: deploy --minify src/index.ts
