@@ -3,12 +3,16 @@ on:
   push:
     paths:
       - random/**
+      - .github/workflows/random.yaml
     branches:
       - main
 jobs:
     deploy:
       runs-on: ubuntu-latest
       steps:
+        - uses: actions/checkout@v3
+          with:
+            fetch-depth: '0'
         - uses: cloudflare/wrangler-action@v3
           with:
             apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
