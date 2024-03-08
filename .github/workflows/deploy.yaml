@@ -4,6 +4,7 @@ on:
     paths-ignore:
       - 'README.md'
       - '.github/workflows/manual.yaml'
+      - '.github/workflows/random.yaml'
     branches:
       - main
       - preview
