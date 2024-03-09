@@ -8,3 +8,8 @@ local:
 
 build:
     go run .
+
+all: build static-site
+
+static-site:
+	hugo --gc --minify
