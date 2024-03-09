@@ -1,4 +1,4 @@
-name: 'Release Roadsign Pictures'
+name: Release Roadsign Pictures
 on:
   push:
     tags:
