@@ -17,3 +17,26 @@ ul.browse-flat-list li a:before {
     text-decoration: none;
     color: black;*/
 }
+
+/* about page */
+.about-content {
+    @apply mb-3 font-normal text-gray-700 dark:text-gray-400;
+}
+.about-content a {
+    @apply font-medium text-blue-600 dark:text-blue-500 hover:underline;
+}
+
+.about-content h1 {
+    @apply mb-2 text-xl font-bold text-gray-900 dark:text-white;
+}
+
+.about-content h2 {
+    @apply mb-2 text-lg font-semibold text-gray-900 dark:text-white;
+}
+
+
+.about-content ol {
+    @apply space-y-4 text-gray-500 list-decimal list-inside dark:text-gray-400;
+}
+
+/* font-medium text-blue-600 dark:text-blue-500 hover:underline */

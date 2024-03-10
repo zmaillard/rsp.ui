@@ -30,6 +30,10 @@
     {{ $title := "About roadsign.pictures" }}
     {{ template "partials/widgets/pagetitle.html" $title }}
 
+    <div class="p-4 about-content">
+        {{ .Content }}
+    </div>
+
     <div class="p-4">
             <b>Version:</b> {{.Site.Params.VERSION}} <br/>
             <b>Total Signs:</b> {{.Site.Data.images.imageCount}}
