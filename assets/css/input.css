@@ -19,6 +19,9 @@ ul.browse-flat-list li a:before {
 }
 
 /* about page */
+.about-content {
+    @apply mb-3 font-normal text-gray-700 dark:text-gray-400;
+}
 .about-content a {
     @apply font-medium text-blue-600 dark:text-blue-500 hover:underline;
 }
