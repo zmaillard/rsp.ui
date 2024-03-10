@@ -151,3 +151,15 @@ jobs:
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN_MAP_TILE }}
 
+      - name: Build Changelog
+        id: github_release
+        uses: mikepenz/release-changelog-builder-action@v4
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          body: ${{steps.github_release.outputs.changelog}}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag_name: ${{ needs.version.outputs.tag }}
