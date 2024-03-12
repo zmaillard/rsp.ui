@@ -12,23 +12,27 @@ The other sub-projects have their own dependencies, and are listed below in the 
 ## Environment Variables
 
 ### Content Exporter
-- DB_USER - User with permissions to read from the database
-- DB_HOST - Host name of PostgreSQL server
-- DB_PASSWORD - Password for the user
-- DB_NAME - Database name that hosts sign database
-- DB_PORT - Port to connect to the PostgreSQL server
-- HUGO_PATH - Path to output content to.  Should correspond with the directory that Hugo reads content from.
+| Variable Name | Description |
+----------------|------------------
+| DB_USER | User with permissions to read from the database |
+| DB_HOST | Host name of PostgreSQL server |
+| DB_PASSWORD | Password for the user |
+| DB_NAME | Database name that hosts sign database |
+| DB_PORT | Port to connect to the PostgreSQL server |
+| HUGO_PATH | Path to output content to.  Should correspond with the directory that Hugo reads content from. |
 
 ### Static Website
-- HUGO_PARAMS_W3WAPIKEY - API Token for [What3Words](https://what3words.com/)
-- HUGO_PARAMS_SEARCHURL - Base URL for the search API
-- HUGO_PARAMS_RANDOMURL - Base URL for [Random Sign API](random/README.md)
-- HUGO_PARAMS_SEARCHINDEX - Search index name
-- HUGO_PARAMS_SEARCHKEY - Token with read access to the search index
-- HUGO_PARAMS_SIGNBASEURL - Base URL for the Roadsign Picture hosting
-- HUGO_PARAMS_SHIELDBASEURL - Base URL for the Highway Shields hosting
-- HUGO_PARAMS_MAPBOXTOKEN - API Token for [Mapbox](https://www.mapbox.com)
-- HUGO_PARAMS_MAPTILE - Url for [Sign Vector Tiles](tiles/README.md)
+| Variable Name | Description |
+----------------|------------------
+| HUGO_PARAMS_W3WAPIKEY | API Token for [What3Words](https://what3words.com/) |
+| HUGO_PARAMS_SEARCHURL | Base URL for the search API |
+| HUGO_PARAMS_RANDOMURL | Base URL for [Random Sign API](random/README.md) |
+| HUGO_PARAMS_SEARCHINDEX | Search index name |
+| HUGO_PARAMS_SEARCHKEY | Token with read access to the search index |
+| HUGO_PARAMS_SIGNBASEURL | Base URL for the Roadsign Picture hosting |
+| HUGO_PARAMS_SHIELDBASEURL | Base URL for the Highway Shields hosting |
+| HUGO_PARAMS_MAPBOXTOKEN | API Token for [Mapbox](https://www.mapbox.com) |
+| HUGO_PARAMS_MAPTILE | Url for [Sign Vector Tiles](tiles/README.md) |
 
 ## Running Locally
 
@@ -53,7 +57,7 @@ npm run tailwind
 ```
 
 ## Sub Projects
-- (Indexer)[index/README.md]
-- (Random Signs)[random/README.md]
-- (Map Tiles)[tiles/README.md]
+- [Indexer](index/README.md)
+- [Random Signs](random/README.md)
+- [Map Tiles](tiles/README.md)
 
