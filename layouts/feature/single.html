@@ -19,7 +19,7 @@
 {{ $highways := slice }}
 {{ range .Params.next }}
 {{ if .bearing }}
-{{ $adjFeats.Set .bearing (slice . ) }}
+{{ $adjFeats.Add .bearing (slice . ) }}
 {{ end }}
 {{ range .highways }}
 {{ $highways = $highways | append  . }}
@@ -27,7 +27,7 @@
 {{ end }}
 {{ range .Params.prev }}
 {{ if .bearing }}
-{{ $adjFeats.Set .bearing (slice . ) }}
+{{ $adjFeats.Add .bearing (slice . ) }}
 {{ end }}
 {{ range .highways }}
 {{ $highways = $highways | append  . }}
