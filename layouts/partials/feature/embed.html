@@ -1,3 +1,9 @@
+{{ $featureId := .Params.id }}
+{{ if in "featureid" .Params }}
+{{ $featureId := .Params.featureid }}
+
+{{ end }}
+
 {{ $adjFeats := newScratch }}
 {{ $adjFeats.Set "N" (slice) }}
 {{ $adjFeats.Set "NE" (slice) }}
@@ -26,7 +32,6 @@
 {{ end }}
 {{ end }}
 
-{{ $featureId := .Params.featureid }}
 
 <div class="grid grid-cols-3 gap-4">
     <div class="justify-self-start text-gray-900 dark:text-white">
