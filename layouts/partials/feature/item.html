@@ -1,6 +1,7 @@
 {{ $featureId := .featureid }}
 {{ with .ctx }}
 <div>
+
     {{ $slug := "" }}
     {{ if ne .fromfeatureid $featureId }}
     {{ $slug = .fromfeatureid }}
