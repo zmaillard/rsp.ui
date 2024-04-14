@@ -1,3 +1,9 @@
+{{ $featureId := .Params.id }}
+{{ if in "featureid" .Params }}
+{{ $featureId := .Params.featureid }}
+
+{{ end }}
+
 {{ $adjFeats := newScratch }}
 {{ $adjFeats.Set "N" (slice) }}
 {{ $adjFeats.Set "NE" (slice) }}
@@ -11,7 +17,7 @@
 {{ $highways := slice }}
 {{ range .Params.next }}
 {{ if .bearing }}
-{{ $adjFeats.Set .bearing (slice . ) }}
+{{ $adjFeats.Add .bearing (slice . ) }}
 {{ end }}
 {{ range .highways }}
 {{ $highways = $highways | append  . }}
@@ -19,14 +25,13 @@
 {{ end }}
 {{ range .Params.prev }}
 {{ if .bearing }}
-{{ $adjFeats.Set .bearing (slice . ) }}
+{{ $adjFeats.Add .bearing (slice . ) }}
 {{ end }}
 {{ range .highways }}
 {{ $highways = $highways | append  . }}
 {{ end }}
 {{ end }}
 
-{{ $featureId := .Params.featureid }}
 
 <div class="grid grid-cols-3 gap-4">
     <div class="justify-self-start text-gray-900 dark:text-white">
