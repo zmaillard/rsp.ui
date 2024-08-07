@@ -18,7 +18,17 @@ type Config struct {
 }
 
 func (c Config) IsValid() bool {
-	if len(c.DBUser) > 0 && len(c.DBHost) > 0 && len(c.DBPassword) > 0 && len(c.DBName) > 0 && len(c.DBPort) > 0 {
+	if len(c.DBUser) > 0 && len(c.DBHost) > 0 && c.HasPassword() && len(c.DBName) > 0 && len(c.DBPort) > 0 {
+		return true
+	} else {
+		return false
+	}
+}
+
+func (c Config) HasPassword() bool {
+	if len(c.DBPassword) > 0 {
+		return true
+	} else if c.DBHost == "localhost" {
 		return true
 	} else {
 		return false

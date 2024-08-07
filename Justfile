@@ -13,3 +13,6 @@ all: build static-site
 
 static-site:
 	hugo --gc --minify
+
+static-site-debug:
+	hugo --gc --minify --logLevel debug
