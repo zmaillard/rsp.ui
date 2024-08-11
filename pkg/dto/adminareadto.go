@@ -45,7 +45,8 @@ type AdminAreaStateDto struct {
 	Layout          string
 	Output          []string `yaml:"outputs,omitempty"`
 	CountrySlug     string
-	Featured        string `yaml:"featured,omitempty"`
+	Featured        string   `yaml:"featured,omitempty"`
+	StateCategories []string `yaml:"stateCategories,omitempty"`
 	Counties        []AdminAreaSlimDto
 	Places          []AdminAreaSlimDto
 }

@@ -2,6 +2,7 @@ package models
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/lib/pq"
 	"github.com/mmcloughlin/geohash"
 	"highway-sign-portal-builder/pkg/dto"
@@ -24,10 +25,12 @@ type HighwaySign struct {
 	Place            *string        `gorm:"column:place_slug"`
 	StateSubdivision *string        `gorm:"column:county_slug"`
 	Tags             pq.StringArray `gorm:"column:tags;type:text[]"`
+	Categories       pq.StringArray `gorm:"column:categories;type:text[]"`
 	Highways         pq.StringArray `gorm:"column:highways;type:text[]"`
 	IsTo             pq.StringArray `gorm:"column:is_to;type:text[]"`
 	ImageHeight      int            `gorm:"column:image_height"`
 	ImageWidth       int            `gorm:"column:image_width"`
+	Quality          int            `gorm:"column:quality"`
 }
 
 func (HighwaySign) TableName() string {
@@ -65,15 +68,24 @@ func (s HighwaySign) ConvertToDto() generator.Generator {
 		CountrySlug:          s.Country,
 		Recent:               s.DateTaken.Format("2006-01"),
 		GeoHash:              gh,
-		Tags:                 s.Tags,
 		PlaceSlug:            s.Place,
 		StateSubdivisionSlug: s.StateSubdivision,
 		Highways:             s.Highways,
 		ToHighways:           s.IsTo,
 		ImageWidth:           s.ImageWidth,
 		ImageHeight:          s.ImageHeight,
+		Quality:              s.Quality,
+		Tags:                 s.Tags,
 	}
 
+	// Add state name to categories
+	var cats []string
+	for _, v := range s.Categories {
+		stateCat := fmt.Sprintf("%s_%s", s.State, v)
+		cats = append(cats, stateCat)
+	}
+
+	highwaySignDto.Categories = cats
 	return highwaySignDto
 }
 

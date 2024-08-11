@@ -2,6 +2,7 @@ package models
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/lib/pq"
 	"highway-sign-portal-builder/pkg/dto"
 	"highway-sign-portal-builder/pkg/generator"
@@ -19,6 +20,7 @@ type State struct {
 	CountrySlug     string         `gorm:"column:country_slug"`
 	Counties        JSON           `gorm:"column:counties"`
 	Places          JSON           `gorm:"column:places"`
+	Categories      pq.StringArray `gorm:"column:categories;type:text[]"`
 }
 
 func (State) TableName() string {
@@ -59,6 +61,14 @@ func (s State) ConvertToDto() generator.Generator {
 			}
 		}),
 	}
+
+	var categories []string
+	for _, v := range s.Categories {
+		stateCat := fmt.Sprintf("%s_%s", s.Slug, v)
+		categories = append(categories, stateCat)
+	}
+
+	stateDto.StateCategories = categories
 
 	return stateDto
 }

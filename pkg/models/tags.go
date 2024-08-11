@@ -11,6 +11,7 @@ type Tag struct {
 	Name         string `gorm:"column:name"`
 	Slug         string `gorm:"column:slug"`
 	IsFlickrOnly bool   `gorm:"column:flickr_only"`
+	IsCategory   bool   `gorm:"column:is_category"`
 }
 
 func (*Tag) TableName() string {

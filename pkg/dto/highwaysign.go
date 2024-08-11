@@ -34,6 +34,8 @@ type HighwaySignDto struct {
 	ImageWidth           int      `yaml:"imageWidth"`
 	ImageHeight          int      `yaml:"imageHeight"`
 	Tags                 []string `yaml:"tags"`
+	Categories           []string `yaml:"categories,omitempty"`
+	Quality              int      `yaml:"quality"`
 }
 
 func (s HighwaySignDto) OutFile() string {

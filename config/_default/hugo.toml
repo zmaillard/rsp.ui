@@ -20,6 +20,7 @@ enableRobotsTXT = true
   places = 'place'
   countries = 'country'
   recents = 'recent'
+  category  = 'categories'
 
 [module]
   [[module.mounts]]
