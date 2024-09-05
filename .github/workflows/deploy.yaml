@@ -108,6 +108,7 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           command: |
             kv:key put all --namespace-id 032a57eafe57449eb913b66b37af4801 --path data/images.json
+            kv:key put quality --namespace-id 032a57eafe57449eb913b66b37af4801 --path data/signsquality.json
             kv:key put county --namespace-id 032a57eafe57449eb913b66b37af4801 --path data/county.json
             kv:key put place --namespace-id 032a57eafe57449eb913b66b37af4801 --path data/place.json
             kv:key put state --namespace-id 032a57eafe57449eb913b66b37af4801 --path data/state.json

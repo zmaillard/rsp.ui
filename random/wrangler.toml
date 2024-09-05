@@ -4,3 +4,6 @@ compatibility_date = "2023-12-01"
 kv_namespaces = [
     { binding = "signs", id = "032a57eafe57449eb913b66b37af4801", preview_id = "4094e1c749b44b938eb25139276bf4b3"  }
 ]
+
+[triggers]
+crons = [ "0 0 * * *" ] # Every day at midnight UTC
