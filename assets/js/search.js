@@ -1,18 +1,24 @@
 import {instantMeiliSearch} from "@meilisearch/instant-meilisearch";
 import instantsearch from "instantsearch.js";
-import {searchBox} from "instantsearch.js/es/widgets";
+import {searchBox, index, hits} from "instantsearch.js/es/widgets";
 import {connectInfiniteHits} from "instantsearch.js/es/connectors";
 
 
 const SIGNBASEURL = document.getElementById('sign-base-url').value;
+const SHIELDBASEURL = document.getElementById('shield-base-url').value;
+const SEARCHINDEX = document.getElementById('search-index').value;
+const HIGHWAYSEARCHINDEX = document.getElementById('highway-search-index').value;
 
 
-const searchClient = instantMeiliSearch (
+const {searchClient} = instantMeiliSearch (
     document.getElementById('search-url').value,
     document.getElementById('search-api-key').value,
     {
         placeholderSearch: false, // default: true.
         primaryKey: 'id', // default: undefined
+        meiliSearchParams: {
+           showRankingScore: true,
+        }
     },
 );
 
@@ -70,8 +76,10 @@ const infiniteHits = connectInfiniteHits(
     }
 )
 
+console.log(SEARCHINDEX);
+console.log(HIGHWAYSEARCHINDEX);
 const search = instantsearch({
-    indexName: 'signs',
+    indexName: SEARCHINDEX,
     searchClient,
     insights: false,
 });
@@ -84,7 +92,30 @@ search.addWidgets([
     }),
     infiniteHits({
         container: document.querySelector('#hits')
-    })
+    }),
+    index({indexName: HIGHWAYSEARCHINDEX}).addWidgets([
+        hits({
+            container: '#highway-hits',
+            templates: {
+                item: (hit, { html, components }) =>
+                    html`
+                       <li class="pb-3 sm:pb-4">
+                        <div class="flex items-center space-x-4">
+                            <div class="flex-shrink-0">
+                                <a href="/highway/${hit.slug}">
+                                    <img class="w-32 h-32 rounded" src="${SHIELDBASEURL}shields/${hit.image_name}" alt="${hit.name}" />
+                                </a>
+                            </div>
+                                     <div class="flex-1 min-w-0">
+            <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                ${instantsearch.highlight({ attribute: 'name', hit })}
+            </p>
+         </div>
+                        </div>
+                     </li>`
+            }
+        })
+    ]),
 ]);
 
 search.start();

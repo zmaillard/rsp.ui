@@ -3,11 +3,21 @@ use anyhow::Result;
 use config::Config;
 use serde::{Deserialize, Serialize};
 use geo_types::{{Point as GeoPoint}};
+use meilisearch_sdk::Client;
 use time::PrimitiveDateTime;
 use tokio;
 
 #[derive(Serialize, Debug)]
-pub struct Sign {
+pub struct HighwayIndex {
+    id: String,
+    name: String,
+    slug: String,
+    image_name: String,
+    url: String,
+}
+
+#[derive(Serialize, Debug)]
+pub struct SignIndex {
     id: String,
     title: String,
     description: String,
@@ -21,6 +31,7 @@ pub struct Sign {
     state: Locality,
     place: Option<Locality>,
     url: String,
+    quality: i32,
 }
 
 #[derive(Serialize, Debug)]
@@ -111,11 +122,59 @@ async fn main() -> Result<()>{
     });
 
     let meilisearch = app_settings.meilisearch_client();
+    highway_index(&meilisearch, &client).await?;
+    sign_index(&meilisearch, &client, &app_settings).await?;
 
-    let sign_index = meilisearch.index("signs");
+    Ok(())
+}
 
-    let mut row_vect:Vec<Sign> = Vec::new();
-    for row in client.query("SELECT imageid, title, sign_description, date_taken, country_slug, country_name, state_slug, state_name, county_name, county_slug, place_name, place_slug, hwys, point::geometry::point FROM rsp.sign.vwindexsign where last_indexed is null or last_indexed < last_update", &[]).await? {
+fn build_locality(name: Option<&str>, slug: Option<&str>) -> Option<Locality> {
+    match (name, slug) {
+        (Some(name), Some(slug)) =>
+            Some(Locality {
+                name: name.to_string(),
+                slug: slug.to_string(),
+            }),
+        _ =>  None,
+    }
+}
+
+async fn highway_index(meilisearch_client: &Client, psql_client: &tokio_postgres::Client) -> Result<()> {
+    let highway_index = meilisearch_client.index("highway");
+    let mut row_vect:Vec<HighwayIndex> = Vec::new();
+    for row in psql_client.query("select id, highway_name, image_name, slug, case when image_name = '' then '' when image_name is null then '' else 'https://shield.roadsign.pictures/Shields/' || highway.image_name end from sign.highway where id in (select distinct highway_id from sign.highwaysign_highway)", &[]).await? {
+        let id: i32 = row.get(0);
+        let name: &str = row.get(1);
+        let image_name: &str = row.get(2);
+        let slug: &str = row.get(3);
+        let url: &str = row.get(4);
+        let highway = HighwayIndex {
+            id: id.to_string(),
+            name: name.to_string(),
+            url: url.to_string(),
+            slug: slug.to_string(),
+            image_name: image_name.to_string(),
+        };
+        row_vect.push(highway);
+
+        if row_vect.len() % FLUSH == 0 {
+            highway_index.add_or_update(&row_vect,Some("id")).await?;
+            row_vect.clear();
+        }
+    }
+
+    if row_vect.len() > 0 {
+        highway_index.add_or_update(&row_vect,Some("id")).await?;
+    }
+
+    Ok(())
+}
+
+async fn sign_index(meilisearch_client: &Client, psql_client: &tokio_postgres::Client, app_settings: &AppSettings) -> Result<()> {
+    let sign_index = meilisearch_client.index("signs");
+
+    let mut row_vect:Vec<SignIndex> = Vec::new();
+    for row in psql_client.query("SELECT imageid, title, sign_description, date_taken, country_slug, country_name, state_slug, state_name, county_name, county_slug, place_name, place_slug, hwys, point::geometry::point, quality FROM rsp.sign.vwindexsign where last_indexed is null or last_indexed < last_update", &[]).await? {
         let imageid: i64 = row.get(0);
 
         let title: &str = row.get(1);
@@ -141,12 +200,14 @@ async fn main() -> Result<()>{
             None => Vec::new(),
         };
 
+        let quality: i32 = row.get(14);
+
         let place: Option<Locality> = build_locality(place_name, place_slug);
 
         let county: Option<Locality> = build_locality(county_name, county_slug);
 
         let url = app_settings.build_image_url(&imageid);
-        let sign = Sign {
+        let sign = SignIndex {
             id: imageid.to_string(),
             title: title.to_string(),
             description: sign_description.to_string(),
@@ -164,6 +225,7 @@ async fn main() -> Result<()>{
             },
             place,
             url,
+            quality,
         };
 
         row_vect.push(sign);
@@ -179,18 +241,7 @@ async fn main() -> Result<()>{
     }
 
     // Update the last_indexed column
-    client.execute("UPDATE sign.highwaysign SET last_indexed = now() WHERE last_indexed is null or last_indexed < last_update", &[]).await?;
+    psql_client.execute("UPDATE sign.highwaysign SET last_indexed = now() WHERE last_indexed is null or last_indexed < last_update", &[]).await?;
 
     Ok(())
-}
-
-fn build_locality(name: Option<&str>, slug: Option<&str>) -> Option<Locality> {
-    match (name, slug) {
-        (Some(name), Some(slug)) =>
-            Some(Locality {
-                name: name.to_string(),
-                slug: slug.to_string(),
-            }),
-        _ =>  None,
-    }
 }

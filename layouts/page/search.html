@@ -45,6 +45,7 @@
   </div>
   <div class="flex justify-center p-4">
   <div>
+    <div id="highway-hits"></div>
     <div id="hits"></div>
     <div id="pagination"></div>
   </div>
@@ -57,6 +58,8 @@
 <input type="hidden" id="search-url" value="{{.Site.Params.SEARCHURL}}" />
 <input type="hidden" id="search-api-key" value="{{.Site.Params.SEARCHKEY}}" />
 <input type="hidden" id="search-index" value="{{.Site.Params.SEARCHINDEX}}" />
+<input type="hidden" id="highway-search-index" value="{{.Site.Params.SEARCHINDEXHIGHWAY}}" />
 <input type="hidden" id="sign-base-url" value="{{.Site.Params.SIGNBASEURL}}" />
+<input type="hidden" id="shield-base-url" value="{{.Site.Params.SHIELDBASEURL}}" />
 <script src="{{ $jsBundle.RelPermalink }}" integrity="{{ $jsBundle.Data.Integrity }}" defer></script>
 {{ end }}
