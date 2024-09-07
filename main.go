@@ -58,6 +58,11 @@ func main() {
 		panic(err)
 	}
 
+	err = generator.SaveLookup(cfg.HugoPath, signs.GetHighQualityLookup())
+	if err != nil {
+		panic(err)
+	}
+
 	err = generator.SaveLookup(cfg.HugoPath, signs.GetPlaceLookup())
 	if err != nil {
 		panic(err)

@@ -91,6 +91,12 @@ func (s HighwaySign) ConvertToDto() generator.Generator {
 
 type HighwaySigns []HighwaySign
 
+func (hs HighwaySigns) GetHighQualityLookup() generator.Lookup {
+	return &highwaySignsHighQuality{
+		&hs,
+	}
+}
+
 func (hs HighwaySigns) GetStateLookup() generator.Lookup {
 	return &highwaySignsByState{
 		&hs,
@@ -147,6 +153,47 @@ func (hs HighwaySigns) GetLookup() ([]byte, error) {
 	}
 
 	return json.Marshal(res)
+}
+
+type highwaySignsHighQuality struct {
+	*HighwaySigns
+}
+
+func (h highwaySignsHighQuality) GetLookup() ([]byte, error) {
+	// Make sure there are actually records
+	hs := *h.HighwaySigns
+	if len(hs) == 0 {
+		return json.Marshal(map[string]interface{}{
+			"images":     []string{},
+			"mostRecent": "",
+			"imageCount": 0,
+		})
+
+	}
+	var images []string
+
+	dateTaken := hs[0].DateTaken
+
+	for _, v := range hs {
+		if v.Quality > 3 {
+
+			if dateTaken.Before(v.DateTaken) {
+				dateTaken = v.DateTaken
+			}
+			images = append(images, v.ImageId.String())
+		}
+	}
+	res := map[string]interface{}{
+		"images":     images,
+		"mostRecent": dateTaken,
+		"imageCount": len(images),
+	}
+
+	return json.Marshal(res)
+}
+
+func (h highwaySignsHighQuality) OutLookupFiles() []string {
+	return []string{"data/signsquality.json"}
 }
 
 type highwaySignsByState struct {
