@@ -27,7 +27,7 @@ app.use("*", cors());
 
 app.get("/", async (c) => {
   let url = c.req.header("referer") ?? baseUrl;
-  let signsRawJson = await c.env.signs.get("all");
+  let signsRawJson = await c.env.signs.get("quality");
   let allSigns = JSON.parse(signsRawJson ?? "{}") as AllSigns;
   let newUrl = getRandom(url, allSigns.images);
 
