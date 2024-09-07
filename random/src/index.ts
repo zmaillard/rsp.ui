@@ -1,8 +1,7 @@
-import { Env, Hono } from "hono";
+import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { z } from "zod";
 import { zValidator } from "@hono/zod-validator";
-import { ExecutionContext } from "hono/dist/types/context";
 
 interface KeyedSigns {
   [key: string]: string[];
@@ -133,11 +132,4 @@ const getRandom = (baseUrl: string, images: string[]) => {
   return appendedUrl.toString();
 };
 
-export default {
-  fetch: app.fetch,
-  scheduled: async (
-    controller: ScheduledController,
-    env: Env,
-    ctx: ExecutionContext,
-  ) => {},
-};
+export default app;
