@@ -15,7 +15,7 @@
     "husky": "^9.0.11"
   },
   "dependencies": {
-    "@meilisearch/instant-meilisearch": "^0.13.6",
+    "@meilisearch/instant-meilisearch": "^0.19.3",
     "instantsearch.js": "^4.56.1",
     "flowbite": "^2.0.0"
   }

@@ -1,0 +1,19 @@
+### GET show all meilisearch indexes
+GET https://search.roadsign.pictures/indexes
+Authorization: Bearer {{token}}
+
+### POST Add new highway index
+POST https://search.roadsign.pictures/indexes
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "uid": "highway",
+  "primaryKey": "id"
+}
+
+<> 2024-08-23T143210.202.json
+<> 2024-08-23T143027.200.json
+<> 2024-08-23T142928.403.json
+
+###
