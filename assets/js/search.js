@@ -1,6 +1,6 @@
 import {instantMeiliSearch} from "@meilisearch/instant-meilisearch";
 import instantsearch from "instantsearch.js";
-import {searchBox, index, hits} from "instantsearch.js/es/widgets";
+import {searchBox, index, hits, configure} from "instantsearch.js/es/widgets";
 import {connectInfiniteHits} from "instantsearch.js/es/connectors";
 
 
@@ -76,8 +76,6 @@ const infiniteHits = connectInfiniteHits(
     }
 )
 
-console.log(SEARCHINDEX);
-console.log(HIGHWAYSEARCHINDEX);
 const search = instantsearch({
     indexName: SEARCHINDEX,
     searchClient,
@@ -94,21 +92,26 @@ search.addWidgets([
         container: document.querySelector('#hits')
     }),
     index({indexName: HIGHWAYSEARCHINDEX}).addWidgets([
+        configure({
+            placeholderSearch: false, // default: true.
+        }),
         hits({
             container: '#highway-hits',
+            transformItems: items => items.filter(f=>f._rankingScore > 0.8),
             templates: {
+                empty: '', // Hide the empty message
                 item: (hit, { html, components }) =>
                     html`
                        <li class="pb-3 sm:pb-4">
                         <div class="flex items-center space-x-4">
                             <div class="flex-shrink-0">
                                 <a href="/highway/${hit.slug}">
-                                    <img class="w-32 h-32 rounded" src="${SHIELDBASEURL}shields/${hit.image_name}" alt="${hit.name}" />
+                                    <img class="w-32 h-32 rounded" src="${SHIELDBASEURL}Shields/${hit.image_name}" alt="${hit.name}" />
                                 </a>
                             </div>
                                      <div class="flex-1 min-w-0">
             <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
-                ${instantsearch.highlight({ attribute: 'name', hit })}
+                ${components.Highlight({ attribute: 'name', hit })}
             </p>
          </div>
                         </div>
