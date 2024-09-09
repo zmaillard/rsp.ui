@@ -28,7 +28,7 @@ The other sub-projects have their own dependencies, and are listed below in the 
 | HUGO_PARAMS_SEARCHURL           | Base URL for the search API                         |
 | HUGO_PARAMS_RANDOMURL           | Base URL for [Random Sign API](random/README.md)    |
 | HUGO_PARAMS_SEARCHINDEX         | Search index name for signs                         |
-| HUGO_PARAMS_SEARCHINDEXHIGHWAY  | Search index name  for highways                     |
+| HUGO_PARAMS_SEARCHINDEXHIGHWAY  | Search index name for highways                     |
 | HUGO_PARAMS_SEARCHKEY           | Token with read access to the search index          |
 | HUGO_PARAMS_SIGNBASEURL         | Base URL for the Roadsign Picture hosting           |
 | HUGO_PARAMS_SHIELDBASEURL       | Base URL for the Highway Shields hosting            |
