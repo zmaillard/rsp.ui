@@ -99,8 +99,8 @@ search.addWidgets([
             container: '#highway-hits',
             transformItems: items => items.filter(f=>f._rankingScore > 0.8),
             cssClasses: {
-                list: ['max-w-2xl divide-y divide-gray-200 dark:divide-gray-700'],
-                item: ['pb-3 sm:pb-4']
+                list: ['max-w-2xl divide-y divide-gray-200 dark:divide-gray-700 result-list-item'],
+                item: ['pb-3 sm:pb-4 result-item'],
             },
             templates: {
                 empty: '', // Hide the empty message
