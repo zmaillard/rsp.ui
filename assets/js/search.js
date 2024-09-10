@@ -98,11 +98,14 @@ search.addWidgets([
         hits({
             container: '#highway-hits',
             transformItems: items => items.filter(f=>f._rankingScore > 0.8),
+            cssClasses: {
+                list: ['max-w-2xl divide-y divide-gray-200 dark:divide-gray-700 result-list-item'],
+                item: ['pb-3 sm:pb-4 result-item'],
+            },
             templates: {
                 empty: '', // Hide the empty message
                 item: (hit, { html, components }) =>
                     html`
-                       <li class="pb-3 sm:pb-4">
                         <div class="flex items-center space-x-4">
                             <div class="flex-shrink-0">
                                 <a href="/highway/${hit.slug}">
@@ -115,7 +118,7 @@ search.addWidgets([
             </p>
          </div>
                         </div>
-                     </li>`
+                     `
             }
         })
     ]),

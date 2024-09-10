@@ -39,4 +39,8 @@ ul.browse-flat-list li a:before {
     @apply space-y-4 text-gray-500 list-decimal list-inside dark:text-gray-400;
 }
 
-/* font-medium text-blue-600 dark:text-blue-500 hover:underline */
+@media (prefers-color-scheme: dark) {
+    .result-item {
+        background-color: #475569 !important;
+    }
+}
