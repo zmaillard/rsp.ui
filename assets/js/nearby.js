@@ -8,7 +8,7 @@ const queryLng = urlParams.get('lng');
 const status = document.querySelector("#status");
 const SIGNBASEURL = document.getElementById('sign-base-url').value;
 
-const searchClient = instantMeiliSearch (
+const {searchClient} = instantMeiliSearch (
     document.getElementById('search-url').value,
     document.getElementById('search-api-key').value,
     {
