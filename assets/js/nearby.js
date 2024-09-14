@@ -1,12 +1,13 @@
 import {instantMeiliSearch} from "@meilisearch/instant-meilisearch";
 import instantsearch from "instantsearch.js";
-import { connectInfiniteHits} from "instantsearch.js/es/connectors";
+import {connectInfiniteHits} from "instantsearch.js/es/connectors";
 
 const urlParams = new URLSearchParams(window.location.search);
 const queryLat = urlParams.get('lat');
 const queryLng = urlParams.get('lng');
 const status = document.querySelector("#status");
 const SIGNBASEURL = document.getElementById('sign-base-url').value;
+const MAPBOXTOKEN = document.getElementById('mapbox-token').value;
 
 const {searchClient} = instantMeiliSearch (
     document.getElementById('search-url').value,
@@ -42,10 +43,24 @@ if (queryLat && queryLng) {
     }
 
 }
+function getPlaceName(lat, lng) {
+    fetch(`https://api.mapbox.com/search/geocode/v6/reverse?longitude=${lng}&latitude=${lat}&types=locality%2Cplace%2Cdistrict&access_token=${MAPBOXTOKEN}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.features.length > 0) {
+                const newTitle = `Signs Near ${data.features[0].properties.name_preferred}`;
+                document.getElementById('place-name-header').textContent = newTitle;
+                document.getElementById('page-title-main').textContent = newTitle;
+            }
+        })
+}
 
 function success(position) {
     const lat = position.coords.latitude;
     const lng = position.coords.longitude;
+
+
+    getPlaceName(lat, lng);
 
     status.textContent = ''
     const geoRadius = `_geoRadius(${lat},${lng},5000)`;

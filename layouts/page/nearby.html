@@ -27,8 +27,8 @@
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                               stroke-width="2" d="m1 9 4-4-4-4" />
                     </svg>
-                    <span
-                            class="ml-1 text-sm font-medium text-gray-500 md:ml-2 dark:text-gray-400">Signs From Current Location</span>
+                    <span id="place-name-header"
+                            class="ml-1 text-sm font-medium text-gray-500 md:ml-2 dark:text-gray-400">Signs Near Current Location</span>
                 </div>
             </li>
         </ol>
@@ -53,6 +53,7 @@
 <input type="hidden" id="search-api-key" value="{{.Site.Params.SEARCHKEY}}" />
 <input type="hidden" id="search-index" value="{{.Site.Params.SEARCHINDEX}}" />
 <input type="hidden" id="sign-base-url" value="{{.Site.Params.SIGNBASEURL}}" />
+<input type="hidden" id="mapbox-token" value="{{.Site.Params.MAPBOXTOKEN}}" />
 
 <script src="{{ $jsBundle.RelPermalink }}" integrity="{{ $jsBundle.Data.Integrity }}" defer></script>
 
