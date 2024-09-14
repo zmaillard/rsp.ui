@@ -47,7 +47,6 @@ function getPlaceName(lat, lng) {
     fetch(`https://api.mapbox.com/search/geocode/v6/reverse?longitude=${lng}&latitude=${lat}&types=locality%2Cplace%2Cdistrict&access_token=${MAPBOXTOKEN}`)
         .then(response => response.json())
         .then(data => {
-            console.log(data)
             if (data.features.length > 0) {
                 const newTitle = `Signs Near ${data.features[0].properties.name_preferred}`;
                 document.getElementById('place-name-header').textContent = newTitle;
