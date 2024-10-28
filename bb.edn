@@ -1,7 +1,14 @@
 {:paths ["script"]
  :pods {org.babashka/postgresql {:version "0.1.2"}}
  :tasks {clean-content {:requires ([babashka.fs :as fs])
-                        :task (fs/delete-tree "")
+                        :task (do (fs/delete-tree "./content/country")
+                                  (fs/delete-tree "./content/county")
+                                  (fs/delete-tree "./content/feature")
+                                  (fs/delete-tree "./content/highwayType")
+                                  (fs/delete-tree "./content/highway")
+                                  (fs/delete-tree "./content/place")
+                                  (fs/delete-tree "./content/sign")
+                                  (fs/delete-tree "./content/state"))
                         :doc "Clean content directory"}
          local {:task (shell "hugo serve") :doc "Run Hugo Server Locally"}
          build {:task (shell "go run .") :doc "Build exports"}
