@@ -20,7 +20,3 @@
          all {:task (do
                       (run 'build)
                       (run 'static-site)) :doc "Build and deploy static site"}}}
-;clean-content:
-;    rm -Rf content/{country,county,feature,highwayType,highway,place,sign,state}
-;:w
-
