@@ -1,22 +1,23 @@
 {:paths ["script"]
  :pods {org.babashka/postgresql {:version "0.1.2"}}
  :tasks {clean-content {:requires ([babashka.fs :as fs])
-                        :task (do (fs/delete-tree "./content/country")
-                                  (fs/delete-tree "./content/county")
-                                  (fs/delete-tree "./content/feature")
-                                  (fs/delete-tree "./content/highwayType")
-                                  (fs/delete-tree "./content/highway")
-                                  (fs/delete-tree "./content/place")
-                                  (fs/delete-tree "./content/sign")
-                                  (fs/delete-tree "./content/state"))
-                        :doc "Clean content directory"}
+                        :doc "Clean content directory"
+                        :task (doseq [d ["country" "county" "feature" "highwayType" "highway" "place" "sign" "state"]]
+                                (fs/delete-tree (fs/path "./content" d)))}
          local {:task (shell "hugo serve") :doc "Run Hugo Server Locally"}
          build {:task (shell "go run .") :doc "Build exports"}
-         static-site {:task (shell "hugo --gc --minify") :doc "Build static site"}
-         static-site-debug {:task (shell "hugo --gc --minify --logLevel debug") :doc "Build static site with debugging info"}
-         eagle-import {:task eagle-import/-main :doc "import new images into Eagle"}
-         eagle-quality {:task eagle-import/batch-update-quality :doc "Update Quality for each image"}
-         eagle-export-tags {:task eagle-export-tags/-main :doc "Export csv file for bulk tag updates"}
+         static-site {:task (shell "hugo --gc --minify") 
+                      :doc "Build static site"}
+         static-site-debug {:task (shell "hugo --gc --minify --logLevel debug") 
+                            :doc "Build static site with debugging info"}
+         eagle-import {:task eagle-import/-main 
+                       :doc "import new images into Eagle"}
+         eagle-quality {:task eagle-import/batch-update-quality 
+                        :doc "Update Quality for each image"}
+         eagle-export-tags {:task eagle-export-tags/-main 
+                            :doc "Export csv file for bulk tag updates"}
          all {:task (do
                       (run 'build)
-                      (run 'static-site)) :doc "Build and deploy static site"}}}
+                      (run 'static-site)) 
+              :doc "Build and deploy static site"}}}
+
