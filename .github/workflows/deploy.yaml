@@ -95,7 +95,10 @@ jobs:
       - uses: actions/setup-go@v4
         with:
           go-version: '^1.20.0'
-      - uses: moonrepo/setup-rust@v1
+      - name: Setup Babashka
+        uses: turtlequeue/setup-babashka@v1.7.0
+        with:
+          babashka-version: 1.4.192
       - run: go run main.go
         env:
           RSP_DB_USER: ${{ secrets.DB_USER }}
@@ -132,8 +135,15 @@ jobs:
           HUGO_PARAMS_MAPBOXTOKEN: ${{ secrets.HUGO_PARAMS_MAPBOXTOKEN }}
           HUGO_PARAMS_RANDOMURL: ${{ vars.HUGO_PARAMS_RANDOMURL }}
 
-      - run: cargo run
-        working-directory: index
+
+      - name: Execute babashka script
+        uses: tzafrirben/babashka-docker-action@v1
+        with:
+          bb_src: <path-to-babashka-script>
+          bb_args: <bb-script-arguments> (optional)
+
+      - name: Update Indexes
+        run: bb index
         env:
           RSP_POSTGRES_HOST: ${{ secrets.DB_HOST }}
           RSP_POSTGRES_USER: ${{ secrets.DB_USER }}
