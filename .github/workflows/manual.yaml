@@ -38,7 +38,10 @@ jobs:
       - uses: actions/setup-go@v4
         with:
           go-version: '^1.20.0'
-      - uses: moonrepo/setup-rust@v1
+      - name: Setup Babashka
+        uses: turtlequeue/setup-babashka@v1.7.0
+        with:
+          babashka-version: 1.4.192
       - run: go run main.go
         env:
           RSP_DB_USER: ${{ secrets.DB_USER }}
@@ -46,8 +49,6 @@ jobs:
           RSP_DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
           RSP_DB_PORT: ${{ secrets.DB_PORT }}
           RSP_DB_NAME: ${{ secrets.DB_NAME }}
-
-
       - uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -77,17 +78,19 @@ jobs:
           HUGO_PARAMS_MAPBOXTOKEN: ${{ secrets.HUGO_PARAMS_MAPBOXTOKEN }}
           HUGO_PARAMS_RANDOMURL: ${{ vars.HUGO_PARAMS_RANDOMURL }}
 
-      - run: cargo run
-        working-directory: index
+      - name: Update Indexes
+        run: bb index
         env:
-          RSP_POSTGRES_HOST: ${{ secrets.DB_HOST }}
-          RSP_POSTGRES_USER: ${{ secrets.DB_USER }}
-          RSP_POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          RSP_POSTGRES_PORT: ${{ secrets.DB_PORT }}
-          RSP_POSTGRES_DB: ${{ secrets.DB_NAME }}
-          RSP_MEILISEARCH_HOST: ${{ vars.INDEX_HOST }}
-          RSP_MEILISEARCH_KEY: ${{ secrets.INDEX_KEY }}
-          RSP_IMAGE_HOSTING_URL: ${{ vars.HUGO_PARAMS_SIGNBASEURL }}
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_PORT: ${{ secrets.DB_PORT }}
+          DB_NAME: ${{ secrets.DB_NAME }}
+          HUGO_PARAMS_SEARCHURL: ${{ vars.INDEX_HOST }}
+          HUGO_PARAMS_SEARCHKEY: ${{ secrets.INDEX_KEY }}
+          HUGO_PARAMS_SIGNBASEURL: ${{ vars.HUGO_PARAMS_SIGNBASEURL }}
+          HUGO_PARAMS_SEARCHINDEX: ${{ vars.HUGO_PARAMS_SEARCHINDEX}}
+          HUGO_PARAMS_SEARCHINDEXHIGHWAY: ${{ vars.HUGO_PARAMS_SEARCHINDEXHIGHWAY}}
 
       - uses: superfly/flyctl-actions/setup-flyctl@master
 
