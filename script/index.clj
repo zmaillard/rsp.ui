@@ -17,11 +17,14 @@
                      :highway-index (System/getenv "HUGO_PARAMS_SEARCHINDEXHIGHWAY")
                      :key (System/getenv "HUGO_PARAMS_SEARCHKEY")})
 
+(defn update-last-updated
+  []
+  (pg/execute! db ["UPDATE sign.highwaysign SET last_indexed = now() WHERE last_indexed is null or last_indexed < last_update"]))
+
 (defn build-image-url
   [sign]
   (let [image-id (:imageid sign)
-        hosting-url "https://sign.roadsign.pictures/"
-        _hosting-url (System/getenv "HUGO_PARAMS_SIGNBASEURL")]
+        hosting-url (System/getenv "HUGO_PARAMS_SIGNBASEURL")]
       (str hosting-url image-id "/" image-id "_l.jpg")))
 
 
@@ -74,16 +77,18 @@
                               :authorization (str "Bearer " key)}
                     :body req}))
         (get :status))))
+     
 
 (defn update-highway-index
   [signs]
   (let [req (json/encode signs)
         {host :host index :highway-index key :key} index-settings]
     (-> (http/put (str host "/indexes/" index "/documents")
-                   {:headers {:content-type "application/json"
-                              :authorization (str "Bearer " key)}
-                    :body req})
-        (get :status))))
+                  {:headers {:content-type "application/json"
+                             :authorization (str "Bearer " key)}
+                   :body req})
+        (get :status)
+     )))
 
 
 (defn apply-updates
@@ -95,5 +100,5 @@
 (defn -main
   [& _args]
   (apply-updates (get-signs) update-sign-index)
-  (apply-updates (get-highways) update-highway-index))
- 
+  (apply-updates (get-highways) update-highway-index)
+  (update-last-updated))

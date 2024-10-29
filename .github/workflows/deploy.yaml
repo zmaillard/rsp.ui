@@ -136,23 +136,19 @@ jobs:
           HUGO_PARAMS_RANDOMURL: ${{ vars.HUGO_PARAMS_RANDOMURL }}
 
 
-      - name: Execute babashka script
-        uses: tzafrirben/babashka-docker-action@v1
-        with:
-          bb_src: <path-to-babashka-script>
-          bb_args: <bb-script-arguments> (optional)
-
       - name: Update Indexes
         run: bb index
         env:
-          RSP_POSTGRES_HOST: ${{ secrets.DB_HOST }}
-          RSP_POSTGRES_USER: ${{ secrets.DB_USER }}
-          RSP_POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          RSP_POSTGRES_PORT: ${{ secrets.DB_PORT }}
-          RSP_POSTGRES_DB: ${{ secrets.DB_NAME }}
-          RSP_MEILISEARCH_HOST: ${{ vars.INDEX_HOST }}
-          RSP_MEILISEARCH_KEY: ${{ secrets.INDEX_KEY }}
-          RSP_IMAGE_HOSTING_URL: ${{ vars.HUGO_PARAMS_SIGNBASEURL }}
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_PORT: ${{ secrets.DB_PORT }}
+          DB_NAME: ${{ secrets.DB_NAME }}
+          HUGO_PARAMS_SEARCHURL: ${{ vars.INDEX_HOST }}
+          HUGO_PARAMS_SEARCHKEY: ${{ secrets.INDEX_KEY }}
+          HUGO_PARAMS_SIGNBASEURL: ${{ vars.HUGO_PARAMS_SIGNBASEURL }}
+          HUGO_PARAMS_SEARCHINDEX: ${{ vars.HUGO_PARAMS_SEARCHINDEX}}
+          HUGO_PARAMS_SEARCHINDEXHIGHWAY: ${{ vars.HUGO_PARAMS_SEARCHINDEXHIGHWAY}}
 
       - uses: superfly/flyctl-actions/setup-flyctl@master
 
