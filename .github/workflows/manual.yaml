@@ -89,7 +89,7 @@ jobs:
           HUGO_PARAMS_SEARCHURL: ${{ vars.INDEX_HOST }}
           HUGO_PARAMS_SEARCHKEY: ${{ secrets.INDEX_KEY }}
           HUGO_PARAMS_SIGNBASEURL: ${{ vars.HUGO_PARAMS_SIGNBASEURL }}
-          HUGO_PARAMS_SEARCHINDEX: ${{ vars.HUGO_PARAMS_SEARCHINDEX}}
+          HUGO_PARAMS_SEARCHINDEX: ${{ secrets.HUGO_PARAMS_SEARCHINDEX}}
           HUGO_PARAMS_SEARCHINDEXHIGHWAY: ${{ vars.HUGO_PARAMS_SEARCHINDEXHIGHWAY}}
 
       - uses: superfly/flyctl-actions/setup-flyctl@master
