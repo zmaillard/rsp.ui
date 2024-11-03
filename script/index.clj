@@ -72,10 +72,10 @@
   [signs]
   (let [req (json/encode signs)
         {host :host index :sign-index key :key} index-settings]
-    (-> (http/put (str host "/indexes/" index "/documents"
-                   {:headers {:content-type "application/json"
+    (-> (http/put (str host "/indexes/" index "/documents")
+              {:headers {:content-type "application/json"
                               :authorization (str "Bearer " key)}
-                    :body req}))
+                    :body req})
         (get :status))))
      
 
