@@ -1,0 +1,9 @@
+FROM mcr.microsoft.com/devcontainers/base:ubuntu
+
+# Get Curl
+RUN apt-get update && apt-get install -y curl
+
+# Add Babashka
+RUN curl -sLO https://raw.githubusercontent.com/babashka/babashka/master/install \
+    && chmod +x install \
+    && ./install --static

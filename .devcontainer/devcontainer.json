@@ -1,0 +1,26 @@
+{
+  "name": "Ubuntu",
+  "build": {
+    "dockerfile": "Dockerfile.dev"
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/hugo:1": {
+      "extended": true
+    },
+    "ghcr.io/devcontainers/features/go:1": {"version":  "1.20"},
+    "ghcr.io/devcontainers/features/node:1": {"version":  "20"},
+    "ghcr.io/devcontainers/features/aws-cli:1": {},
+    "ghcr.io/devcontainers-contrib/features/starship:1": {}
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": ["betterthantomorrow.calva"]
+    }
+  },
+
+  // Use 'forwardPorts' to make a list of ports inside the container available locally.
+  "forwardPorts": [1313],
+
+  // You can use go mod instead
+  "postCreateCommand": "git submodule update --init"
+}
