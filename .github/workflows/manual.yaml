@@ -92,6 +92,17 @@ jobs:
           HUGO_PARAMS_SEARCHINDEX: ${{ secrets.HUGO_PARAMS_SEARCHINDEX}}
           HUGO_PARAMS_SEARCHINDEXHIGHWAY: ${{ vars.HUGO_PARAMS_SEARCHINDEXHIGHWAY}}
 
+      # Update Bot Index
+      - name: Create Bot Index
+        run: bb export-bot-database
+      - name: Upload Bot Index To Cloudflare
+        run: aws s3 cp bot.db s3://bot/bot.db
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.CLOUDFLARE_R2_USER }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.CLOUDFLARE_R2_SECRET }}
+          AWS_DEFAULT_REGION: auto
+          AWS_ENDPOINT_URL: ${{ vars.CLOUDFLARE_R2_ENDPOINT }}
+
       - uses: superfly/flyctl-actions/setup-flyctl@master
 
       - run: flyctl deploy -c fly.production.toml --remote-only

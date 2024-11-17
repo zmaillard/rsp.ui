@@ -1,5 +1,6 @@
 {:paths ["script"]
- :pods {org.babashka/postgresql {:version "0.1.2"}}
+ :pods {org.babashka/postgresql {:version "0.1.2"}
+        org.babashka/go-sqlite3 {:version "0.2.4"}}
  :tasks {clean-content {:requires ([babashka.fs :as fs])
                         :doc "Clean content directory"
                         :task (doseq [d ["country" "county" "feature" "highwayType" "highway" "place" "sign" "state"]]
@@ -21,6 +22,8 @@
                                  :doc "Update Tags that do not match"}
          eagle-export-tags {:task eagle-export-tags/-main 
                             :doc "Export csv file for bulk tag updates"}
+         export-bot-database {:task sql-bot/-main
+                              :doc "Export bot database"}
          all {:task (do
                       (run 'build)
                       (run 'static-site)) 

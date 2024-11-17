@@ -21,6 +21,14 @@ The other sub-projects have their own dependencies, and are listed below in the 
 | DB_PORT | Port to connect to the PostgreSQL server |
 | HUGO_PATH | Path to output content to.  Should correspond with the directory that Hugo reads content from. |
 
+### Bot Indexer
+| Variable Name          | Description                  |
+------------------------|------------------------------
+| CLOUDFLARE_R2_USER     | Cloudflare R2 API User Id    |
+| CLOUDFLARE_R2_SECRET   | Cloudflare R2 API Secret Key |
+| CLOUDFLARE_R2_ENDPOINT | Cloudflare R2 Endpoint Url   |
+
+
 ### Static Website
 | Variable Name                   | Description                                         |
 ---------------------------------|-----------------------------------------------------
