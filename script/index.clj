@@ -87,8 +87,8 @@
                   {:headers {:content-type "application/json"
                              :authorization (str "Bearer " key)}
                    :body req})
-        (get :status)
-     )))
+        (get :status))))
+     
 
 
 (defn apply-updates

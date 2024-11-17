@@ -1,9 +1,10 @@
 #!/usr/bin/env bb
 (ns eagle-import
   (:require [clojure.core :refer [biginteger]]
-            [clojure.set :refer [difference]]
+            [clojure.set :refer [join difference]]
             [babashka.http-client :as http]
             [cheshire.core :as json]
+            [core :as core]
             [pod.babashka.postgresql :as pg]))
 
 
@@ -18,11 +19,6 @@
          :port (System/getenv "DB_PORT")})
 
 
-(defn update-quality
-  [imageid new-quality]
-  (let [imageid-int (biginteger imageid)]
-   (pg/execute! db ["UPDATE sign.highwaysign SET quality = ? WHERE imageid = ?" new-quality imageid-int])))
-  
 
 (defn get-imported-signs
   []
@@ -56,7 +52,7 @@
 
 (defn get-signs
   []
-  (pg/execute! db ["select imageid::text as imageid, title, state_name, tagitems from sign.vwindexsign"]))
+  (pg/execute! db ["select imageid::text as imageid, title, state_name, tagitems, quality from sign.vwindexsign"]))
 
 (defn find-new-signs
   [eagle-signs db-signs]
@@ -101,11 +97,13 @@
         (json/parse-string true)
         (get :status))))
 
+
+
 (defn batch-update-quality
   [& _args]
   (let [signs (get-imported-signs)]
     (doseq [{quality :star imageid :annotation } signs]
-      (update-quality imageid quality))))
+      (core/update-quality imageid quality))))
 
 
 (defn -main
