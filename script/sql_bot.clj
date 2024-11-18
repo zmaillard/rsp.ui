@@ -20,15 +20,15 @@
 (defn build-db
   [path]
   (fs/delete-if-exists path)
-  (sqlite/execute! path "create table sign (imageid TEXT, title TEXT, state TEXT, place TEXT, county TEXT, country TEXT)")
+  (sqlite/execute! path "create table sign (imageid TEXT, title TEXT, state TEXT, place TEXT, county TEXT, country TEXT, quality INTEGER)")
   (sqlite/execute! path "create table state (slug TEXT, name TEXT)")
   (sqlite/execute! path "create table country (slug TEXT, name TEXT)")) 
  
 
 (defn load-sign
   [yaml-sign]
-  (let [[imageid title state place county country] ((juxt :imageid :title :state :place :county :country) yaml-sign)]
-    (sqlite/execute! db-path ["INSERT INTO sign (imageid, title, state, place, county, country) VALUES (?,?,?,?,?,?)" imageid title state place county country])))
+  (let [[imageid title state place county country quality] ((juxt :imageid :title :state :place :county :country :quality) yaml-sign)]
+    (sqlite/execute! db-path ["INSERT INTO sign (imageid, title, state, place, county, country, quality) VALUES (?, ?,?,?,?,?,?)" imageid title state place county country quality])))
 
 (defn load-jurisdiction
   [table yaml-sign]
