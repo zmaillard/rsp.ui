@@ -44,7 +44,7 @@
   [& _args]
   (let [signs (map (fn [s] {:imageid (:annotation s) :eagle-tags (set (:tags s))})  (core/get-imported-signs))
         ext-signs (map (fn [s] {:imageid (:imageid s) :db-tags (set (:vwindexsign/tagitems s))}) (core/get-signs))
-        changed (filter (fn [x] (seq (difference (:eagle-tags x) (:db-tags x))))  (join signs ext-signs)) 
+        changed (filter (fn [x] (seq (difference (:eagle-tags x) (:db-tags x))))  (join signs ext-signs))
         tag-ids (transform-tags(get-tag-ids changed))]
     (println tag-ids)
     (doseq [to-update changed]
