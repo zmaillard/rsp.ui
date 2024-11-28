@@ -32,7 +32,6 @@ The other sub-projects have their own dependencies, and are listed below in the 
 ### Static Website
 | Variable Name                   | Description                                         |
 ---------------------------------|-----------------------------------------------------
-| HUGO_PARAMS_W3WAPIKEY           | API Token for [What3Words](https://what3words.com/) |
 | HUGO_PARAMS_SEARCHURL           | Base URL for the search API                         |
 | HUGO_PARAMS_RANDOMURL           | Base URL for [Random Sign API](random/README.md)    |
 | HUGO_PARAMS_SEARCHINDEX         | Search index name for signs                         |
