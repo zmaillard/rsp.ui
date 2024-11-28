@@ -25,7 +25,7 @@
   []
   (long-string
      "CREATE VIEW vwSign AS"
-     "SELECT s.imageid, s.title, st.name as state, pl.name as place, ct.name as county, cn.name as country, s.quality"
+     "SELECT s.imageid, s.title, st.name as state, pl.name as place, ct.name as county, cn.name as country"
      "FROM main.sign as s"
      "INNER JOIN main.country as cn ON s.country = cn.slug"
      "INNER JOIN main.state as st ON s.state = st.slug"
