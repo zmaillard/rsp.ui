@@ -57,7 +57,6 @@ jobs:
       - run: npx tailwindcss -i ./assets/css/input.css -o ./assets/css/index.css --jit --minify
       - run: hugo --gc --minify --environment preview
         env:
-          HUGO_PARAMS_W3WAPIKEY: ${{ secrets.HUGO_PARAMS_W3WAPIKEY }}
           HUGO_PARAMS_SEARCHINDEX: ${{ secrets.HUGO_PARAMS_SEARCHINDEX }}
           HUGO_PARAMS_SEARCHINDEXHIGHWAY: ${{ vars.HUGO_PARAMS_SEARCHINDEXHIGHWAY }}
           HUGO_PARAMS_SEARCHKEY: ${{ secrets.HUGO_PARAMS_SEARCHKEY }}
@@ -123,7 +122,6 @@ jobs:
 
       - run: hugo --gc --minify  --environment production
         env:
-          HUGO_PARAMS_W3WAPIKEY: ${{ secrets.HUGO_PARAMS_W3WAPIKEY }}
           HUGO_PARAMS_SEARCHINDEX: ${{ secrets.HUGO_PARAMS_SEARCHINDEX }}
           HUGO_PARAMS_SEARCHINDEXHIGHWAY: ${{ vars.HUGO_PARAMS_SEARCHINDEXHIGHWAY }}
           HUGO_PARAMS_SEARCHKEY: ${{ secrets.HUGO_PARAMS_SEARCHKEY }}
