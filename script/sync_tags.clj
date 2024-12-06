@@ -21,6 +21,8 @@
   (let [id (biginteger imageid)]
     (pg/execute! core/db ["INSERT INTO sign.tag_highwaysign (tag_id, highwaysign_id) VALUES (?, (SELECT id from sign.highwaysign where imageid = ?))" tagid id])))
 
+(defn cl-print [x] (doto x (print)))
+
 (defn get-tag-ids
   [tag-sets]
   (let [db-tags (reduce #(union %1 %2) #{} (map #(:db-tags %1) tag-sets))
@@ -44,7 +46,9 @@
   [& _args]
   (let [signs (map (fn [s] {:imageid (:annotation s) :eagle-tags (set (:tags s))})  (core/get-imported-signs))
         ext-signs (map (fn [s] {:imageid (:imageid s) :db-tags (set (:vwindexsign/tagitems s))}) (core/get-signs))
-        changed (filter (fn [x] (seq (difference (:eagle-tags x) (:db-tags x))))  (join signs ext-signs))
+        changed-one (filter (fn [x] (seq (difference (:eagle-tags x) (:db-tags x))))  (join  ext-signs signs))
+        changed-two (filter (fn [x] (seq (difference  (:db-tags x)(:eagle-tags x))))  (join  ext-signs signs))
+        changed (concat changed-one changed-two)
         tag-ids (transform-tags(get-tag-ids changed))]
     (println tag-ids)
     (doseq [to-update changed]
