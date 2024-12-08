@@ -29,19 +29,17 @@
                 <img
                         src="https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/geojson(%7B%22type%22%3A%22Point%22%2C%22coordinates%22%3A%5B{{.longitude}}%2C{{.latitude}}%20%5D%7D)/{{.longitude}},{{.latitude}},11/1024x200?access_token=pk.eyJ1Ijoic2FnZWJydXNoZ2lzIiwiYSI6ImNqZnQxMjdodDA0Y28zNHB0OXpvNnMyYjQifQ.ut3IkXblOzLoHDYQzymKhQ">
                 {{ end }}
-                <div class="gap-8 sm:grid sm:grid-cols-2">
-                    {{ with .Params.point }}
-                    {{$latitude := .latitude }}
-                    {{$longitude := .longitude }}
-                    {{ $nearbyPage := printf "/%s" "nearby"  }}
-                    {{ with $.Site.GetPage $nearbyPage}}
-                    {{$link := printf "$s?lat=%v&lng=%v" .RelPermalink $latitude $longitude}}
-                    <div class="underline hover:no-underline text-xs justify-self-end text-gray-700 dark:text-gray-400 ">
-                            <a href="{{.RelPermalink}}?lat={{$latitude}}&lng={{$longitude}}">Nearby Signs</a>
-                            </div>
-                    {{end}}
-                    {{end}}
+                {{ with .Params.point }}
+                {{$latitude := .latitude }}
+                {{$longitude := .longitude }}
+                {{ $nearbyPage := printf "/%s" "nearby"  }}
+                {{ with $.Site.GetPage $nearbyPage}}
+                {{$link := printf "$s?lat=%v&lng=%v" .RelPermalink $latitude $longitude}}
+                <div class="underline hover:no-underline text-xs justify-self-end text-gray-700 dark:text-gray-400 ">
+                    <a href="{{.RelPermalink}}?lat={{$latitude}}&lng={{$longitude}}">Nearby Signs</a>
                 </div>
+                {{end}}
+                {{end}}
             </div>
             {{ with .Params.tags }}
             <div class="flex flex-wrap">

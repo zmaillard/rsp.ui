@@ -84,33 +84,25 @@
      :name (:vwindexsign/title sign)
      :tags (:vwindexsign/tagitems sign)
      :annotation (:imageid sign)
-     :folderId folderId}))
+     :folderId (:id folderId)}))
 
 (defn add-sign
   [sign folders]
   (let [req (json/encode (build-request sign folders))]
+    (println req)
     (-> (http/post (str base-eagle-url "/api/item/addFromPath")
-                   {:headers {:content-type "application/json"}
-                    :body req
-                    :query-params {:token eagle-token}})
+                  {:headers {:content-type "application/json"}
+                   :body req
+                   :query-params {:token eagle-token}})
         (get :body)
         (json/parse-string true)
         (get :status))))
-
-
-
-(defn batch-update-quality
-  [& _args]
-  (let [signs (get-imported-signs)]
-    (doseq [{quality :star imageid :annotation } signs]
-      (core/update-quality imageid quality))))
 
 
 (defn -main
   [& _args]
   (let [signs (find-new-signs (get-imported-signs) (get-signs))
         folders (list-folders)]
-    (println (count signs))
     (doseq [sign signs]
       (println (add-sign sign folders)))))
   
