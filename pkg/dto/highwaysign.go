@@ -36,6 +36,7 @@ type HighwaySignDto struct {
 	Tags                 []string `yaml:"tags"`
 	Categories           []string `yaml:"categories,omitempty"`
 	Quality              int      `yaml:"quality"`
+	PlusCode             string   `yaml:"plusCode"`
 }
 
 func (s HighwaySignDto) OutFile() string {

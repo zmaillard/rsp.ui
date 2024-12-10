@@ -3,6 +3,7 @@ package models
 import (
 	"encoding/json"
 	"fmt"
+	pluscode "github.com/google/open-location-code/go"
 	"github.com/lib/pq"
 	"github.com/mmcloughlin/geohash"
 	"highway-sign-portal-builder/pkg/dto"
@@ -76,6 +77,7 @@ func (s HighwaySign) ConvertToDto() generator.Generator {
 		ImageHeight:          s.ImageHeight,
 		Quality:              s.Quality,
 		Tags:                 s.Tags,
+		PlusCode:             s.BuildPlusCode(),
 	}
 
 	// Add state name to categories
@@ -87,6 +89,10 @@ func (s HighwaySign) ConvertToDto() generator.Generator {
 
 	highwaySignDto.Categories = cats
 	return highwaySignDto
+}
+
+func (s HighwaySign) BuildPlusCode() string {
+	return pluscode.Encode(s.Y(), s.X(), 10)
 }
 
 type HighwaySigns []HighwaySign
