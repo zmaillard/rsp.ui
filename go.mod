@@ -3,6 +3,7 @@ module highway-sign-portal-builder
 go 1.20
 
 require (
+	github.com/google/open-location-code/go v0.0.0-20241206115931-b6937486c621
 	github.com/lib/pq v1.10.7
 	github.com/mmcloughlin/geohash v0.10.0
 	github.com/spf13/viper v1.16.0
