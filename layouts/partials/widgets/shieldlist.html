@@ -8,7 +8,8 @@
 {{ with $.Site.GetPage $path }}
 
 {{ $borderClass :=  cond (in $toHighways  $slug  ) "border-dotted border-2 border-gray-500 dark:border-sky-500" "" }}
-<a href="{{.RelPermalink}}#{{$featId}}"><img class="inline {{$borderClass}}"
+{{ $isTo := in $toHighways  $slug  }}
+<a itemprop="highway" data-highway-name="{{ .Params.name }}" data-highway-isto="{{ $isTo }}" href="{{.RelPermalink}}#{{$featId}}"><img class="inline {{$borderClass}}"
         src="{{ site.Params.SHIELDBASEURL }}Shields/20x/{{ .Params.imagename }}"
                                              onerror="this.onerror=null; this.remove();"
                                              alt="{{ .Params.name }}"></a>

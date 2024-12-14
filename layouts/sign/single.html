@@ -1,7 +1,7 @@
 {{ define "main" }}
 <section class="container mx-auto">
     <div class="flex justify-center">
-        <div
+        <div itemscope
                 class="max-w-2xl bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
 
             {{ $signpage := printf "/%s/%s" "sign" .Params.imageid }}
@@ -18,10 +18,10 @@
             {{ end }}
 
             <div class="p-5">
-                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ .Title}}</h5>
-                <div class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{ .Content }}</div>
+                <h5 itemprop="title" class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ .Title}}</h5>
+                <div itemprop="description" class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{ .Content }}</div>
                 {{ with .Params.date}}
-                <p class="mb-3 font-normal text-xs  text-gray-700 dark:text-gray-400">Taken {{ .Format "01-02-2006"}}</p>
+                <p itemprop="datetaken" class="mb-3 font-normal text-xs  text-gray-700 dark:text-gray-400">Taken {{ .Format "01-02-2006"}}</p>
                 {{ end }}
             </div>
             <div class="p-5">
@@ -33,9 +33,11 @@
                 {{ end }}
                 <div class="gap-8 sm:grid sm:grid-cols-2">
                     <div class="underline hover:no-underline text-xs justify-self-start text-gray-700 dark:text-gray-400 ">
-                        <a target="_blank" href="https://www.google.com/maps/search/?api=1&query={{$plusCode}}">{{$plusCode}}</a>
+                        <a itemprop="pluscode" target="_blank" href="https://www.google.com/maps/search/?api=1&query={{$plusCode}}">{{$plusCode}}</a>
                     </div>
                 {{ with .Params.point }}
+                    <meta itemprop="latitude" content="{{.latitude}}" />
+                    <meta itemprop="longitude" content="{{.longitude}}" />
                 {{$latitude := .latitude }}
                 {{$longitude := .longitude }}
                 {{ $nearbyPage := printf "/%s" "nearby"  }}
@@ -57,7 +59,7 @@
                     {{ with $.Site.GetPage $path }}
                     {{ $tagDisplay := index  $.Site.Data.tags $tagName }}
                     <a href="{{.RelPermalink}}">
-                        <span
+                        <span itemprop="tag"
                                 class="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-400 border border-gray-500">{{ $tagDisplay }}</span>
                     </a>
                     {{ end }}
@@ -66,7 +68,7 @@
             </div>
                     {{ end }}
             <div class="flex flex-wrap">
-                <div class="p-5">
+                <div itemscope class="p-5">
                     {{ partial "widgets/shieldlist.html" . }}
 
                     <svg class="w-4 h-4 inline text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 21">
