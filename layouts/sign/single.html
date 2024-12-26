@@ -57,10 +57,10 @@
                     {{ $tagName := . }}
                     {{ $path := printf "/%s/%s" "tags" $tagName }}
                     {{ with $.Site.GetPage $path }}
-                    {{ $tagDisplay := index  $.Site.Data.tags $tagName }}
+                    {{ $tagDisplay := index (where  $.Site.Data.tags "slug" $tagName) 0 }}
                     <a href="{{.RelPermalink}}">
                         <span itemprop="tag"
-                                class="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-400 border border-gray-500">{{ $tagDisplay }}</span>
+                                class="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-400 border border-gray-500">{{ $tagDisplay.name }}</span>
                     </a>
                     {{ end }}
                     {{ end }}
