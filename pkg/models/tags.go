@@ -8,11 +8,12 @@ import (
 type Tags []Tag
 
 type Tag struct {
-	Id           uint   `gorm:"column:id" json:"id"`
-	Name         string `gorm:"column:name" json:"name"`
-	Slug         string `gorm:"column:slug" json:"slug"`
-	IsFlickrOnly bool   `gorm:"column:flickr_only" json:"-"`
-	IsCategory   bool   `gorm:"column:is_category" json:"isCategory"`
+	Id              uint    `gorm:"column:id" json:"id"`
+	Name            string  `gorm:"column:name" json:"name"`
+	Slug            string  `gorm:"column:slug" json:"slug"`
+	IsFlickrOnly    bool    `gorm:"column:flickr_only" json:"-"`
+	IsCategory      bool    `gorm:"column:is_category" json:"isCategory"`
+	CategoryDetails *string `gorm:"column:category_details" json:"categoryDetails"`
 }
 
 func (t *Tag) MarshalJSON() ([]byte, error) {

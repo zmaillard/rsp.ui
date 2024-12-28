@@ -112,10 +112,11 @@
             {{ $categoryPath := printf "/%s/%s" "categories" . }}
             {{ with $.Site.GetPage $categoryPath }}
             {{ $tokens := split .Title "_" }}
-            {{ $categoryRecord := index  $.Site.Data.category (index $tokens 1) }}
+
+            {{ $categoryRecord := index (and (where $.Site.Data.tags "isCategory" true) (where $.Site.Data.tags "slug" (strings.ToLower (index $tokens 1)))) 0 }}
             <li>
                 <a class="font-medium text-blue-600 dark:text-blue-500 hover:underline" href="{{.RelPermalink}}">
-                    {{ $categoryRecord.name }}
+                    {{ $categoryRecord.categoryDetails }}
                 </a>
                 <span class="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300">{{ len .Pages }}</span>
             </li>
