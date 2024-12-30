@@ -13,7 +13,7 @@
 
 {{ if not (in $trackDates $tagDate) }}
 {{ $trackDates = $trackDates | append $tagDate }}
-{{ $s.Set $tagDate $curPage }}
+{{ $s.Set $tagDate (sub $curPage 1) }}
 {{ end }}
 
 {{ end }}
@@ -52,12 +52,13 @@
                               stroke-width="2" d="m1 9 4-4-4-4" />
                     </svg>
                     <span
-                            class="ml-1 text-sm font-medium text-gray-500 md:ml-2 dark:text-gray-400">{{$tagPage.name}}</span>
+                            class="ml-1 text-sm font-medium text-gray-500 md:ml-2 dark:text-gray-400">{{or $tagPage.categoryDetails $tagPage.name}}</span>
                 </div>
             </li>
         </ol>
     </nav>
-    {{ $title := printf "Signs Tagged With %s" $tagPage.name }}
+    {{ $title := printf "Signs Tagged With %s" (or $tagPage.categoryDetails $tagPage.name ) }}
+
     {{ template "partials/widgets/pagetitle.html" $title }}
         {{ range .Paginator.Pages }}
         {{ partial "sign/summary.html" .  }}

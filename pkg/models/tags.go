@@ -21,17 +21,33 @@ func (t *Tag) MarshalJSON() ([]byte, error) {
 	return json.Marshal(&struct {
 		*Alias
 		Grouper string `json:"grouper"`
+		Display string `json:"display"`
 	}{
 		Alias:   (*Alias)(t),
 		Grouper: t.GetGrouper(),
+		Display: t.GetDisplayName(),
 	})
 }
 
+func (t *Tag) GetDisplayName() string {
+	if t.IsCategory && t.CategoryDetails != nil {
+		return *t.CategoryDetails
+	}
+	return t.Name
+}
+
 func (t *Tag) GetGrouper() string {
-	if t.Name == "" {
+	if t.Name == "" && (t.IsCategory && t.CategoryDetails == nil) {
 		return ""
 	}
-	first := t.Name[0:1]
+	var title string
+	if t.IsCategory && t.CategoryDetails != nil {
+		title = *t.CategoryDetails
+	} else {
+		title = t.Name
+	}
+
+	first := title[0:1]
 	if first >= "0" && first <= "9" {
 		return "0-9"
 	}
