@@ -3,7 +3,6 @@
 @tailwind utilities;
 
 ul.browse-flat-list li:first-child a:before { content: ''; }
-ul.page-flat-list li:first-child { list-style-type: none; }
 
 
 /* about page */
