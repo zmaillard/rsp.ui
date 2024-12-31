@@ -35,6 +35,11 @@
          new-signs
          (recur (+ offset 1) new-signs))))))
 
-
+(defn get-tag-groups
+  []
+  (->
+    (http/get (str base-eagle-url "/api/library/info"){:query-params {:token eagle-token}})
+    (as-> r (json/parse-string (:body r) true))
+    (get-in [:data :tagsGroups])))
 
 

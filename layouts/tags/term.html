@@ -1,6 +1,23 @@
 {{ define "main"}}
 
-{{ $name := index  $.Site.Data.tags .Title }}
+{{- /* Build Up Date Ranges For Tag Quick Links */ -}}
+{{ $pageSize := 25 }}
+{{ $s := newScratch }}
+{{ $trackDates := slice }}
+{{ $pages := .Pages.ByDate.Reverse }}
+{{ $allPages := seq 1 (.Paginate $pages $pageSize).TotalPages }}
+{{ range $allPages }}
+{{ $curPage := . }}
+
+{{ $tagDate := dateFormat "2006" (index $pages (mul (sub $curPage 1) $pageSize)).Params.Date }}
+
+{{ if not (in $trackDates $tagDate) }}
+{{ $trackDates = $trackDates | append $tagDate }}
+{{ $s.Set $tagDate (sub $curPage 1) }}
+{{ end }}
+
+{{ end }}
+{{ $tagPage := index (where $.Site.Data.tags "slug" (strings.ToLower .Title)) 0 }}
 <section class="container mx-auto">
     <!-- Breadcrumb -->
     <nav class="flex pb-5" aria-label="Breadcrumb">
@@ -35,18 +52,33 @@
                               stroke-width="2" d="m1 9 4-4-4-4" />
                     </svg>
                     <span
-                            class="ml-1 text-sm font-medium text-gray-500 md:ml-2 dark:text-gray-400">{{$name}}</span>
+                            class="ml-1 text-sm font-medium text-gray-500 md:ml-2 dark:text-gray-400">{{or $tagPage.categoryDetails $tagPage.name}}</span>
                 </div>
             </li>
         </ol>
     </nav>
-    {{ $title := printf "Signs Tagged With %s" $name }}
+    {{ $title := printf "Signs Tagged With %s" (or $tagPage.categoryDetails $tagPage.name ) }}
+
     {{ template "partials/widgets/pagetitle.html" $title }}
-
-
         {{ range .Paginator.Pages }}
         {{ partial "sign/summary.html" .  }}
         {{ end }}
+
+
+    {{ if gt .Paginator.TotalPages 2 }}
+    <div class="flex justify-center pb-3">
+    <div class="max-w-2xl p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+        <h4 class="text-2xl font-bold dark:text-white">Jump To Year</h4>
+        <ul class="flex flex-wrap items-center justify-center text-gray-900 dark:text-white">
+            {{ range $trackDates }}
+            <li class="">
+                <a class="me-2 md:me-4 font-medium text-blue-600 dark:text-blue-500 hover:underline" href="{{ (index $.Paginator.Pagers ($s.Get . )).URL }}">{{ . }}</a>
+            </li>
+            {{ end }}
+        </ul>
+    </div>
+    </div>
+    {{ end }}
 
     {{ template "partials/widgets/pagination.html" . }}
 </section>

@@ -1,7 +1,9 @@
 {{ define "main"}}
 
 {{ $tokens := split .Title "_" }}
-{{ $categoryNameRecord := index  $.Site.Data.category (index $tokens 1) }}
+
+{{ $categoryNameRecord := index (and (where $.Site.Data.tags "isCategory" true) (where $.Site.Data.tags "slug" (strings.ToLower (index $tokens 1)))) 0 }}
+
 {{ $statePath := printf "/%s/%s" "state" (index $tokens 0) }}
 {{ $state := $.Site.GetPage $statePath }}
 {{ $stateName := $state.Params.name }}
@@ -53,12 +55,12 @@
                               stroke-width="2" d="m1 9 4-4-4-4" />
                     </svg>
                     <span
-                            class="ml-1 text-sm font-medium text-gray-500 md:ml-2 dark:text-gray-400">{{$categoryNameRecord.name}}</span>
+                            class="ml-1 text-sm font-medium text-gray-500 md:ml-2 dark:text-gray-400">{{$categoryNameRecord.categoryDetails}}</span>
                 </div>
             </li>
         </ol>
     </nav>
-    {{ $title := printf "%s Signs In %s" $categoryNameRecord.name $stateName }}
+    {{ $title := printf "%s Signs In %s" $categoryNameRecord.categoryDetails $stateName }}
     {{ template "partials/widgets/pagetitle.html" $title }}
 
 

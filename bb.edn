@@ -20,7 +20,9 @@
                                     :doc "Update Quality for each image"}
          sync-tags {:task sync-tags/-main 
                                  :doc "Update Tags that do not match"}
-         eagle-export-tags {:task eagle-export-tags/-main 
+         sync-categories {:task sync-category/-main
+                                 :doc "Update tags with correct category flag"}
+         eagle-export-tags {:task eagle-export-tags/-main
                             :doc "Export csv file for bulk tag updates"}
          export-bot-database {:task sql-bot/-main
                               :doc "Export bot database"}
