@@ -37,7 +37,7 @@
                     <a href="{{$statePage.RelPermalink}}" class="mr-4 hover:underline md:mr-6 ">States</a>
                 </li>
                 <li>
-                    {{ $hwyPagePath := printf "/%s" "highwaytype" }}
+                    {{ $hwyPagePath := printf "/%s" "highway" }}
                     {{ $hwyPage := $.Site.GetPage $hwyPagePath }}
                     <a href="{{$hwyPage.RelPermalink}}" class="mr-4 hover:underline md:mr-6 ">Highways</a>
                 </li>

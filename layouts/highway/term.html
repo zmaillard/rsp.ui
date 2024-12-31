@@ -94,17 +94,18 @@
     {{ end }}
     {{ end }}
     {{ $totalList.Set (string $idx) $listOfStates }}
+        <h2 class="text-2xl font-bold dark:text-white text-center ">
 
         {{ $prettyState := slice }}
-        {{ range $orderedStates }}
-        {{ $statePagePath := printf "/%s/%s" "state" . }}
+        {{ $orLen := len $orderedStates }}
+        {{ range $orIdx, $orSt := $orderedStates }}
+        {{ $statePagePath := printf "/%s/%s" "state" $orSt }}
         {{ with $.Site.GetPage $statePagePath }}
-        {{ $anchor := (printf "<a class='text-blue-600 dark:text-blue-500 hover:underline' href='#%s'>%s</a>" .Params.slug .Params.name )  }}
-
-        {{ $prettyState = $prettyState | append $anchor }}
+        <a class='text-blue-600 dark:text-blue-500 hover:underline' href='{{.Params.slug}}'>{{.Params.name}}</a>
+        {{ if lt (add $orIdx 2) $orLen }}, {{else if lt (add $orIdx 1) $orLen }} and {{ end }}
         {{ end }}
         {{ end }}
-        <h2 class="text-2xl font-bold dark:text-white text-center ">{{ delimit $prettyState ", " " and "}}</h2>
+        </h2>
     </div>
     {{ range $k, $v :=  $orderedStates }}
     {{ $scratchIndex := (string (add $k 1)) }}
