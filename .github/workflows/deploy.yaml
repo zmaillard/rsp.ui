@@ -160,6 +160,7 @@ jobs:
           AWS_ENDPOINT_URL: ${{ vars.CLOUDFLARE_R2_ENDPOINT }}
 
       - uses: superfly/flyctl-actions/setup-flyctl@master
+        if: always()
 
       - run: flyctl deploy -c fly.production.toml --remote-only
         env:
