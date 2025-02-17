@@ -101,7 +101,7 @@
         {{ range $orIdx, $orSt := $orderedStates }}
         {{ $statePagePath := printf "/%s/%s" "state" $orSt }}
         {{ with $.Site.GetPage $statePagePath }}
-        <a class='text-blue-600 dark:text-blue-500 hover:underline' href='{{.Params.slug}}'>{{.Params.name}}</a>
+        <a class='text-blue-600 dark:text-blue-500 hover:underline' href='#{{.Params.slug}}'>{{.Params.name}}</a>
         {{ if lt (add $orIdx 2) $orLen }}, {{else if lt (add $orIdx 1) $orLen }} and {{ end }}
         {{ end }}
         {{ end }}
