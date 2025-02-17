@@ -96,7 +96,7 @@ jobs:
         run: bb export-bot-database
       - name: Upload Bot Index To Cloudflare
         continue-on-error: true
-        run: aws s3 cp bot.db s3://bot/bot.db
+        run: aws s3 cp bot.db s3://bot/bot.db --checksum-algorithm CRC32
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.CLOUDFLARE_R2_USER }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.CLOUDFLARE_R2_SECRET }}
