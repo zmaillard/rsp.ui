@@ -1,3 +1,5 @@
+-- +goose Up
+-- +goose StatementBegin
 create view sign.vwhugohighwaytype
             (id, highway_type_name, highway_type_slug, sort, imagecount, imageid, highways, country) as
 SELECT ht.id,
@@ -22,3 +24,9 @@ FROM sign.highway_type ht
                            array_agg(highway.slug) AS highways
                     FROM sign.highway
                     GROUP BY highway.highway_type_id) highwayagg ON ht.id = highwayagg.highway_type_id;
+-- +goose StatementEnd
+
+-- +goose Down
+-- +goose StatementBegin
+drop view sign.vwhugohighwaytype;
+-- +goose StatementEnd

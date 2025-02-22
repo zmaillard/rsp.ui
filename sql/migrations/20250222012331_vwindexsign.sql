@@ -1,6 +1,9 @@
+-- +goose Up
+-- +goose StatementBegin
 create view sign.vwindexsign
             (imageid, title, sign_description, date_taken, country_slug, country_name, state_slug, state_name,
-             county_name, county_slug, place_name, place_slug, tagitems, hwys, point, last_indexed, last_update)
+             county_name, county_slug, place_name, place_slug, tagitems, hwys, point, last_indexed, last_update,
+             quality)
 as
 SELECT hs.imageid,
        hs.title,
@@ -18,7 +21,8 @@ SELECT hs.imageid,
        hwylist.hwys,
        hs.point,
        hs.last_indexed,
-       hs.last_update
+       hs.last_update,
+       hs.quality
 FROM sign.highwaysign hs
          JOIN sign.admin_area_country aac ON aac.id = hs.admin_area_country_id
          JOIN sign.admin_area_state aas ON aas.id = hs.admin_area_state_id
@@ -34,3 +38,9 @@ FROM sign.highwaysign hs
                     FROM sign.highwaysign_highway
                              JOIN sign.highway ON highwaysign_highway.highway_id = highway.id
                     GROUP BY highwaysign_highway.highwaysign_id) hwylist ON hs.id = hwylist.highwaysign_id;
+-- +goose StatementEnd
+
+-- +goose Down
+-- +goose StatementBegin
+drop view sign.vwindexsign;
+-- +goose StatementEnd

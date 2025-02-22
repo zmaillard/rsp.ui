@@ -1,3 +1,5 @@
+-- +goose Up
+-- +goose StatementBegin
 create function sign.get_first_highway(highway integer)
     returns TABLE(prev_feat integer, next_feat integer)
     language plpgsql
@@ -25,3 +27,9 @@ BEGIN
         select from_feature as f, to_feature as t from all_features;
 END
 $$;
+-- +goose StatementEnd
+
+-- +goose Down
+-- +goose StatementBegin
+drop function sign.get_first_highway;
+-- +goose StatementEnd

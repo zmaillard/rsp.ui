@@ -1,3 +1,5 @@
+-- +goose Up
+-- +goose StatementBegin
 create view sign.vwhugocountry
             (id, country_name, country_slug, subdivision_name, image_count, states, featured, highway_types) as
 SELECT country.id,
@@ -31,3 +33,9 @@ FROM sign.admin_area_country country
                                    JOIN sign.highwaysign hs_1 ON hsh.highwaysign_id = hs_1.id) uniquetypes
                     GROUP BY uniquetypes.admin_area_country_id) highwaytypes
                    ON country.id = highwaytypes.admin_area_country_id;
+-- +goose StatementEnd
+
+-- +goose Down
+-- +goose StatementBegin
+drop view sign.vwhugocountry;
+-- +goose StatementEnd

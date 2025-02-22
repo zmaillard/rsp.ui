@@ -1,3 +1,5 @@
+-- +goose Up
+-- +goose StatementBegin
 create view sign.vwhugohighway
             (id, highway_name, slug, sort_number, image_name, highway_type_slug, highway_type_name, states, counties,
              places, previous_features, next_features)
@@ -42,3 +44,9 @@ FROM sign.highway hwy
                              LEFT JOIN sign.admin_area_state states ON h.admin_area_state_id = states.id
                     GROUP BY hs.highway_id) hwyplaces ON hwy.id = hwyplaces.highway_id
 WHERE hwyplaces.allstates IS NOT NULL;
+-- +goose StatementEnd
+
+-- +goose Down
+-- +goose StatementBegin
+drop view sign.vwhugohighway;
+-- +goose StatementEnd

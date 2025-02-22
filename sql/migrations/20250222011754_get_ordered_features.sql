@@ -1,3 +1,5 @@
+-- +goose Up
+-- +goose StatementBegin
 create function sign.get_ordered_features(highway integer, feature integer)
     returns TABLE(prev_feat integer, next_feat integer)
     language plpgsql
@@ -27,3 +29,9 @@ BEGIN
         SELECT from_feature_id, to_feature_id from ordered_features;
 END
 $$;
+-- +goose StatementEnd
+
+-- +goose Down
+-- +goose StatementBegin
+drop function sign.get_ordered_features;
+-- +goose StatementEnd

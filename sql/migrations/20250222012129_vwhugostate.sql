@@ -1,3 +1,5 @@
+-- +goose Up
+-- +goose StatementBegin
 create view sign.vwhugostate
             (id, state_name, state_slug, subdivision_name, image_count, highways, places, counties, featured,
              country_slug, categories)
@@ -43,3 +45,9 @@ FROM sign.admin_area_state state
                     GROUP BY a.admin_area_state_id) categories ON state.id = categories.admin_area_state_id
          LEFT JOIN sign.highwaysign hs ON state.featured_sign_id = hs.id
          JOIN sign.admin_area_country c ON state.adminarea_country_id = c.id;
+-- +goose StatementEnd
+
+-- +goose Down
+-- +goose StatementBegin
+drop view sign.vwhugostate;
+-- +goose StatementEnd

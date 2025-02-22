@@ -1,3 +1,5 @@
+-- +goose Up
+-- +goose StatementBegin
 create view sign.vwhugofeature (id, point, name, signs, state_name, state_slug, country_name, country_slug) as
 SELECT f.id,
        f.point,
@@ -14,3 +16,9 @@ FROM sign.feature f
                     GROUP BY hs.feature_id) signs ON f.id = signs.feature_id
          LEFT JOIN sign.admin_area_country c ON f.admin_area_country_id = c.id
          LEFT JOIN sign.admin_area_state s ON f.admin_area_state_id = s.id;
+-- +goose StatementEnd
+
+-- +goose Down
+-- +goose StatementBegin
+DROP view sign.vwhugofeature;
+-- +goose StatementEnd

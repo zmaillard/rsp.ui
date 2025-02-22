@@ -1,3 +1,5 @@
+-- +goose Up
+-- +goose StatementBegin
 create view sign.vwhugohighwaysign
             (id, title, sign_description, feature_id, date_taken, imageid, flickrid, point, country_slug, state_slug,
              place_slug, county_slug, tags, categories, highways, is_to, image_height, image_width, quality)
@@ -52,4 +54,9 @@ FROM sign.highwaysign hs
                              JOIN sign.highway h ON hhs.highway_id = h.id
                              JOIN sign.highway_type ht ON h.highway_type_id = ht.id
                     GROUP BY hhs.highwaysign_id) hwyjoin ON hs.id = hwyjoin.highwaysign_id;
+-- +goose StatementEnd
 
+-- +goose Down
+-- +goose StatementBegin
+drop view sign.vwhugohighwaysign;
+-- +goose StatementEnd
