@@ -9,3 +9,51 @@ sql:
         out: "pkg/db"
         sql_package: "pgx/v5"
         emit_interface: true
+        overrides:
+          - column: "sign.vwhugostate.highways"
+            go_type:
+              slice: true
+              type: string
+          - column: "sign.vwhugostate.categories"
+            go_type:
+              slice: true
+              type: string
+          - column: "sign.vwhugostate.counties"
+            go_type:
+              slice: true
+              import: "highway-sign-portal-builder/pkg/models"
+              type: adminArea
+          - column: "sign.vwhugostate.places"
+            go_type:
+              slice: true
+              import: "highway-sign-portal-builder/pkg/models"
+              type: adminArea
+          - column: "sign.vwhugocountry.highway_types"
+            go_type:
+              slice: true
+              import: "highway-sign-portal-builder/pkg/models"
+              type: adminArea
+          - column: "sign.vwhugocountry.states"
+            go_type:
+              slice: true
+              import: "highway-sign-portal-builder/pkg/models"
+              type: adminArea
+
+
+
+
+#        version: "2"
+#        sql:
+#          - schema: "postgresql/schema.sql"
+#            queries: "postgresql/query.sql"
+#            engine: "postgresql"
+#            gen:
+#              go:
+#                package: "authors"
+#                out: "db"
+#                sql_package: "pgx/v5"
+#                overrides:
+#                  - db_type: "uuid"
+#                    go_type:
+#                      import: "github.com/google/uuid"
+#                      type: "UUID"
