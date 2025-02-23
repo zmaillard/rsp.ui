@@ -23,10 +23,10 @@ func (Country) TableName() string {
 }
 
 func (c Country) ConvertToDto() generator.Generator {
-	var states []adminArea
+	var states []AdminArea
 	_ = json.Unmarshal(c.States, &states)
 
-	var highwayTypes []adminArea
+	var highwayTypes []AdminArea
 	_ = json.Unmarshal(c.HighwayTypes, &highwayTypes)
 
 	return dto.AdminAreaCountryDto{
@@ -35,13 +35,13 @@ func (c Country) ConvertToDto() generator.Generator {
 		SubdivisionName: c.SubdivisionName,
 		ImageCount:      c.ImageCount,
 		Featured:        c.Featured,
-		States: util.SliceMap(states, func(state adminArea) dto.AdminAreaSlimDto {
+		States: util.SliceMap(states, func(state AdminArea) dto.AdminAreaSlimDto {
 			return dto.AdminAreaSlimDto{
 				Name: state.Name,
 				Slug: state.Slug,
 			}
 		}),
-		HighwayTypes: util.SliceMap(highwayTypes, func(ht adminArea) dto.AdminAreaSlimDto {
+		HighwayTypes: util.SliceMap(highwayTypes, func(ht AdminArea) dto.AdminAreaSlimDto {
 			return dto.AdminAreaSlimDto{
 				Name: ht.Name,
 				Slug: ht.Slug,

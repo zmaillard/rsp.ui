@@ -22,22 +22,26 @@ sql:
             go_type:
               slice: true
               import: "highway-sign-portal-builder/pkg/models"
-              type: adminArea
+              type: AdminArea
           - column: "sign.vwhugostate.places"
             go_type:
               slice: true
               import: "highway-sign-portal-builder/pkg/models"
-              type: adminArea
+              type: AdminArea
           - column: "sign.vwhugocountry.highway_types"
             go_type:
               slice: true
               import: "highway-sign-portal-builder/pkg/models"
-              type: adminArea
+              type: AdminArea
           - column: "sign.vwhugocountry.states"
             go_type:
               slice: true
               import: "highway-sign-portal-builder/pkg/models"
-              type: adminArea
+              type: AdminArea
+          - column: "sign.vwhugocountry.featured"
+            go_type:
+              import: "highway-sign-portal-builder/pkg/types"
+              type: ImageID
 
 
 

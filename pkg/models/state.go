@@ -27,16 +27,16 @@ func (State) TableName() string {
 	return "sign.vwhugostate"
 }
 
-type adminArea struct {
+type AdminArea struct {
 	Name string `json:"name"`
 	Slug string `json:"slug"`
 }
 
 func (s State) ConvertToDto() generator.Generator {
-	var counties []adminArea
+	var counties []AdminArea
 	_ = json.Unmarshal(s.Counties, &counties)
 
-	var places []adminArea
+	var places []AdminArea
 	_ = json.Unmarshal(s.Places, &places)
 	stateDto := dto.AdminAreaStateDto{
 		Name:            s.Name,
@@ -48,13 +48,13 @@ func (s State) ConvertToDto() generator.Generator {
 		Highways:        s.Highways,
 		CountrySlug:     s.CountrySlug,
 		Featured:        s.Featured,
-		Counties: util.SliceMap(counties, func(county adminArea) dto.AdminAreaSlimDto {
+		Counties: util.SliceMap(counties, func(county AdminArea) dto.AdminAreaSlimDto {
 			return dto.AdminAreaSlimDto{
 				Name: county.Name,
 				Slug: county.Slug,
 			}
 		}),
-		Places: util.SliceMap(places, func(place adminArea) dto.AdminAreaSlimDto {
+		Places: util.SliceMap(places, func(place AdminArea) dto.AdminAreaSlimDto {
 			return dto.AdminAreaSlimDto{
 				Name: place.Name,
 				Slug: place.Slug,

@@ -7,6 +7,7 @@ package db
 import (
 	"github.com/jackc/pgx/v5/pgtype"
 	"highway-sign-portal-builder/pkg/models"
+	"highway-sign-portal-builder/pkg/types"
 )
 
 type SignAdminAreaCountry struct {
@@ -253,9 +254,9 @@ type SignVwhugocountry struct {
 	CountrySlug     pgtype.Text
 	SubdivisionName pgtype.Text
 	ImageCount      int64
-	States          []models.adminArea
-	Featured        pgtype.Int8
-	HighwayTypes    []models.adminArea
+	States          []models.AdminArea
+	Featured        types.ImageID
+	HighwayTypes    []models.AdminArea
 }
 
 type SignVwhugocounty struct {
@@ -352,8 +353,8 @@ type SignVwhugostate struct {
 	SubdivisionName pgtype.Text
 	ImageCount      int64
 	Highways        []string
-	Places          []models.adminArea
-	Counties        []models.adminArea
+	Places          []models.AdminArea
+	Counties        []models.AdminArea
 	Featured        pgtype.Int8
 	CountrySlug     pgtype.Text
 	Categories      []string
