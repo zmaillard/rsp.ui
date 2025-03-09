@@ -5,9 +5,9 @@ SELECT fl.id,
        fl.from_feature,
        fl.to_feature,
        fl.road_name,
-       highways.highways,
-       tf.point AS to_point,
-       ff.point AS from_point
+       cast(highways.highways as text[]) as highways,
+       cast(tf.point as geometry) AS to_point,
+       cast(ff.point AS geometry)  AS from_point
 FROM sign.feature_link fl
          LEFT JOIN sign.feature tf ON fl.to_feature = tf.id
          LEFT JOIN sign.feature ff ON fl.from_feature = ff.id

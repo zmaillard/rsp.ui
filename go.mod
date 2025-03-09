@@ -1,6 +1,6 @@
 module highway-sign-portal-builder
 
-go 1.20
+go 1.24
 
 require (
 	github.com/google/open-location-code/go v0.0.0-20241206115931-b6937486c621

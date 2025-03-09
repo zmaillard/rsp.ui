@@ -5,13 +5,14 @@ SELECT id, country_name, country_slug, subdivision_name, image_count, states, fe
 SELECT id, county_name, county_slug, image_count, state_name, state_slug FROM sign.vwhugocounty;
 
 -- name: GetHugoHighways :many
-SELECT id, highway_name, slug, sort_number, image_name, highway_type_slug, highway_type_name, states, counties, places, previous_features, next_features FROM sign.vwhugohighway;
+SELECT id, highway_name, slug, sort_number, image_name, highway_type_slug, highway_type_name, cast (states as text[]), cast (counties as text[]), cast (places as text[]), cast (previous_features as int[]), cast (next_features as int[]) FROM sign.vwhugohighway;
+
 
 -- name: GetHugoHighwaySigns :many
 SELECT id, title, sign_description, feature_id, date_taken, imageid, flickrid, point, country_slug, state_slug, place_slug, county_slug, tags, categories, highways, is_to, image_height, image_width, quality FROM sign.vwhugohighwaysign;
 
 -- name: GetHugoHighwayTypes :many
-SELECT id, highway_type_name, highway_type_slug, sort, imagecount, imageid, highways, country FROM sign.vwhugohighwaytype;
+SELECT id, highway_type_name, highway_type_slug, sort, imagecount, imageid, cast(highways as text[]), country FROM sign.vwhugohighwaytype;
 
 -- name: GetHugoPlaces :many
 SELECT id, place_name, place_slug, image_count, state_name, state_slug FROM sign.vwhugoplace;
@@ -20,7 +21,11 @@ SELECT id, place_name, place_slug, image_count, state_name, state_slug FROM sign
 SELECT id, state_name, state_slug, subdivision_name, image_count, highways, featured, country_slug, counties, places, categories FROM sign.vwhugostate;
 
 -- name: GetHugoFeatures :many
-SELECT id, point, name, signs, state_name, state_slug, country_name, country_slug FROM sign.vwhugofeature;
+SELECT id, cast(point as geometry), name, cast(signs as text[]), state_name, state_slug, country_name, country_slug FROM sign.vwhugofeature;
 
 -- name: GetHugoFeatureLinks :many
-SELECT id, id, from_feature, to_feature, road_name, highways, to_point, from_point FROM sign.vwhugofeaturelink;
+SELECT id, from_feature, to_feature, road_name, highways, to_point, from_point FROM sign.vwhugofeaturelink;
+
+-- name: GetHugoTags :many
+select id, name, slug, is_category, category_details from sign.tag;
+

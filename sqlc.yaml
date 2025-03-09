@@ -10,6 +10,8 @@ sql:
         sql_package: "pgx/v5"
         emit_interface: true
         overrides:
+          - db_type: "geometry"
+            go_type: "github.com/twpayne/go-geom.Point"
           - column: "sign.vwhugostate.highways"
             go_type:
               slice: true
@@ -21,27 +23,42 @@ sql:
           - column: "sign.vwhugostate.counties"
             go_type:
               slice: true
-              import: "highway-sign-portal-builder/pkg/models"
+              import: "highway-sign-portal-builder/pkg/types"
               type: AdminArea
           - column: "sign.vwhugostate.places"
             go_type:
               slice: true
-              import: "highway-sign-portal-builder/pkg/models"
+              import: "highway-sign-portal-builder/pkg/types"
               type: AdminArea
           - column: "sign.vwhugocountry.highway_types"
             go_type:
               slice: true
-              import: "highway-sign-portal-builder/pkg/models"
+              import: "highway-sign-portal-builder/pkg/types"
               type: AdminArea
           - column: "sign.vwhugocountry.states"
             go_type:
               slice: true
-              import: "highway-sign-portal-builder/pkg/models"
+              import: "highway-sign-portal-builder/pkg/types"
               type: AdminArea
+          - column: "sign.vwhugohighwaysign.imageid"
+            go_type:
+              import: "highway-sign-portal-builder/pkg/types"
+              type: ImageID
+          - column: "sign.vwhugohighwaytype.imageid"
+            go_type:
+              import: "highway-sign-portal-builder/pkg/types"
+              type: ImageID
+              pointer: true
           - column: "sign.vwhugocountry.featured"
             go_type:
               import: "highway-sign-portal-builder/pkg/types"
               type: ImageID
+              pointer: true
+          - column: "sign.vwhugostate.featured"
+            go_type:
+              import: "highway-sign-portal-builder/pkg/types"
+              type: ImageID
+              pointer: true
 
 
 

@@ -6,7 +6,7 @@ package db
 
 import (
 	"github.com/jackc/pgx/v5/pgtype"
-	"highway-sign-portal-builder/pkg/models"
+	"github.com/twpayne/go-geom"
 	"highway-sign-portal-builder/pkg/types"
 )
 
@@ -207,7 +207,7 @@ type SignVwfeaturelinktile struct {
 	ToFeature       pgtype.Int4
 	RoadName        pgtype.Text
 	TempPlaceholder pgtype.Text
-	Link            interface{}
+	Link            geom.Point
 }
 
 type SignVwfeaturelinkwithhighway struct {
@@ -219,7 +219,7 @@ type SignVwfeaturelinkwithhighway struct {
 
 type SignVwfeaturetile struct {
 	ID                 int32
-	Point              interface{}
+	Point              geom.Point
 	Name               pgtype.Text
 	AdminAreaCountryID pgtype.Int4
 	AdminAreaStateID   pgtype.Int4
@@ -234,7 +234,7 @@ type SignVwhighwaysigntile struct {
 	SignDescription    pgtype.Text
 	ImageWidth         pgtype.Int4
 	ImageHeight        pgtype.Int4
-	Point              interface{}
+	Point              geom.Point
 	Imageid            pgtype.Int8
 	Lastsyncwithflickr pgtype.Date
 	LastUpdate         pgtype.Timestamp
@@ -254,9 +254,9 @@ type SignVwhugocountry struct {
 	CountrySlug     pgtype.Text
 	SubdivisionName pgtype.Text
 	ImageCount      int64
-	States          []models.AdminArea
-	Featured        types.ImageID
-	HighwayTypes    []models.AdminArea
+	States          []types.AdminArea
+	Featured        *types.ImageID
+	HighwayTypes    []types.AdminArea
 }
 
 type SignVwhugocounty struct {
@@ -284,9 +284,9 @@ type SignVwhugofeaturelink struct {
 	FromFeature pgtype.Int4
 	ToFeature   pgtype.Int4
 	RoadName    pgtype.Text
-	Highways    interface{}
-	ToPoint     interface{}
-	FromPoint   interface{}
+	Highways    []string
+	ToPoint     geom.Point
+	FromPoint   geom.Point
 }
 
 type SignVwhugohighway struct {
@@ -310,17 +310,17 @@ type SignVwhugohighwaysign struct {
 	SignDescription pgtype.Text
 	FeatureID       pgtype.Int4
 	DateTaken       pgtype.Timestamp
-	Imageid         pgtype.Int8
-	Flickrid        pgtype.Text
-	Point           interface{}
-	CountrySlug     pgtype.Text
-	StateSlug       pgtype.Text
-	PlaceSlug       interface{}
-	CountySlug      interface{}
-	Tags            interface{}
-	Categories      interface{}
-	Highways        interface{}
-	IsTo            interface{}
+	Imageid         types.ImageID
+	Flickrid        string
+	Point           geom.Point
+	CountrySlug     string
+	StateSlug       string
+	PlaceSlug       string
+	CountySlug      string
+	Tags            []string
+	Categories      []string
+	Highways        []string
+	IsTo            []string
 	ImageHeight     pgtype.Int4
 	ImageWidth      pgtype.Int4
 	Quality         int32
@@ -332,7 +332,7 @@ type SignVwhugohighwaytype struct {
 	HighwayTypeSlug pgtype.Text
 	Sort            pgtype.Int4
 	Imagecount      int64
-	Imageid         pgtype.Int8
+	Imageid         *types.ImageID
 	Highways        interface{}
 	Country         pgtype.Text
 }
@@ -353,9 +353,9 @@ type SignVwhugostate struct {
 	SubdivisionName pgtype.Text
 	ImageCount      int64
 	Highways        []string
-	Places          []models.AdminArea
-	Counties        []models.AdminArea
-	Featured        pgtype.Int8
+	Places          []types.AdminArea
+	Counties        []types.AdminArea
+	Featured        *types.ImageID
 	CountrySlug     pgtype.Text
 	Categories      []string
 }

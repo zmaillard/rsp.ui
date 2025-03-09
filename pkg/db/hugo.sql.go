@@ -9,7 +9,8 @@ import (
 	"context"
 
 	"github.com/jackc/pgx/v5/pgtype"
-	"highway-sign-portal-builder/pkg/models"
+	"github.com/twpayne/go-geom"
+	"highway-sign-portal-builder/pkg/types"
 )
 
 const getHugoCounties = `-- name: GetHugoCounties :many
@@ -86,32 +87,20 @@ func (q *Queries) GetHugoCountries(ctx context.Context) ([]SignVwhugocountry, er
 }
 
 const getHugoFeatureLinks = `-- name: GetHugoFeatureLinks :many
-SELECT id, id, from_feature, to_feature, road_name, highways, to_point, from_point FROM sign.vwhugofeaturelink
+SELECT id, from_feature, to_feature, road_name, highways, to_point, from_point FROM sign.vwhugofeaturelink
 `
 
-type GetHugoFeatureLinksRow struct {
-	ID          int32
-	ID_2        int32
-	FromFeature pgtype.Int4
-	ToFeature   pgtype.Int4
-	RoadName    pgtype.Text
-	Highways    interface{}
-	ToPoint     interface{}
-	FromPoint   interface{}
-}
-
-func (q *Queries) GetHugoFeatureLinks(ctx context.Context) ([]GetHugoFeatureLinksRow, error) {
+func (q *Queries) GetHugoFeatureLinks(ctx context.Context) ([]SignVwhugofeaturelink, error) {
 	rows, err := q.db.Query(ctx, getHugoFeatureLinks)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []GetHugoFeatureLinksRow
+	var items []SignVwhugofeaturelink
 	for rows.Next() {
-		var i GetHugoFeatureLinksRow
+		var i SignVwhugofeaturelink
 		if err := rows.Scan(
 			&i.ID,
-			&i.ID_2,
 			&i.FromFeature,
 			&i.ToFeature,
 			&i.RoadName,
@@ -130,18 +119,29 @@ func (q *Queries) GetHugoFeatureLinks(ctx context.Context) ([]GetHugoFeatureLink
 }
 
 const getHugoFeatures = `-- name: GetHugoFeatures :many
-SELECT id, point, name, signs, state_name, state_slug, country_name, country_slug FROM sign.vwhugofeature
+SELECT id, cast(point as geometry), name, cast(signs as text[]), state_name, state_slug, country_name, country_slug FROM sign.vwhugofeature
 `
 
-func (q *Queries) GetHugoFeatures(ctx context.Context) ([]SignVwhugofeature, error) {
+type GetHugoFeaturesRow struct {
+	ID          int32
+	Point       geom.Point
+	Name        pgtype.Text
+	Signs       []string
+	StateName   pgtype.Text
+	StateSlug   pgtype.Text
+	CountryName pgtype.Text
+	CountrySlug pgtype.Text
+}
+
+func (q *Queries) GetHugoFeatures(ctx context.Context) ([]GetHugoFeaturesRow, error) {
 	rows, err := q.db.Query(ctx, getHugoFeatures)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []SignVwhugofeature
+	var items []GetHugoFeaturesRow
 	for rows.Next() {
-		var i SignVwhugofeature
+		var i GetHugoFeaturesRow
 		if err := rows.Scan(
 			&i.ID,
 			&i.Point,
@@ -207,18 +207,29 @@ func (q *Queries) GetHugoHighwaySigns(ctx context.Context) ([]SignVwhugohighways
 }
 
 const getHugoHighwayTypes = `-- name: GetHugoHighwayTypes :many
-SELECT id, highway_type_name, highway_type_slug, sort, imagecount, imageid, highways, country FROM sign.vwhugohighwaytype
+SELECT id, highway_type_name, highway_type_slug, sort, imagecount, imageid, cast(highways as text[]), country FROM sign.vwhugohighwaytype
 `
 
-func (q *Queries) GetHugoHighwayTypes(ctx context.Context) ([]SignVwhugohighwaytype, error) {
+type GetHugoHighwayTypesRow struct {
+	ID              int32
+	HighwayTypeName pgtype.Text
+	HighwayTypeSlug pgtype.Text
+	Sort            pgtype.Int4
+	Imagecount      int64
+	Imageid         *types.ImageID
+	Highways        []string
+	Country         pgtype.Text
+}
+
+func (q *Queries) GetHugoHighwayTypes(ctx context.Context) ([]GetHugoHighwayTypesRow, error) {
 	rows, err := q.db.Query(ctx, getHugoHighwayTypes)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []SignVwhugohighwaytype
+	var items []GetHugoHighwayTypesRow
 	for rows.Next() {
-		var i SignVwhugohighwaytype
+		var i GetHugoHighwayTypesRow
 		if err := rows.Scan(
 			&i.ID,
 			&i.HighwayTypeName,
@@ -240,18 +251,33 @@ func (q *Queries) GetHugoHighwayTypes(ctx context.Context) ([]SignVwhugohighwayt
 }
 
 const getHugoHighways = `-- name: GetHugoHighways :many
-SELECT id, highway_name, slug, sort_number, image_name, highway_type_slug, highway_type_name, states, counties, places, previous_features, next_features FROM sign.vwhugohighway
+SELECT id, highway_name, slug, sort_number, image_name, highway_type_slug, highway_type_name, cast (states as text[]), cast (counties as text[]), cast (places as text[]), cast (previous_features as int[]), cast (next_features as int[]) FROM sign.vwhugohighway
 `
 
-func (q *Queries) GetHugoHighways(ctx context.Context) ([]SignVwhugohighway, error) {
+type GetHugoHighwaysRow struct {
+	ID               int32
+	HighwayName      pgtype.Text
+	Slug             pgtype.Text
+	SortNumber       pgtype.Int4
+	ImageName        pgtype.Text
+	HighwayTypeSlug  pgtype.Text
+	HighwayTypeName  pgtype.Text
+	States           []string
+	Counties         []string
+	Places           []string
+	PreviousFeatures []int32
+	NextFeatures     []int32
+}
+
+func (q *Queries) GetHugoHighways(ctx context.Context) ([]GetHugoHighwaysRow, error) {
 	rows, err := q.db.Query(ctx, getHugoHighways)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []SignVwhugohighway
+	var items []GetHugoHighwaysRow
 	for rows.Next() {
-		var i SignVwhugohighway
+		var i GetHugoHighwaysRow
 		if err := rows.Scan(
 			&i.ID,
 			&i.HighwayName,
@@ -327,10 +353,10 @@ type GetHugoStatesRow struct {
 	SubdivisionName pgtype.Text
 	ImageCount      int64
 	Highways        []string
-	Featured        pgtype.Int8
+	Featured        *types.ImageID
 	CountrySlug     pgtype.Text
-	Counties        []models.AdminArea
-	Places          []models.AdminArea
+	Counties        []types.AdminArea
+	Places          []types.AdminArea
 	Categories      []string
 }
 
@@ -355,6 +381,44 @@ func (q *Queries) GetHugoStates(ctx context.Context) ([]GetHugoStatesRow, error)
 			&i.Counties,
 			&i.Places,
 			&i.Categories,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getHugoTags = `-- name: GetHugoTags :many
+select id, name, slug, is_category, category_details from sign.tag
+`
+
+type GetHugoTagsRow struct {
+	ID              int32
+	Name            pgtype.Text
+	Slug            pgtype.Text
+	IsCategory      bool
+	CategoryDetails pgtype.Text
+}
+
+func (q *Queries) GetHugoTags(ctx context.Context) ([]GetHugoTagsRow, error) {
+	rows, err := q.db.Query(ctx, getHugoTags)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []GetHugoTagsRow
+	for rows.Next() {
+		var i GetHugoTagsRow
+		if err := rows.Scan(
+			&i.ID,
+			&i.Name,
+			&i.Slug,
+			&i.IsCategory,
+			&i.CategoryDetails,
 		); err != nil {
 			return nil, err
 		}
