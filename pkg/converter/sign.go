@@ -57,18 +57,6 @@ func (s SignConverter) Convert() iter.Seq[generator.Generator] {
 				PlusCode:    pc,
 			}
 
-			if sign.Flickrid != "" {
-				highwaySignDto.FlickrId = &sign.Flickrid
-			}
-
-			if sign.PlaceSlug != "" {
-				highwaySignDto.PlaceSlug = &sign.PlaceSlug
-			}
-
-			if sign.CountySlug != "" {
-				highwaySignDto.StateSubdivisionSlug = &sign.CountySlug
-			}
-
 			// Add state name to categories
 			var cats []string
 			for _, v := range sign.Categories {
@@ -230,11 +218,11 @@ func (h highwaySignsByPlace) GetLookup() ([]byte, error) {
 	images := make(map[string][]string)
 
 	for _, v := range hs {
-		if v.PlaceSlug == "" {
+		if v.PlaceSlug == nil {
 			continue
 		}
 
-		p := v.PlaceSlug
+		p := *v.PlaceSlug
 		_, ok := images[p]
 		if !ok {
 			images[p] = make([]string, 0)
@@ -262,11 +250,11 @@ func (h highwaySignsByCounty) GetLookup() ([]byte, error) {
 	images := make(map[string][]string)
 
 	for _, v := range hs {
-		if v.CountrySlug == "" {
+		if v.CountySlug == nil {
 			continue
 		}
 
-		county := v.CountySlug
+		county := *v.CountySlug
 		_, ok := images[county]
 		if !ok {
 			images[county] = make([]string, 0)

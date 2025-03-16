@@ -51,7 +51,7 @@ func main() {
 		panic(err)
 	}
 
-	signLookup := signConverter.(converter.SignConverter)
+	signLookup := signConverter.(*converter.SignConverter)
 	err = generator.SaveLookup(cfg.HugoPath, signLookup)
 	if err != nil {
 		panic(err)

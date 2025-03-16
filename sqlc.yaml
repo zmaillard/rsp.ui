@@ -40,6 +40,18 @@ sql:
               slice: true
               import: "highway-sign-portal-builder/pkg/types"
               type: AdminArea
+          - column: "sign.vwhugohighwaysign.place_slug"
+            go_type:
+              type: string
+              pointer: true
+          - column: "sign.vwhugohighwaysign.county_slug"
+            go_type:
+              type: string
+              pointer: true
+          - column: "sign.vwhugohighwaysign.flickrid"
+            go_type:
+              type: string
+              pointer: true
           - column: "sign.vwhugohighwaysign.imageid"
             go_type:
               import: "highway-sign-portal-builder/pkg/types"
@@ -59,22 +71,3 @@ sql:
               import: "highway-sign-portal-builder/pkg/types"
               type: ImageID
               pointer: true
-
-
-
-
-#        version: "2"
-#        sql:
-#          - schema: "postgresql/schema.sql"
-#            queries: "postgresql/query.sql"
-#            engine: "postgresql"
-#            gen:
-#              go:
-#                package: "authors"
-#                out: "db"
-#                sql_package: "pgx/v5"
-#                overrides:
-#                  - db_type: "uuid"
-#                    go_type:
-#                      import: "github.com/google/uuid"
-#                      type: "UUID"

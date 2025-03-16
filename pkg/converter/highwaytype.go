@@ -28,9 +28,11 @@ func (h highwayTypeConverter) Convert() iter.Seq[generator.Generator] {
 				Slug:            ht.HighwayTypeSlug.String,
 				Sort:            int(ht.Sort.Int32),
 				ImageCount:      int(ht.Imagecount),
-				Featured:        ht.Imageid.String(),
 				HighwayTaxomomy: ht.Highways,
 				Country:         ht.Country.String,
+			}
+			if ht.Imageid != nil {
+				highwayTypeDto.Featured = ht.Imageid.String()
 			}
 
 			yield(highwayTypeDto)

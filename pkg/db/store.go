@@ -4,14 +4,24 @@ import (
 	"context"
 	"fmt"
 	"github.com/jackc/pgx/v5"
+	pgxgeom "github.com/twpayne/pgx-geom"
 	"highway-sign-portal-builder/pkg/config"
 )
 
 func NewDatabase(cfg *config.Config) (*pgx.Conn, error) {
 	ctx := context.Background()
 
-	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable sslmode=require search_path=public,sign", cfg.DBHost, cfg.DBUser, cfg.DBPassword, cfg.DBName, cfg.DBPort)
+	var sslmode string
+	if cfg.DBHost == "localhost" {
+		sslmode = "disable"
+	} else {
+		sslmode = "require"
+	}
+
+	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=%s search_path=public,sign", cfg.DBHost, cfg.DBUser, cfg.DBPassword, cfg.DBName, cfg.DBPort, sslmode)
 	db, err := pgx.Connect(ctx, dsn)
+
+	err = pgxgeom.Register(ctx, db)
 
 	return db, err
 }

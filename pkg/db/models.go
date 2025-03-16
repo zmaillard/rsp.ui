@@ -311,12 +311,12 @@ type SignVwhugohighwaysign struct {
 	FeatureID       pgtype.Int4
 	DateTaken       pgtype.Timestamp
 	Imageid         types.ImageID
-	Flickrid        string
+	Flickrid        *string
 	Point           geom.Point
 	CountrySlug     string
 	StateSlug       string
-	PlaceSlug       string
-	CountySlug      string
+	PlaceSlug       *string
+	CountySlug      *string
 	Tags            []string
 	Categories      []string
 	Highways        []string

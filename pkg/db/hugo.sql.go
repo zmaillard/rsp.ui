@@ -14,7 +14,7 @@ import (
 )
 
 const getHugoCounties = `-- name: GetHugoCounties :many
-SELECT id, county_name, county_slug, image_count, state_name, state_slug FROM sign.vwhugocounty
+SELECT id, county_name, county_slug, image_count, state_name, state_slug FROM sign.vwhugocounty WHERE image_count is not null
 `
 
 type GetHugoCountiesRow struct {
@@ -207,7 +207,7 @@ func (q *Queries) GetHugoHighwaySigns(ctx context.Context) ([]SignVwhugohighways
 }
 
 const getHugoHighwayTypes = `-- name: GetHugoHighwayTypes :many
-SELECT id, highway_type_name, highway_type_slug, sort, imagecount, imageid, cast(highways as text[]), country FROM sign.vwhugohighwaytype
+SELECT id, highway_type_name, highway_type_slug, sort, coalesce(imagecount,0), imageid, cast(highways as text[]), country FROM sign.vwhugohighwaytype
 `
 
 type GetHugoHighwayTypesRow struct {
@@ -303,7 +303,7 @@ func (q *Queries) GetHugoHighways(ctx context.Context) ([]GetHugoHighwaysRow, er
 }
 
 const getHugoPlaces = `-- name: GetHugoPlaces :many
-SELECT id, place_name, place_slug, image_count, state_name, state_slug FROM sign.vwhugoplace
+SELECT id, place_name, place_slug, image_count, state_name, state_slug FROM sign.vwhugoplace where image_count is not null
 `
 
 type GetHugoPlacesRow struct {
