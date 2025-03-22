@@ -1,0 +1,3 @@
+[submodule "sql/schema"]
+	path = sql/schema
+	url = https://github.com/zmaillard/rsp.db

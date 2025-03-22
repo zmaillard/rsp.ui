@@ -16,7 +16,6 @@ type SignAdminAreaCountry struct {
 	SubdivisionName pgtype.Text
 	Slug            pgtype.Text
 	FeaturedSignID  pgtype.Int4
-	ImageCount      pgtype.Int4
 }
 
 type SignAdminAreaCounty struct {
@@ -24,7 +23,6 @@ type SignAdminAreaCounty struct {
 	Name             pgtype.Text
 	Slug             pgtype.Text
 	AdminAreaStateid pgtype.Int4
-	ImageCount       pgtype.Int4
 }
 
 type SignAdminAreaPlace struct {
@@ -32,7 +30,6 @@ type SignAdminAreaPlace struct {
 	Name             pgtype.Text
 	Slug             pgtype.Text
 	AdminAreaStateid pgtype.Int4
-	ImageCount       pgtype.Int4
 }
 
 type SignAdminAreaState struct {
@@ -42,7 +39,6 @@ type SignAdminAreaState struct {
 	Slug               pgtype.Text
 	AdminareaCountryID pgtype.Int4
 	FeaturedSignID     pgtype.Int4
-	ImageCount         pgtype.Int4
 }
 
 type SignFeature struct {
@@ -52,7 +48,6 @@ type SignFeature struct {
 	AdminAreaCountryID pgtype.Int4
 	AdminAreaStateID   pgtype.Int4
 	Featured           pgtype.Bool
-	FeatureTypeID      pgtype.Int4
 }
 
 type SignFeatureLink struct {
@@ -81,11 +76,6 @@ type SignFeatureLinkHighway struct {
 	HighwayID     pgtype.Int4
 	FeatureLinkID pgtype.Int4
 	IsDescending  pgtype.Bool
-}
-
-type SignFeatureType struct {
-	ID   int32
-	Name string
 }
 
 type SignFlickrSet struct {

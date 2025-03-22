@@ -9,16 +9,19 @@ import (
 )
 
 type Config struct {
-	DBUser     string `mapstructure:"DB_USER"`
-	DBHost     string `mapstructure:"DB_HOST"`
-	DBPassword string `mapstructure:"DB_PASSWORD"`
-	DBName     string `mapstructure:"DB_NAME"`
-	DBPort     string `mapstructure:"DB_PORT"`
-	HugoPath   string
+	DBUser      string `mapstructure:"DB_USER"`
+	DBHost      string `mapstructure:"DB_HOST"`
+	DBPassword  string `mapstructure:"DB_PASSWORD"`
+	DBName      string `mapstructure:"DB_NAME"`
+	DBPort      string `mapstructure:"DB_PORT"`
+	DatabaseUrl string `mapstructure:"DATABASE_URL"`
+	HugoPath    string
 }
 
 func (c Config) IsValid() bool {
-	if len(c.DBUser) > 0 && len(c.DBHost) > 0 && c.HasPassword() && len(c.DBName) > 0 && len(c.DBPort) > 0 {
+	if len(c.DatabaseUrl) > 0 {
+		return true
+	} else if len(c.DBUser) > 0 && len(c.DBHost) > 0 && c.HasPassword() && len(c.DBName) > 0 && len(c.DBPort) > 0 {
 		return true
 	} else {
 		return false

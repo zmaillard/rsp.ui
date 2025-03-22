@@ -18,7 +18,13 @@ func NewDatabase(cfg *config.Config) (*pgx.Conn, error) {
 		sslmode = "require"
 	}
 
-	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=%s search_path=public,sign", cfg.DBHost, cfg.DBUser, cfg.DBPassword, cfg.DBName, cfg.DBPort, sslmode)
+	var dsn string
+	if cfg.DatabaseUrl != "" {
+		dsn = cfg.DatabaseUrl
+	} else {
+		dsn = fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=%s search_path=public,sign", cfg.DBHost, cfg.DBUser, cfg.DBPassword, cfg.DBName, cfg.DBPort, sslmode)
+	}
+
 	db, err := pgx.Connect(ctx, dsn)
 
 	err = pgxgeom.Register(ctx, db)
