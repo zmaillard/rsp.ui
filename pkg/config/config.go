@@ -29,7 +29,9 @@ func (c Config) IsValid() bool {
 }
 
 func (c Config) HasPassword() bool {
-	if len(c.DBPassword) > 0 {
+	if len(c.DatabaseUrl) > 0 {
+		return true
+	} else if len(c.DBPassword) > 0 {
 		return true
 	} else if c.DBHost == "localhost" {
 		return true
@@ -51,6 +53,7 @@ func LoadConfig(path string) (config Config, err error) {
 		_ = viper.BindEnv("DB_PASSWORD", "DB_PASSWORD")
 		_ = viper.BindEnv("DB_NAME", "DB_NAME")
 		_ = viper.BindEnv("DB_PORT", "DB_PORT")
+		_ = viper.BindEnv("DATABASE_URL", "DATABASE_URL")
 	}
 	err = viper.ReadInConfig()
 	err = viper.Unmarshal(&config)
