@@ -5,12 +5,7 @@
 
 (def batch-size 25)
 
-(def db {:dbtype "postgresql"
-         :host (System/getenv "DB_HOST")
-         :dbname (System/getenv "DB_NAME")
-         :user (System/getenv "DB_USER")
-         :password (System/getenv "DB_PASSWORD")
-         :port (System/getenv "DB_PORT")})
+(def db {:jdbcUrl (System/getenv "JDBC_DATABASE_URL")})
 
 (def index-settings {:host (System/getenv "HUGO_PARAMS_SEARCHURL")
                      :sign-index (System/getenv "HUGO_PARAMS_SEARCHINDEX")

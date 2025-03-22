@@ -48,11 +48,7 @@ jobs:
           go-version: '^1.20.0'
       - run: go run main.go
         env:
-          RSP_DB_USER: ${{ secrets.DB_USER }}
-          RSP_DB_HOST: ${{ secrets.DB_HOST }}
-          RSP_DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          RSP_DB_PORT: ${{ secrets.DB_PORT }}
-          RSP_DB_NAME: ${{ secrets.DB_NAME }}
+          RSP_DATABASE_URL: ${{ secrets.DATABASE_URL }}
       - run: npm install
       - run: npx tailwindcss -i ./assets/css/input.css -o ./assets/css/index.css --jit --minify
       - run: hugo --gc --minify --environment preview
@@ -100,11 +96,7 @@ jobs:
           babashka-version: 1.4.192
       - run: go run main.go
         env:
-          RSP_DB_USER: ${{ secrets.DB_USER }}
-          RSP_DB_HOST: ${{ secrets.DB_HOST }}
-          RSP_DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          RSP_DB_PORT: ${{ secrets.DB_PORT }}
-          RSP_DB_NAME: ${{ secrets.DB_NAME }}
+          RSP_DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
       - uses: cloudflare/wrangler-action@v3
         with:
@@ -137,11 +129,7 @@ jobs:
       - name: Update Indexes
         run: bb index
         env:
-          DB_HOST: ${{ secrets.DB_HOST }}
-          DB_USER: ${{ secrets.DB_USER }}
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          DB_PORT: ${{ secrets.DB_PORT }}
-          DB_NAME: ${{ secrets.DB_NAME }}
+          JDBC_DATABASE_URL: ${{ secrets.JDBC_DATABASE_URL }}
           HUGO_PARAMS_SEARCHURL: ${{ vars.INDEX_HOST }}
           HUGO_PARAMS_SEARCHKEY: ${{ secrets.INDEX_KEY }}
           HUGO_PARAMS_SIGNBASEURL: ${{ vars.HUGO_PARAMS_SIGNBASEURL }}
@@ -151,6 +139,9 @@ jobs:
       # Update Bot Index
       - name: Create Bot Index
         run: bb export-bot-database
+        env:
+          JDBC_DATABASE_URL: ${{ secrets.JDBC_DATABASE_URL }}
+
       - name: Upload Bot Index To Cloudflare
         run: aws s3 cp bot.db s3://bot/bot.db --checksum-algorithm CRC32
         continue-on-error: true
