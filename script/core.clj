@@ -8,7 +8,12 @@
 (def base-eagle-url (System/getenv "EAGLE_URL"))
 (def eagle-token (System/getenv "EAGLE_TOKEN"))
 
-(def db {:jdbcUrl (System/getenv "JDBC_DATABASE_URL")})
+(def db {:dbtype "postgresql"
+         :host (System/getenv "DB_HOST")
+         :dbname (System/getenv "DB_NAME")
+         :user (System/getenv "DB_USER")
+         :password (System/getenv "DB_PASSWORD")
+         :port (System/getenv "DB_PORT")})
 
 (defn update-quality
   [imageid new-quality]

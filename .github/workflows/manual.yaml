@@ -76,7 +76,11 @@ jobs:
       - name: Update Indexes
         run: bb index
         env:
-          JDBC_DATABASE_URL: ${{ secrets.JDBC_DATABASE_URL }}
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_PORT: ${{ secrets.DB_PORT }}
+          DB_NAME: ${{ secrets.DB_NAME }}
           HUGO_PARAMS_SEARCHURL: ${{ vars.INDEX_HOST }}
           HUGO_PARAMS_SEARCHKEY: ${{ secrets.INDEX_KEY }}
           HUGO_PARAMS_SIGNBASEURL: ${{ vars.HUGO_PARAMS_SIGNBASEURL }}
@@ -87,7 +91,11 @@ jobs:
       - name: Create Bot Index
         run: bb export-bot-database
         env:
-          JDBC_DATABASE_URL: ${{ secrets.JDBC_DATABASE_URL }}
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_PORT: ${{ secrets.DB_PORT }}
+          DB_NAME: ${{ secrets.DB_NAME }}
 
       - name: Upload Bot Index To Cloudflare
         continue-on-error: true
