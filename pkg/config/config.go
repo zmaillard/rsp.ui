@@ -9,19 +9,16 @@ import (
 )
 
 type Config struct {
-	DBUser      string `mapstructure:"DB_USER"`
-	DBHost      string `mapstructure:"DB_HOST"`
-	DBPassword  string `mapstructure:"DB_PASSWORD"`
-	DBName      string `mapstructure:"DB_NAME"`
-	DBPort      string `mapstructure:"DB_PORT"`
-	DatabaseUrl string `mapstructure:"DATABASE_URL"`
-	HugoPath    string
+	DBUser     string `mapstructure:"DB_USER"`
+	DBHost     string `mapstructure:"DB_HOST"`
+	DBPassword string `mapstructure:"DB_PASSWORD"`
+	DBName     string `mapstructure:"DB_NAME"`
+	DBPort     string `mapstructure:"DB_PORT"`
+	HugoPath   string
 }
 
 func (c Config) IsValid() bool {
-	if len(c.DatabaseUrl) > 0 {
-		return true
-	} else if len(c.DBUser) > 0 && len(c.DBHost) > 0 && c.HasPassword() && len(c.DBName) > 0 && len(c.DBPort) > 0 {
+	if len(c.DBUser) > 0 && len(c.DBHost) > 0 && c.HasPassword() && len(c.DBName) > 0 && len(c.DBPort) > 0 {
 		return true
 	} else {
 		return false
@@ -29,9 +26,7 @@ func (c Config) IsValid() bool {
 }
 
 func (c Config) HasPassword() bool {
-	if len(c.DatabaseUrl) > 0 {
-		return true
-	} else if len(c.DBPassword) > 0 {
+	if len(c.DBPassword) > 0 {
 		return true
 	} else if c.DBHost == "localhost" {
 		return true
@@ -53,7 +48,6 @@ func LoadConfig(path string) (config Config, err error) {
 		_ = viper.BindEnv("DB_PASSWORD", "DB_PASSWORD")
 		_ = viper.BindEnv("DB_NAME", "DB_NAME")
 		_ = viper.BindEnv("DB_PORT", "DB_PORT")
-		_ = viper.BindEnv("DATABASE_URL", "DATABASE_URL")
 	}
 	err = viper.ReadInConfig()
 	err = viper.Unmarshal(&config)

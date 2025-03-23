@@ -1,151 +1,154 @@
 package main
 
 import (
-	"context"
 	"highway-sign-portal-builder/pkg/config"
-	"highway-sign-portal-builder/pkg/converter"
-	"highway-sign-portal-builder/pkg/db"
+	"highway-sign-portal-builder/pkg/database"
 	"highway-sign-portal-builder/pkg/generator"
+	"highway-sign-portal-builder/pkg/services"
 )
 
 func main() {
 
-	ctx := context.Background()
 	cfg, err := config.LoadConfig(".")
 	if err != nil {
 		panic(err)
 	}
 
-	dbConn, err := db.NewDatabase(&cfg)
+	db, err := database.InitializeDatabase(cfg)
 	if err != nil {
 		panic(err)
 	}
 
-	sqlMgr := db.NewSqlManager(dbConn)
+	datastore := services.NewDatastore(db)
+	placeService := datastore.GetPlaceService()
+	highwayService := datastore.GetHighwayService()
 
-	hwys, err := converter.NewHighwayConverter(ctx, sqlMgr)
+	hwys, err := highwayService.GetAllHighways()
 	if err != nil {
 		panic(err)
 	}
 
-	for v := range hwys.Convert() {
-		err = generator.SaveItem(cfg.HugoPath, v)
+	for _, v := range hwys {
+		err = generator.SaveItem(cfg.HugoPath, v.ConvertToDto())
 		if err != nil {
 			panic(err)
 		}
 	}
 
-	highwayTypes, err := converter.NewHighwayTypeConverter(ctx, sqlMgr)
+	highwayTypes, err := highwayService.GetAllHighwayTypes()
 	if err != nil {
 		panic(err)
 	}
-	for v := range highwayTypes.Convert() {
-		err = generator.SaveItem(cfg.HugoPath, v)
+	for _, v := range highwayTypes {
+		err = generator.SaveItem(cfg.HugoPath, v.ConvertToDto())
 		if err != nil {
 			panic(err)
 		}
 	}
 
-	signConverter, err := converter.NewHighwaySignConverter(ctx, sqlMgr)
+	signService := datastore.GetSignService()
+
+	signs, err := signService.GetAllSigns()
 	if err != nil {
 		panic(err)
 	}
 
-	signLookup := signConverter.(*converter.SignConverter)
-	err = generator.SaveLookup(cfg.HugoPath, signLookup)
+	err = generator.SaveLookup(cfg.HugoPath, signs)
 	if err != nil {
 		panic(err)
 	}
 
-	err = generator.SaveLookup(cfg.HugoPath, signLookup.GetHighQualityLookup())
+	err = generator.SaveLookup(cfg.HugoPath, signs.GetHighQualityLookup())
 	if err != nil {
 		panic(err)
 	}
 
-	err = generator.SaveLookup(cfg.HugoPath, signLookup.GetPlaceLookup())
+	err = generator.SaveLookup(cfg.HugoPath, signs.GetPlaceLookup())
 	if err != nil {
 		panic(err)
 	}
 
-	err = generator.SaveLookup(cfg.HugoPath, signLookup.GetCountyLookup())
+	err = generator.SaveLookup(cfg.HugoPath, signs.GetCountyLookup())
 	if err != nil {
 		panic(err)
 	}
 
-	err = generator.SaveLookup(cfg.HugoPath, signLookup.GetStateLookup())
+	err = generator.SaveLookup(cfg.HugoPath, signs.GetStateLookup())
 	if err != nil {
 		panic(err)
 	}
 
-	err = generator.SaveLookup(cfg.HugoPath, signLookup.GetGeoJsonLookup())
+	err = generator.SaveLookup(cfg.HugoPath, signs.GetGeoJsonLookup())
 	if err != nil {
 		panic(err)
 	}
 
-	for v := range signConverter.Convert() {
-		err = generator.SaveItem(cfg.HugoPath, v)
+	for _, v := range signs {
+		err = generator.SaveItem(cfg.HugoPath, v.ConvertToDto())
 		if err != nil {
 			panic(err)
 		}
 	}
 
-	featureConverter, err := converter.NewFeatureConverter(ctx, sqlMgr)
+	featureService := datastore.GetFeatureService()
+
+	features, err := featureService.GetAllFeatures()
 	if err != nil {
 		panic(err)
 	}
 
-	for v := range featureConverter.Convert() {
-		err = generator.SaveItem(cfg.HugoPath, v)
+	for _, v := range features {
+		err = generator.SaveItem(cfg.HugoPath, v.ConvertToDto())
+		if err != nil {
+			panic(err)
+		}
+	}
+	countries, err := placeService.GetAllCountries()
+	if err != nil {
+		panic(err)
+	}
+
+	for _, v := range countries {
+		err = generator.SaveItem(cfg.HugoPath, v.ConvertToDto())
 		if err != nil {
 			panic(err)
 		}
 	}
 
-	countryConverter, err := converter.NewCountryConverter(ctx, sqlMgr)
+	states, err := placeService.GetAllStates()
 	if err != nil {
 		panic(err)
 	}
-	for v := range countryConverter.Convert() {
-		err = generator.SaveItem(cfg.HugoPath, v)
+	for _, v := range states {
+		err = generator.SaveItem(cfg.HugoPath, v.ConvertToDto())
 		if err != nil {
 			panic(err)
 		}
 	}
 
-	stateConverter, err := converter.NewStateConverter(ctx, sqlMgr)
+	places, err := placeService.GetAllPlaces()
 	if err != nil {
 		panic(err)
 	}
-	for v := range stateConverter.Convert() {
-		err = generator.SaveItem(cfg.HugoPath, v)
+	for _, v := range places {
+		err = generator.SaveItem(cfg.HugoPath, v.ConvertToDto())
 		if err != nil {
 			panic(err)
 		}
 	}
 
-	placeConverter, err := converter.NewPlaceConverter(ctx, sqlMgr)
+	counties, err := placeService.GetAllCounties()
 	if err != nil {
 		panic(err)
 	}
-	for v := range placeConverter.Convert() {
-		err = generator.SaveItem(cfg.HugoPath, v)
+	for _, v := range counties {
+		err = generator.SaveItem(cfg.HugoPath, v.ConvertToDto())
 		if err != nil {
 			panic(err)
 		}
 	}
 
-	counties, err := converter.NewCountyConverter(ctx, sqlMgr)
-	if err != nil {
-		panic(err)
-	}
-	for v := range counties.Convert() {
-		err = generator.SaveItem(cfg.HugoPath, v)
-		if err != nil {
-			panic(err)
-		}
-	}
-
-	tags, err := converter.NewTagConverter(ctx, sqlMgr)
+	tags, err := signService.GetAllTags()
 	if err != nil {
 		panic(err)
 	}

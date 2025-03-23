@@ -8,7 +8,6 @@
          local {:task (shell "hugo serve") :doc "Run Hugo Server Locally"}
          build {:task (shell "go run .") :doc "Build exports"}
          index {:task index/-main :doc "Update indexes"}
-         sqlc {:task (shell "sqlc generate") :doc "Generate SQLC"}
          static-site {:task (shell "hugo --gc --minify") 
                       :doc "Build static site"}
          static-site-debug {:task (shell "hugo --gc --minify --logLevel debug") 
