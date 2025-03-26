@@ -7,6 +7,7 @@ import (
 
 type HighwayDto struct {
 	Name            string           `yaml:"name"`
+	DisplayName     string           `yaml:"displayName,omitempty"`
 	Slug            string           `yaml:"slug"`
 	Image           string           `yaml:"imageName"`
 	HighwayTypeSlug AdminAreaSlimDto `yaml:"highwayType"`

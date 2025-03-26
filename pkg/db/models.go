@@ -97,6 +97,7 @@ type SignHighway struct {
 	SortNumber         pgtype.Int4
 	AdminAreaCountryID pgtype.Int4
 	AdminAreaStateID   pgtype.Int4
+	DisplayName        pgtype.Text
 }
 
 type SignHighwayScope struct {
@@ -112,6 +113,7 @@ type SignHighwayType struct {
 	DisplayImageID     pgtype.Int4
 	ImageCount         pgtype.Int4
 	AdminAreaCountryID pgtype.Int4
+	DisplayName        pgtype.Text
 }
 
 type SignHighwaysign struct {
@@ -292,6 +294,7 @@ type SignVwhugohighway struct {
 	Places           interface{}
 	PreviousFeatures interface{}
 	NextFeatures     interface{}
+	DisplayName      pgtype.Text
 }
 
 type SignVwhugohighwaysign struct {
@@ -325,6 +328,7 @@ type SignVwhugohighwaytype struct {
 	Imageid         *types.ImageID
 	Highways        interface{}
 	Country         pgtype.Text
+	DisplayName     pgtype.Text
 }
 
 type SignVwhugoplace struct {
