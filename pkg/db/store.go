@@ -26,6 +26,9 @@ func NewDatabase(cfg *config.Config) (*pgx.Conn, error) {
 	}
 
 	db, err := pgx.Connect(ctx, dsn)
+	if err != nil {
+		return nil, err
+	}
 
 	err = pgxgeom.Register(ctx, db)
 
