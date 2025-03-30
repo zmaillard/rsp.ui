@@ -50,7 +50,7 @@ func (f featureConverter) Convert() iter.Seq[generator.Generator] {
 						ID:            uint(link.ID),
 						RoadName:      link.RoadName.String,
 						FromFeatureId: uint(link.FromFeature.Int32),
-						ToFeatureId:   uint(link.FromFeature.Int32),
+						ToFeatureId:   uint(link.ToFeature.Int32),
 						Highways:      link.Highways,
 						Direction:     azimuth,
 						Bearing:       bearing(azimuth),
