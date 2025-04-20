@@ -23,7 +23,7 @@
       </jdbc-additional-properties>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="rsp@ep-black-dawn-34735286.us-west-2.aws.neon.tech" uuid="21adb140-86d5-4129-b4e8-a190e760ec78">
+    <data-source source="LOCAL" name="roadsign@ep-black-dawn-34735286.us-west-2.aws.neon.tech" uuid="21adb140-86d5-4129-b4e8-a190e760ec78">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>

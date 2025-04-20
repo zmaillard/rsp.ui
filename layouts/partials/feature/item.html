@@ -52,6 +52,9 @@
     {{ with site.GetPage $path }}
     <a href="{{.RelPermalink}}">{{.Params.name}}</a>
     {{ end }}
+    {{ with .highwayName }}
+    <span class="text-xs font-thin text-gray-700 dark:text-white">{{ . }}</span>
+    {{ end }}
     {{ if eq "E" .bearing }}
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
          stroke="currentColor" class="w-6 h-6 inline">

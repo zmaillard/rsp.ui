@@ -42,10 +42,12 @@ func (f featureConverter) Convert() iter.Seq[generator.Generator] {
 	return func(yield func(generator.Generator) bool) {
 		for _, feature := range *f.features {
 			featureDto := dto.FeatureDto{
-				ID:   uint(feature.ID),
-				Name: feature.Name.String,
+				ID:           uint(feature.ID),
+				Name:         feature.Name.String,
+				HighwayNames: feature.HighwayNames,
 				Next: util.SliceMap(toLinks[int(feature.ID)], func(link db.SignVwhugofeaturelink) dto.FeatureLinkDto {
 					azimuth := azimuth(feature.Point, link.ToPoint)
+
 					return dto.FeatureLinkDto{
 						ID:            uint(link.ID),
 						RoadName:      link.RoadName.String,
@@ -54,6 +56,7 @@ func (f featureConverter) Convert() iter.Seq[generator.Generator] {
 						Highways:      link.Highways,
 						Direction:     azimuth,
 						Bearing:       bearing(azimuth),
+						HighwayName:   link.HighwayName,
 					}
 				}),
 				Prev: util.SliceMap(fromLinks[int(feature.ID)], func(link db.SignVwhugofeaturelink) dto.FeatureLinkDto {
@@ -66,6 +69,7 @@ func (f featureConverter) Convert() iter.Seq[generator.Generator] {
 						Highways:      link.Highways,
 						Direction:     azimuth,
 						Bearing:       bearing(azimuth),
+						HighwayName:   link.HighwayName,
 					}
 				}),
 				Signs: feature.Signs,

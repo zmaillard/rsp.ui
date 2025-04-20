@@ -6,12 +6,13 @@ import (
 )
 
 type FeatureDto struct {
-	ID    uint `gorm:"primaryKey"`
-	Name  string
-	Next  []FeatureLinkDto `yaml:",omitempty"`
-	Prev  []FeatureLinkDto `yaml:",omitempty"`
-	Signs []string         `yaml:",omitempty"`
-	State struct {
+	ID           uint `gorm:"primaryKey"`
+	Name         string
+	Next         []FeatureLinkDto `yaml:",omitempty"`
+	Prev         []FeatureLinkDto `yaml:",omitempty"`
+	Signs        []string         `yaml:",omitempty"`
+	HighwayNames []string         `yaml:"highwayNames,omitempty"`
+	State        struct {
 		Name string
 		Slug string
 	} `yaml:"state,omitempty"`
