@@ -12,6 +12,14 @@ sql:
         overrides:
           - db_type: "geometry"
             go_type: "github.com/twpayne/go-geom.Point"
+          - column: "sign.vwhugofeature.highway_names"
+            go_type:
+              slice: true
+              type: string
+          - column: "sign.vwhugostate.highway_names"
+            go_type:
+              slice: true
+              type: string
           - column: "sign.vwhugostate.highways"
             go_type:
               slice: true
@@ -70,4 +78,8 @@ sql:
             go_type:
               import: "highway-sign-portal-builder/pkg/types"
               type: ImageID
+              pointer: true
+          - column: "sign.vwhugofeaturelink.highway_name"
+            go_type:
+              type: string
               pointer: true

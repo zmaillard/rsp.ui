@@ -49,6 +49,7 @@ type AdminAreaStateDto struct {
 	StateCategories []string `yaml:"stateCategories,omitempty"`
 	Counties        []AdminAreaSlimDto
 	Places          []AdminAreaSlimDto
+	HighwayNames    []string `yaml:"highwayNames,omitempty"`
 }
 
 func (s AdminAreaStateDto) ToMarkdown() ([]byte, error) {

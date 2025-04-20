@@ -8,4 +8,5 @@ type FeatureLinkDto struct {
 	Highways      []string
 	Direction     float64
 	Bearing       string
+	HighwayName   *string `yaml:"highwayName,omitempty"`
 }

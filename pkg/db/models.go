@@ -50,6 +50,12 @@ type SignFeature struct {
 	Featured           pgtype.Bool
 }
 
+type SignFeatureHighwayName struct {
+	ID            int32
+	FeatureID     pgtype.Int4
+	HighwayNameID pgtype.Int4
+}
+
 type SignFeatureLink struct {
 	ID              int32
 	FromFeature     pgtype.Int4
@@ -57,6 +63,7 @@ type SignFeatureLink struct {
 	RoadName        pgtype.Text
 	TempPlaceholder pgtype.Text
 	Link            interface{}
+	HighwayNameID   pgtype.Int4
 }
 
 type SignFeatureLinkAlias struct {
@@ -98,6 +105,18 @@ type SignHighway struct {
 	AdminAreaCountryID pgtype.Int4
 	AdminAreaStateID   pgtype.Int4
 	DisplayName        pgtype.Text
+}
+
+type SignHighwayHighwayName struct {
+	ID            int32
+	HighwayID     pgtype.Int4
+	HighwayNameID pgtype.Int4
+}
+
+type SignHighwayName struct {
+	ID      int32
+	Name    pgtype.Text
+	StateID pgtype.Int4
 }
 
 type SignHighwayScope struct {
@@ -261,14 +280,15 @@ type SignVwhugocounty struct {
 }
 
 type SignVwhugofeature struct {
-	ID          int32
-	Point       interface{}
-	Name        pgtype.Text
-	Signs       interface{}
-	StateName   pgtype.Text
-	StateSlug   pgtype.Text
-	CountryName pgtype.Text
-	CountrySlug pgtype.Text
+	ID           int32
+	Point        interface{}
+	Name         pgtype.Text
+	Signs        interface{}
+	StateName    pgtype.Text
+	StateSlug    pgtype.Text
+	CountryName  pgtype.Text
+	CountrySlug  pgtype.Text
+	HighwayNames []string
 }
 
 type SignVwhugofeaturelink struct {
@@ -279,6 +299,7 @@ type SignVwhugofeaturelink struct {
 	Highways    []string
 	ToPoint     geom.Point
 	FromPoint   geom.Point
+	HighwayName *string
 }
 
 type SignVwhugohighway struct {
@@ -352,6 +373,7 @@ type SignVwhugostate struct {
 	Featured        *types.ImageID
 	CountrySlug     pgtype.Text
 	Categories      []string
+	HighwayNames    []string
 }
 
 type SignVwindexsign struct {

@@ -87,7 +87,7 @@ func (q *Queries) GetHugoCountries(ctx context.Context) ([]SignVwhugocountry, er
 }
 
 const getHugoFeatureLinks = `-- name: GetHugoFeatureLinks :many
-SELECT id, from_feature, to_feature, road_name, highways, to_point, from_point FROM sign.vwhugofeaturelink
+SELECT id, from_feature, to_feature, road_name, highways, to_point, from_point, highway_name FROM sign.vwhugofeaturelink
 `
 
 func (q *Queries) GetHugoFeatureLinks(ctx context.Context) ([]SignVwhugofeaturelink, error) {
@@ -107,6 +107,7 @@ func (q *Queries) GetHugoFeatureLinks(ctx context.Context) ([]SignVwhugofeaturel
 			&i.Highways,
 			&i.ToPoint,
 			&i.FromPoint,
+			&i.HighwayName,
 		); err != nil {
 			return nil, err
 		}
@@ -119,18 +120,19 @@ func (q *Queries) GetHugoFeatureLinks(ctx context.Context) ([]SignVwhugofeaturel
 }
 
 const getHugoFeatures = `-- name: GetHugoFeatures :many
-SELECT id, cast(point as geometry), name, cast(signs as text[]), state_name, state_slug, country_name, country_slug FROM sign.vwhugofeature
+SELECT id, cast(point as geometry), name, cast(signs as text[]), state_name, state_slug, country_name, country_slug, highway_names FROM sign.vwhugofeature
 `
 
 type GetHugoFeaturesRow struct {
-	ID          int32
-	Point       geom.Point
-	Name        pgtype.Text
-	Signs       []string
-	StateName   pgtype.Text
-	StateSlug   pgtype.Text
-	CountryName pgtype.Text
-	CountrySlug pgtype.Text
+	ID           int32
+	Point        geom.Point
+	Name         pgtype.Text
+	Signs        []string
+	StateName    pgtype.Text
+	StateSlug    pgtype.Text
+	CountryName  pgtype.Text
+	CountrySlug  pgtype.Text
+	HighwayNames []string
 }
 
 func (q *Queries) GetHugoFeatures(ctx context.Context) ([]GetHugoFeaturesRow, error) {
@@ -151,6 +153,45 @@ func (q *Queries) GetHugoFeatures(ctx context.Context) ([]GetHugoFeaturesRow, er
 			&i.StateSlug,
 			&i.CountryName,
 			&i.CountrySlug,
+			&i.HighwayNames,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getHugoHighwayNames = `-- name: GetHugoHighwayNames :many
+select hn.id, slugify(hn.name) as slug, hn.name, aas.name as state_name, aas.slug as state_slug from sign.highway_name hn inner join sign.admin_area_state aas on hn.state_id = aas.id
+`
+
+type GetHugoHighwayNamesRow struct {
+	ID        int32
+	Slug      string
+	Name      pgtype.Text
+	StateName pgtype.Text
+	StateSlug pgtype.Text
+}
+
+func (q *Queries) GetHugoHighwayNames(ctx context.Context) ([]GetHugoHighwayNamesRow, error) {
+	rows, err := q.db.Query(ctx, getHugoHighwayNames)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []GetHugoHighwayNamesRow
+	for rows.Next() {
+		var i GetHugoHighwayNamesRow
+		if err := rows.Scan(
+			&i.ID,
+			&i.Slug,
+			&i.Name,
+			&i.StateName,
+			&i.StateSlug,
 		); err != nil {
 			return nil, err
 		}
@@ -345,7 +386,7 @@ func (q *Queries) GetHugoPlaces(ctx context.Context) ([]GetHugoPlacesRow, error)
 }
 
 const getHugoStates = `-- name: GetHugoStates :many
-SELECT id, state_name, state_slug, subdivision_name, image_count, highways, featured, country_slug, counties, places, categories FROM sign.vwhugostate
+SELECT id, state_name, state_slug, subdivision_name, image_count, highways, featured, country_slug, counties, places, categories, highway_names FROM sign.vwhugostate
 `
 
 type GetHugoStatesRow struct {
@@ -360,6 +401,7 @@ type GetHugoStatesRow struct {
 	Counties        []types.AdminArea
 	Places          []types.AdminArea
 	Categories      []string
+	HighwayNames    []string
 }
 
 func (q *Queries) GetHugoStates(ctx context.Context) ([]GetHugoStatesRow, error) {
@@ -383,6 +425,7 @@ func (q *Queries) GetHugoStates(ctx context.Context) ([]GetHugoStatesRow, error)
 			&i.Counties,
 			&i.Places,
 			&i.Categories,
+			&i.HighwayNames,
 		); err != nil {
 			return nil, err
 		}

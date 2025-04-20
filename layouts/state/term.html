@@ -125,6 +125,8 @@
         </ul>
     </div>
     {{ end }}
+
+
     {{ $stateSlug := $.Params.slug }}
     {{ $countyParams := .Params.counties }}
     {{ with .Params.subdivisionname }}
@@ -168,6 +170,7 @@
         </ul>
         {{ end }}
     </div>
+    {{ $highwayNames := .Params.highwayNames }}
     {{ with $highwayTypeMapScratch.Get "highway-type-page" }}
     <div class="max-w-full  m-4 p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
         <h4 class="text-2xl font-bold dark:text-white">Highways</h4>
@@ -184,6 +187,26 @@
             {{ partial "highway/flat.html" . }}
 
             {{ end }}
+        </ul>
+        {{ end }}
+        {{ with $highwayNames }}
+        <h2 class="mb-2 text-lg font-semibold text-gray-900 dark:text-white">
+            Named Highways
+        </h2>
+        <ul class="flex flex-wrap items-center justify-center text-gray-900 dark:text-white browse-flat-list">
+        {{ range $idx, $hwyNameCur :=  . }}
+        {{ $tagDisplay := index (where  $.Site.Data.highwaynames "slug" $hwyNameCur) 0 }}
+        {{ $hwyNamePagePath := printf "/%s/%s" "highwayNames" $hwyNameCur }}
+        {{ $hwyNamePage := $.Site.GetPage $hwyNamePagePath }}
+            {{ with $hwyNamePage }}
+            <li>
+                {{ if gt $idx 0 }}
+                <span class="ml-2 mr-2"></span>
+                {{ end }}
+                <a class="font-medium text-blue-600 dark:text-blue-500 hover:underline" href="{{.RelPermalink}}">{{ $tagDisplay.name }}</a>
+            </li>
+            {{ end }}
+        {{ end }}
         </ul>
         {{ end }}
     </div>

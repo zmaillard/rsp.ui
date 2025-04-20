@@ -13,6 +13,7 @@ type Querier interface {
 	GetHugoCountries(ctx context.Context) ([]SignVwhugocountry, error)
 	GetHugoFeatureLinks(ctx context.Context) ([]SignVwhugofeaturelink, error)
 	GetHugoFeatures(ctx context.Context) ([]GetHugoFeaturesRow, error)
+	GetHugoHighwayNames(ctx context.Context) ([]GetHugoHighwayNamesRow, error)
 	GetHugoHighwaySigns(ctx context.Context) ([]SignVwhugohighwaysign, error)
 	GetHugoHighwayTypes(ctx context.Context) ([]GetHugoHighwayTypesRow, error)
 	GetHugoHighways(ctx context.Context) ([]GetHugoHighwaysRow, error)

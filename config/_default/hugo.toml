@@ -21,6 +21,7 @@ enableRobotsTXT = true
   countries = 'country'
   recents = 'recent'
   category  = 'categories'
+  highwayName = 'highwayNames'
 
 [module]
   [[module.mounts]]

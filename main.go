@@ -154,4 +154,13 @@ func main() {
 		panic(err)
 	}
 
+	namedHighways, err := converter.NewHighwayNameConverter(ctx, sqlMgr)
+	if err != nil {
+		panic(err)
+	}
+	err = generator.SaveLookup(cfg.HugoPath, namedHighways)
+	if err != nil {
+		panic(err)
+
+	}
 }

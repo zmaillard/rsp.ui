@@ -41,6 +41,7 @@ func (c stateConverter) Convert() iter.Seq[generator.Generator] {
 				Highways:        state.Highways,
 				CountrySlug:     state.CountrySlug.String,
 				Featured:        featured,
+				HighwayNames:    state.HighwayNames,
 				Counties: util.SliceMap(state.Counties, func(county types.AdminArea) dto.AdminAreaSlimDto {
 					return dto.AdminAreaSlimDto{
 						Name: county.Name,

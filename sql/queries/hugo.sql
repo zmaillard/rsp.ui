@@ -18,14 +18,16 @@ SELECT id, highway_type_name, highway_type_slug, sort, coalesce(imagecount,0), i
 SELECT id, place_name, place_slug, image_count, state_name, state_slug FROM sign.vwhugoplace where image_count is not null;
 
 -- name: GetHugoStates :many
-SELECT id, state_name, state_slug, subdivision_name, image_count, highways, featured, country_slug, counties, places, categories FROM sign.vwhugostate;
+SELECT id, state_name, state_slug, subdivision_name, image_count, highways, featured, country_slug, counties, places, categories, highway_names FROM sign.vwhugostate;
 
 -- name: GetHugoFeatures :many
-SELECT id, cast(point as geometry), name, cast(signs as text[]), state_name, state_slug, country_name, country_slug FROM sign.vwhugofeature;
+SELECT id, cast(point as geometry), name, cast(signs as text[]), state_name, state_slug, country_name, country_slug, highway_names FROM sign.vwhugofeature;
 
 -- name: GetHugoFeatureLinks :many
-SELECT id, from_feature, to_feature, road_name, highways, to_point, from_point FROM sign.vwhugofeaturelink;
+SELECT id, from_feature, to_feature, road_name, highways, to_point, from_point, highway_name FROM sign.vwhugofeaturelink;
 
 -- name: GetHugoTags :many
 select id, name, slug, is_category, category_details from sign.tag;
 
+-- name: GetHugoHighwayNames :many
+select hn.id, slugify(hn.name) as slug, hn.name, aas.name as state_name, aas.slug as state_slug from sign.highway_name hn inner join sign.admin_area_state aas on hn.state_id = aas.id;
