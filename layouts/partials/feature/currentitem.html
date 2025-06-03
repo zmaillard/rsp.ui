@@ -1,0 +1,12 @@
+{{ $featureId := .featureid }}
+{{ with .ctx }}
+<div data-testid="{{$featureId}}" data-test="current-feature" style="text-align: center">
+
+    {{ $path := printf "/%s/%v" "feature" $featureId  }}
+    {{ with site.GetPage $path }}
+    <a href="{{.RelPermalink}}">{{.Params.name}}</a>
+    <br/>
+    <span data-test="current-feature-static" class="text-xs font-thin text-gray-700 dark:text-white">Current Location</span>
+    {{ end }}
+</div>
+{{ end }}

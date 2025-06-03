@@ -21,7 +21,7 @@
   {{- if gt $page.Paginator.TotalPages 1 }}
 <div class="flex justify-center">
 <nav aria-label="Pagination">
-  {{- partial (printf "partials/inline/pagination/%s" $format) $page }}
+  {{- partial (printf "inline/pagination/%s" $format) $page }}
   </nav>
 </div>
   {{- end }}
@@ -31,7 +31,7 @@
 
 {{/* Format: default
 {{/* --------------------------------------------------------------------- */}}
-{{- define "partials/inline/pagination/default" }}
+{{- define "inline/pagination/default" }}
   {{- with .Paginator }}
     {{- $currentPageNumber := .PageNumber }}
 
@@ -108,7 +108,7 @@
 
 {{/* Format: terse
 {{/* --------------------------------------------------------------------- */}}
-{{- define "partials/inline/pagination/terse" }}
+{{- define "inline/pagination/terse" }}
   {{- with .Paginator }}
     {{- $currentPageNumber := .PageNumber }}
 
