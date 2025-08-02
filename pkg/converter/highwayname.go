@@ -22,7 +22,6 @@ func NewHighwayNameConverter(ctx context.Context, queries db.Querier) (generator
 	if err != nil {
 		return nil, err
 	}
-
 	var hwyNameDtos []highwayName
 	for i := range hwyNames {
 		tagDto := highwayName{
