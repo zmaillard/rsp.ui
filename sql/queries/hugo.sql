@@ -30,4 +30,4 @@ SELECT id, from_feature, to_feature, road_name, highways, to_point, from_point, 
 select id, name, slug, is_category, category_details from sign.tag;
 
 -- name: GetHugoHighwayNames :many
-select hn.id, slugify(hn.name) as slug, hn.name, aas.name as state_name, aas.slug as state_slug from sign.highway_name hn inner join sign.admin_area_state aas on hn.state_id = aas.id;
+select hn.id, sign.slugify(hn.name) as slug, hn.name, aas.name as state_name, aas.slug as state_slug from sign.highway_name hn inner join sign.admin_area_state aas on hn.state_id = aas.id;
