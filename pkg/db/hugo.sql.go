@@ -166,12 +166,12 @@ func (q *Queries) GetHugoFeatures(ctx context.Context) ([]GetHugoFeaturesRow, er
 }
 
 const getHugoHighwayNames = `-- name: GetHugoHighwayNames :many
-select hn.id, sign.slugify(hn.name) as slug, hn.name, aas.name as state_name, aas.slug as state_slug from sign.highway_name hn inner join sign.admin_area_state aas on hn.state_id = aas.id
+select hn.id, cast(sign.slugify(hn.name) as text) as slug, hn.name, aas.name as state_name, aas.slug as state_slug from sign.highway_name hn inner join sign.admin_area_state aas on hn.state_id = aas.id
 `
 
 type GetHugoHighwayNamesRow struct {
 	ID        int32
-	Slug      interface{}
+	Slug      string
 	Name      pgtype.Text
 	StateName pgtype.Text
 	StateSlug pgtype.Text
