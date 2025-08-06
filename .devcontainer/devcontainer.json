@@ -9,12 +9,15 @@
     },
     "ghcr.io/devcontainers/features/go:1": {"version":  "1.20"},
     "ghcr.io/devcontainers/features/node:1": {"version":  "20"},
-    "ghcr.io/devcontainers/features/aws-cli:1": {},
+    "ghcr.io/devcontainers-extra/features/rclone:1": {},
     "ghcr.io/devcontainers-extra/features/starship:1": {}
   },
   "customizations": {
     "vscode": {
-      "extensions": ["betterthantomorrow.calva"]
+      "extensions": [
+        "betterthantomorrow.calva",
+        "vscodevim.vim",
+        "ms-azuretools.vscode-containers"]
     }
   },
 
