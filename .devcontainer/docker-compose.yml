@@ -1,0 +1,15 @@
+services:
+  development:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ..:/workspace
+    stdin_open: true
+  database:
+    hostname: psql_db
+    image: ghcr.io/zmaillard/rsp.db:v1.1.1
+    environment:
+      - POSTGRES_PASSWORD=ginger
+      - POSTGRES_USER=admin
+      - POSTGRES_DB=roadsign
