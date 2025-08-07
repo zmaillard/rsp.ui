@@ -2,6 +2,7 @@ package config
 
 import (
 	"errors"
+	"github.com/spf13/afero"
 	"github.com/spf13/viper"
 	"log"
 	"os"
@@ -40,10 +41,10 @@ func (c Config) HasPassword() bool {
 	}
 }
 
-func LoadConfig(path string) (config Config, err error) {
+func LoadConfig(fs afero.Fs, path string) (config Config, err error) {
 	viper.AddConfigPath(path)
 	viper.AutomaticEnv()
-	_, pathErr := os.Stat(filepath.Join(path, ".env"))
+	_, pathErr := fs.Stat(filepath.Join(path, ".env"))
 	if !errors.Is(pathErr, os.ErrNotExist) {
 		viper.SetConfigFile(".env")
 	} else {
