@@ -4,12 +4,16 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+
+env:
+  DATABASE_VERSION: v1.1.1
+
 jobs:
   generate-test-data:
     runs-on: ubuntu-latest
     services:
       postgres:
-        image: ghcr.io/zmaillard/rsp.db:v1.1.1
+        image: ghcr.io/zmaillard/rsp.db:${env.DATABASE_VERSION}
         env:
             POSTGRES_USER: admin
             POSTGRES_PASSWORD: rsp
@@ -30,7 +34,14 @@ jobs:
       - uses: actions/setup-go@v4
         with:
           go-version: '^1.20.0'
+
+      - uses: actions/cache@v4
+        id: cache
+        with:
+          path: content
+          key: ${env.DATABASE_VERSION}
       - run: go run main.go
+        if: steps.cache.outputs.cache-hit != 'true'
         env:
           RSP_DATABASE_URL: postgresql://admin:rsp@localhost/roadsign
       - run: npm install
@@ -54,6 +65,3 @@ jobs:
 
       - name: Cypress run with env
         uses: cypress-io/github-action@v6
-        env:
-          CYPRESS_host: localhost
-          CYPRESS_port: 1323
