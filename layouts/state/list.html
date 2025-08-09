@@ -1,7 +1,7 @@
 {{ define "main" }}
 <section class="container mx-auto">
     <!-- Breadcrumb -->
-    <nav class="flex pb-5" aria-label="Breadcrumb">
+    <nav class="flex pb-5" aria-label="Breadcrumb" data-cy="breadcrumb">
         <ol class="inline-flex items-center space-x-1 md:space-x-3">
             <li class="inline-flex items-center">
                 <a href="/"
@@ -28,23 +28,23 @@
         </ol>
     </nav>
     {{ $title := "States" }}
-    {{ template "partials/widgets/pagetitle.html" $title }}
+    {{ template "partials/widgets/pagetitle.html" (dict "text" $title "test" "state-index-title")}}
 
     <div class="p-4">
-        <ul class="space-y-4 text-gray-500 list-disc list-inside dark:text-gray-400">
+        <ul class="space-y-4 text-gray-500 list-disc list-inside dark:text-gray-400" data-cy="countries-list">
             {{ range .Site.Taxonomies.country.ByCount }}
             {{ $countryCount := len .WeightedPages }}
             {{ $countrySlug := .Name }}
             {{ $countryPagePath := printf "/%s/%s" "country" .Name }}
             {{ with $.Site.GetPage $countryPagePath }}
-            <li><a class="font-medium text-blue-600 dark:text-blue-500 hover:underline" href="{{.RelPermalink}}">{{ .Params.name }}</a><span class="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300">{{$countryCount}}</span>
-                <ul class="pl-5 mt-2 space-y-1 list-disc list-inside">
+            <li data-cy="country-{{.Params.Slug}}"><a class="font-medium text-blue-600 dark:text-blue-500 hover:underline" href="{{.RelPermalink}}" data-cy="country-link-{{.Params.slug}}">{{ .Params.name }}</a><span class="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300" data-cy="country-count-{{.Params.Slug}}">{{$countryCount}}</span>
+                <ul class="pl-5 mt-2 space-y-1 list-disc list-inside" data-cy="states-list-{{.Params.Slug}}">
                     {{ range .Site.Taxonomies.state.ByCount }}
                     {{ $stateCount := len .WeightedPages }}
                     {{ $statePagePath := printf "/%s/%s" "state" .Name }}
                     {{ with $.Site.GetPage $statePagePath }}
                     {{ if eq $countrySlug .Params.countryslug }}
-                    <li><a class="font-medium text-blue-600 dark:text-blue-500 hover:underline" href="{{.RelPermalink}}">{{ .Params.name }}</a><span class="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300">{{$stateCount}}</span></li>
+                    <li data-cy="state-{{.Params.Slug}}"><a class="font-medium text-blue-600 dark:text-blue-500 hover:underline" href="{{.RelPermalink}}" data-cy="state-link-{{.Params.Slug}}">{{ .Params.name }}</a><span class="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300" data-cy="state-count-{{.Params.Slug}}">{{$stateCount}}</span></li>
                     {{ end }}
                     {{ end }}
                     {{ end }}
