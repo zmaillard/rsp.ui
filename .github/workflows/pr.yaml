@@ -47,3 +47,13 @@ jobs:
           HUGO_PARAMS_MAPTILE: ${{ vars.HUGO_PARAMS_MAPTILE }}
           HUGO_PARAMS_MAPBOXTOKEN: ${{ secrets.HUGO_PARAMS_MAPBOXTOKEN }}
           HUGO_PARAMS_RANDOMURL: ${{ vars.HUGO_PARAMS_RANDOMURL }}
+
+      - name: Serve site in background
+        run: |
+          python3 -m http.server 1323 --directory public & sleep 3
+
+      - name: Cypress run with env
+        uses: cypress-io/github-action@v6
+        env:
+          CYPRESS_host: localhost
+          CYPRESS_port: 1323
