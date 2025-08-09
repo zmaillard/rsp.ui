@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     services:
       postgres:
-        image: ghcr.io/zmaillard/rsp.db:${env.DATABASE_VERSION}
+        image: ghcr.io/zmaillard/rsp.db:${{env.DATABASE_VERSION}}
         env:
             POSTGRES_USER: admin
             POSTGRES_PASSWORD: rsp
@@ -39,7 +39,7 @@ jobs:
         id: cache
         with:
           path: content
-          key: ${env.DATABASE_VERSION}
+          key: ${{env.DATABASE_VERSION}}
       - run: go run main.go
         if: steps.cache.outputs.cache-hit != 'true'
         env:
