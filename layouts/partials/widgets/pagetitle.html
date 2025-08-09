@@ -4,6 +4,7 @@
 
 {{- $text := . }}
 {{- $align := "no-center" }}
+{{- $testAttr := "" }}
 
 {{- if reflect.IsMap . }}
     {{- with .text }}
@@ -14,10 +15,13 @@
     {{- with .align }}
         {{- $align = lower . }}
     {{- end }}
+    {{- with .test }}
+        {{- $testAttr = . }}
+    {{- end }}
 {{- end }}
 
 {{- if in $validAlign $align }}
-<h1 id="page-title-main" class="text-3xl font-bold dark:text-white {{ if eq $align "center"}}text-center{{end}}">{{ $text }}</h1>
+<h1 id="page-title-main" {{ if $testAttr }} data-cy="{{$testAttr}}" {{ end }} class="text-3xl font-bold dark:text-white {{ if eq $align "center"}}text-center{{end}}">{{ $text }}</h1>
 {{- else }}
 {{- errorf $msg2 }}
 {{- end -}}

@@ -77,15 +77,15 @@
 {{ partial "country/all.html" .  }}
 {{ else }}
 {{ $browseSubTitle := printf "Browse By %s" .Params.subdivisionname }}
-{{ template "partials/widgets/pagetitle.html" $browseSubTitle }}
-<div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+{{ template "partials/widgets/pagetitle.html"(dict "text" $browseSubTitle "test" "browse-by-state-title")   }}
+<div data-cy="states-container" class="grid grid-cols-2 lg:grid-cols-4 gap-4">
     {{ with .Params.states }}
     {{ range sort . "name" "asc" }}
     {{ $name := .slug }}
     {{ $statePath := printf "/%s/%s" "state" $name }}
     {{ with $.Site.GetPage $statePath }}
     {{ if .Params.featured }}
-    <a href="{{.RelPermalink}}">
+    <a data-cy="state-link-{{.Params.Slug}}" href="{{.RelPermalink}}">
     <div
             class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
 
@@ -110,14 +110,14 @@
 <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
 
 {{ $browseHwyTitle := "Browse By Highway" }}
-{{ template "partials/widgets/pagetitle.html" $browseHwyTitle }}
-<div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+{{ template "partials/widgets/pagetitle.html" (dict "text" $browseHwyTitle "test" "browse-by-highway-title") }}
+<div data-cy="highways-container" class="grid grid-cols-2 lg:grid-cols-4 gap-4">
     {{ with .Params.highwayTypes }}
     {{ range sort . "name" "asc" }}
     {{ $name := .slug }}
     {{ $hwyTypePath := printf "/%s/%s" "highwaytype" $name }}
     {{ with $.Site.GetPage $hwyTypePath }}
-    <a href="{{.RelPermalink}}">
+    <a data-cy="highway-link-{{.Params.Slug}}" href="{{.RelPermalink}}">
 
     <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                 <img  class="rounded-t-lg" loading="lazy" src="{{site.Params.SIGNBASEURL}}{{.Params.featured}}/{{.Params.featured}}_m.jpg">
