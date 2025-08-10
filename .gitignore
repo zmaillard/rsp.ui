@@ -25,3 +25,4 @@ assets/css/index.css
 .lsp
 bot.db
 
+cypress/screenshots/
