@@ -49,7 +49,7 @@ func (s HighwaySignDto) ToMarkdown() ([]byte, error) {
 		return nil, err
 	}
 
-	formattedYaml := addYamlFrontAndEndMatterText(y, s.Description)
+	formattedYaml := AddYamlFrontAndEndMatterText(y, s.Description)
 
 	return formattedYaml, nil
 

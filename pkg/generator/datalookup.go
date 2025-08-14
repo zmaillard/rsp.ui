@@ -1,8 +1,9 @@
 package generator
 
 import (
-	"github.com/spf13/afero"
 	"path"
+
+	"github.com/spf13/afero"
 )
 
 type Lookup interface {

@@ -2,6 +2,7 @@ package dto
 
 import (
 	"fmt"
+
 	"gopkg.in/yaml.v3"
 )
 
@@ -27,7 +28,7 @@ func (c AdminAreaCountryDto) ToMarkdown() ([]byte, error) {
 		return nil, err
 	}
 
-	formattedYaml := addYamlFrontAndEndMatter(y)
+	formattedYaml := AddYamlFrontAndEndMatter(y)
 
 	return formattedYaml, nil
 }
@@ -59,7 +60,7 @@ func (s AdminAreaStateDto) ToMarkdown() ([]byte, error) {
 		return nil, err
 	}
 
-	formattedYaml := addYamlFrontAndEndMatter(y)
+	formattedYaml := AddYamlFrontAndEndMatter(y)
 
 	return formattedYaml, nil
 }
@@ -82,7 +83,7 @@ func (s AdminAreaCountyDto) ToMarkdown() ([]byte, error) {
 		return nil, err
 	}
 
-	formattedYaml := addYamlFrontAndEndMatter(y)
+	formattedYaml := AddYamlFrontAndEndMatter(y)
 
 	return formattedYaml, nil
 }
@@ -104,7 +105,7 @@ func (s AdminAreaPlaceDto) ToMarkdown() ([]byte, error) {
 		return nil, err
 	}
 
-	formattedYaml := addYamlFrontAndEndMatter(y)
+	formattedYaml := AddYamlFrontAndEndMatter(y)
 
 	return formattedYaml, nil
 }

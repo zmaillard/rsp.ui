@@ -1,4 +1,4 @@
-name: pr.yaml
+name: Test on Pull Request
 on:
   push:
     branches: [main]
@@ -34,7 +34,7 @@ jobs:
       - uses: actions/setup-go@v4
         with:
           go-version: '^1.20.0'
-
+      - run: go test
       - run: go run main.go
         env:
           RSP_DATABASE_URL: postgresql://admin:rsp@localhost/roadsign

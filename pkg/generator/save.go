@@ -2,9 +2,10 @@ package generator
 
 import (
 	"fmt"
-	"github.com/spf13/afero"
 	"os"
 	"path"
+
+	"github.com/spf13/afero"
 )
 
 func SaveItem(fs afero.Fs, basePath string, v Generator) error {
