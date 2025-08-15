@@ -1,9 +1,0 @@
-services:
-  database:
-    image: ghcr.io/zmaillard/rsp.db:v1.1.1
-    ports:
-      - "6432:5432"
-    environment:
-      - POSTGRES_PASSWORD=ginger
-      - POSTGRES_USER=admin
-      - POSTGRES_DB=roadsign
