@@ -2,6 +2,7 @@ package dto
 
 import (
 	"fmt"
+
 	"gopkg.in/yaml.v3"
 )
 
@@ -32,7 +33,7 @@ func (f FeatureDto) ToMarkdown() ([]byte, error) {
 		return nil, err
 	}
 
-	formattedYaml := addYamlFrontAndEndMatter(y)
+	formattedYaml := AddYamlFrontAndEndMatter(y)
 
 	return formattedYaml, nil
 }

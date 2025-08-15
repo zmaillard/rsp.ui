@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"github.com/spf13/afero"
 	"highway-sign-portal-builder/pkg/config"
 	"highway-sign-portal-builder/pkg/converter"
 	"highway-sign-portal-builder/pkg/db"
@@ -11,6 +12,7 @@ import (
 func main() {
 
 	ctx := context.Background()
+	appFs := afero.NewOsFs()
 	cfg, err := config.LoadConfig(".")
 	if err != nil {
 		panic(err)
@@ -29,7 +31,7 @@ func main() {
 	}
 
 	for v := range hwys.Convert() {
-		err = generator.SaveItem(cfg.HugoPath, v)
+		err = generator.SaveItem(appFs, cfg.HugoPath, v)
 		if err != nil {
 			panic(err)
 		}
@@ -40,7 +42,7 @@ func main() {
 		panic(err)
 	}
 	for v := range highwayTypes.Convert() {
-		err = generator.SaveItem(cfg.HugoPath, v)
+		err = generator.SaveItem(appFs, cfg.HugoPath, v)
 		if err != nil {
 			panic(err)
 		}
@@ -52,38 +54,38 @@ func main() {
 	}
 
 	signLookup := signConverter.(*converter.SignConverter)
-	err = generator.SaveLookup(cfg.HugoPath, signLookup)
+	err = generator.SaveLookup(appFs, cfg.HugoPath, signLookup)
 	if err != nil {
 		panic(err)
 	}
 
-	err = generator.SaveLookup(cfg.HugoPath, signLookup.GetHighQualityLookup())
+	err = generator.SaveLookup(appFs, cfg.HugoPath, signLookup.GetHighQualityLookup())
 	if err != nil {
 		panic(err)
 	}
 
-	err = generator.SaveLookup(cfg.HugoPath, signLookup.GetPlaceLookup())
+	err = generator.SaveLookup(appFs, cfg.HugoPath, signLookup.GetPlaceLookup())
 	if err != nil {
 		panic(err)
 	}
 
-	err = generator.SaveLookup(cfg.HugoPath, signLookup.GetCountyLookup())
+	err = generator.SaveLookup(appFs, cfg.HugoPath, signLookup.GetCountyLookup())
 	if err != nil {
 		panic(err)
 	}
 
-	err = generator.SaveLookup(cfg.HugoPath, signLookup.GetStateLookup())
+	err = generator.SaveLookup(appFs, cfg.HugoPath, signLookup.GetStateLookup())
 	if err != nil {
 		panic(err)
 	}
 
-	err = generator.SaveLookup(cfg.HugoPath, signLookup.GetGeoJsonLookup())
+	err = generator.SaveLookup(appFs, cfg.HugoPath, signLookup.GetGeoJsonLookup())
 	if err != nil {
 		panic(err)
 	}
 
 	for v := range signConverter.Convert() {
-		err = generator.SaveItem(cfg.HugoPath, v)
+		err = generator.SaveItem(appFs, cfg.HugoPath, v)
 		if err != nil {
 			panic(err)
 		}
@@ -95,7 +97,7 @@ func main() {
 	}
 
 	for v := range featureConverter.Convert() {
-		err = generator.SaveItem(cfg.HugoPath, v)
+		err = generator.SaveItem(appFs, cfg.HugoPath, v)
 		if err != nil {
 			panic(err)
 		}
@@ -106,7 +108,7 @@ func main() {
 		panic(err)
 	}
 	for v := range countryConverter.Convert() {
-		err = generator.SaveItem(cfg.HugoPath, v)
+		err = generator.SaveItem(appFs, cfg.HugoPath, v)
 		if err != nil {
 			panic(err)
 		}
@@ -117,7 +119,7 @@ func main() {
 		panic(err)
 	}
 	for v := range stateConverter.Convert() {
-		err = generator.SaveItem(cfg.HugoPath, v)
+		err = generator.SaveItem(appFs, cfg.HugoPath, v)
 		if err != nil {
 			panic(err)
 		}
@@ -128,7 +130,7 @@ func main() {
 		panic(err)
 	}
 	for v := range placeConverter.Convert() {
-		err = generator.SaveItem(cfg.HugoPath, v)
+		err = generator.SaveItem(appFs, cfg.HugoPath, v)
 		if err != nil {
 			panic(err)
 		}
@@ -139,7 +141,7 @@ func main() {
 		panic(err)
 	}
 	for v := range counties.Convert() {
-		err = generator.SaveItem(cfg.HugoPath, v)
+		err = generator.SaveItem(appFs, cfg.HugoPath, v)
 		if err != nil {
 			panic(err)
 		}
@@ -149,7 +151,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	err = generator.SaveLookup(cfg.HugoPath, tags)
+	err = generator.SaveLookup(appFs, cfg.HugoPath, tags)
 	if err != nil {
 		panic(err)
 	}
@@ -158,7 +160,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	err = generator.SaveLookup(cfg.HugoPath, namedHighways)
+	err = generator.SaveLookup(appFs, cfg.HugoPath, namedHighways)
 	if err != nil {
 		panic(err)
 
