@@ -10,21 +10,23 @@
             {{ if gt .Params.imageHeight .Params.imageWidth }} {{ $dimClass = "is-3by4" }}  {{ else }} {{ $dimClass = "is-4by3" }}  {{ end }}
             {{ $title := .Title }}
             {{with .GetPage $signpage}}
-            <a href="/sign/{{ .Params.imageid}}">
-                <img class="h-auto max-w-full mx-auto"
+                <img id="main-sign-img"
+                     data-cy="sign-image"
+                     class="h-auto max-w-full mx-auto"
                      data-src="{{site.Params.SIGNBASEURL}}{{ $imageid}}/{{ $imageid}}_l.jpg"
                      src="{{site.Params.SIGNBASEURL}}{{ $imageid}}/{{ $imageid}}_l.jpg"
-                     alt="{{ .Title }}" style="opacity: 1; transition: opacity 0.15s linear 0s;"></a>
+                     data-zoom-src="{{site.Params.SIGNBASEURL}}{{ $imageid}}/{{ $imageid}}.jpg"
+                     alt="{{ .Title }}" style="opacity: 1; transition: opacity 0.15s linear 0s;">
             {{ end }}
 
-            <div class="p-5">
-                <h5 itemprop="title" class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ .Title}}</h5>
+            <div data-cy="sign-metadata" class="p-5">
+                <h5 itemprop="title" data-cy="sign-title" class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ .Title}}</h5>
                 <div itemprop="description" class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{ .Content }}</div>
                 {{ with .Params.date}}
-                <p itemprop="datetaken" class="mb-3 font-normal text-xs  text-gray-700 dark:text-gray-400">Taken {{ .Format "01-02-2006"}}</p>
+                <p itemprop="datetaken" data-cy="sign-date-taken" class="mb-3 font-normal text-xs  text-gray-700 dark:text-gray-400">Taken {{ .Format "01-02-2006"}}</p>
                 {{ end }}
             </div>
-            <div class="p-5">
+            <div class="p-5" data-cy="sign-location">
                 {{ $plusCode := .Params.plusCode }}
                 {{ $plusCodeEncode := replace $plusCode "+" "%2B"  }}
                 {{ with .Params.point }}
@@ -68,7 +70,7 @@
             </div>
                     {{ end }}
             <div class="flex flex-wrap">
-                <div itemscope class="p-5">
+                <div data-cy="highway-links" itemscope class="p-5">
                     {{ partial "widgets/shieldlist.html" . }}
 
                     <svg class="w-4 h-4 inline text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 21">
@@ -94,5 +96,13 @@
         {{ end }}
     </div>
 </section>
+<script>
+    mediumZoom('#main-sign-img');
+</script>
 
+{{ end }}
+
+
+{{ define "header" }}
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js"></script>
 {{ end }}
