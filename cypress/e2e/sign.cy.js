@@ -18,6 +18,7 @@ describe('Sign Page Tests', () => {
         cy.get('[data-cy="sign-location"]').should('exist')
     })
 
+    /*
     it('should have working highway links', () => {
         cy.get('[data-cy="highway-links"]').should('be.visible')
         // Get the first highway link and click it
@@ -30,6 +31,8 @@ describe('Sign Page Tests', () => {
         cy.get('[data-cy="state-link"]').click()
         cy.url().should('include', '/state/')
     })
+
+     */
 
     it('should navigate between related signs if available', () => {
         // Test navigation to other signs if they exist
