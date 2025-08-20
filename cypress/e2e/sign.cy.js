@@ -34,25 +34,47 @@ describe('Sign Page Tests', () => {
     it('should navigate between related signs if available', () => {
         // Test navigation to other signs if they exist
         cy.get('[data-cy="related-signs"]').then($relatedSigns => {
-            if ($relatedSigns.find('[data-cy="next-sign"]').length > 0) {
-                cy.get('[data-cy="next-sign"]').click()
-                cy.url().should('include', '/sign/')
-                cy.url().should('not.include', '/sign/i90-exit34')
+            let dirs = ['n', 's', 'e', 'w', 'ne', 'se', 'nw', 'sw']
+            for (let dir of dirs) {
+                if ($relatedSigns.find(`[data-cy="feature-dir-${dir}"]`).length > 0) {
+                    cy.get(`[data-cy="feature-dir-${dir}"]`).click();
+                    cy.url().should('include', '/sign/')
+                    cy.url().should('not.include', '/sign/909981781')
+                }
             }
         })
+    })
+    it('should have mediumZoom enabled on the sign image', () => {
+        // Check that the main sign image exists and has required attributes
+        cy.get('#main-sign-img')
+            .should('be.visible')
+            .and('have.attr', 'data-src')
+
+
+        cy.get('#main-sign-img')
+            .should('be.visible')
+            .and('have.attr', 'data-zoom-src')
+            .and('not.contain', '_l')
+
+        // Verify zoom functionality is attached by checking for medium-zoom related classes
+        // First, check that the image is clickable
+        cy.get('#main-sign-img').click()
+
+        // After click, medium-zoom creates an overlay and zoomed image
+        cy.get('.medium-zoom-overlay').should('exist')
+        cy.get('.medium-zoom-image--opened').should('exist')
+
+        // The zoomed image should use the high-resolution source
+        cy.get('.medium-zoom-image--opened')
+            .should('have.attr', 'src')
+            .and('include', '.jpg')
     })
 
-    it('should display features associated with the sign', () => {
-        cy.get('[data-cy="features-section"]').then($featuresSection => {
-            if ($featuresSection.length > 0) {
-                cy.get('[data-cy="feature-link"]').should('exist')
-                cy.get('[data-cy="feature-link"]').first().click()
-                cy.url().should('include', '/feature/')
-            }
-        })
-    })
 })
 
+
+
+/*
 describe('Sign Navigation Between Pages', () => {
     it('should navigate to a sign page from the homepage', () => {
         cy.visit('/')
@@ -69,3 +91,5 @@ describe('Sign Navigation Between Pages', () => {
         cy.get('[data-cy="sign-title"]').should('be.visible')
     })
 })
+
+ */

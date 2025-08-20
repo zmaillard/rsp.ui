@@ -86,7 +86,7 @@
         </div>
     </div>
 
-    <div class="mx-auto max-w-fit p-2">
+    <div data-cy="related-signs" class="mx-auto max-w-fit p-2">
         {{ with .Params.featureid }}
         {{ $name := . }}
         {{ $path := printf "/%s/%v" "feature" $name }}

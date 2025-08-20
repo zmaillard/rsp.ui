@@ -1,6 +1,7 @@
 {{ $featureId := .featureid }}
+{{ $dir := .dir }}
 {{ with .ctx }}
-<div>
+<div {{ if $dir }}data-cy="feature-dir-{{$dir}}" {{end}} >
 
     {{ $slug := "" }}
     {{ if ne .fromfeatureid $featureId }}
