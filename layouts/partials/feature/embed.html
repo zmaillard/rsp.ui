@@ -36,16 +36,16 @@
 <div class="grid grid-cols-3 gap-4">
     <div class="justify-self-start text-gray-900 dark:text-white">
         {{ range $adjFeats.Get "NW"}}
-        {{ partial "feature/item.html" (dict "ctx" . "featureid" $featureId) }}
+        {{ partial "feature/item.html" (dict "ctx" . "featureid" $featureId "dir" "NW") }}
         {{ end }}
         {{ range $adjFeats.Get "W"}}
-        {{ partial "feature/item.html" (dict "ctx" . "featureid" $featureId) }}
+        {{ partial "feature/item.html" (dict "ctx" . "featureid" $featureId "dir" "W") }}
         {{ end }}
         {{ range $adjFeats.Get "SW"}}
-        {{ partial "feature/item.html" (dict "ctx" . "featureid" $featureId) }}
+        {{ partial "feature/item.html" (dict "ctx" . "featureid" $featureId "dir" "SW") }}
         {{ end }}
         {{ range $adjFeats.Get "S"}}
-        {{ partial "feature/item.html" (dict "ctx" . "featureid" $featureId) }}
+        {{ partial "feature/item.html" (dict "ctx" . "featureid" $featureId  "dir" "S") }}
         {{ end }}
     </div>
     <div class="justify-self-center text-gray-900 dark:text-white">
@@ -53,16 +53,16 @@
     </div>
     <div class="justify-self-end text-gray-900 dark:text-white">
         {{ range $adjFeats.Get "N"}}
-        {{ partial "feature/item.html" (dict "ctx" . "featureid" $featureId) }}
+        {{ partial "feature/item.html" (dict "ctx" . "featureid" $featureId "dir" "N") }}
         {{ end }}
         {{ range $adjFeats.Get "NE"}}
-        {{ partial "feature/item.html" (dict "ctx" . "featureid" $featureId) }}
+        {{ partial "feature/item.html" (dict "ctx" . "featureid" $featureId "dir" "NE") }}
         {{ end }}
         {{ range $adjFeats.Get "E"}}
-        {{ partial "feature/item.html" (dict "ctx" . "featureid" $featureId) }}
+        {{ partial "feature/item.html" (dict "ctx" . "featureid" $featureId "dir" "E") }}
         {{ end }}
         {{ range $adjFeats.Get "SE"}}
-        {{ partial "feature/item.html" (dict "ctx" . "featureid" $featureId) }}
+        {{ partial "feature/item.html" (dict "ctx" . "featureid" $featureId "dir" "SE") }}
         {{ end }}
     </div>
 </div>
