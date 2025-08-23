@@ -14,6 +14,7 @@ describe('Sign Page Tests', () => {
 
     it('should display metadata about the sign', () => {
         cy.get('[data-cy="sign-metadata"]').should('be.visible')
+        cy.get('[data-cy="sign-description"]').should('have.class', 'prose')
         cy.get('[data-cy="sign-date-taken"]').should('exist')
         cy.get('[data-cy="sign-location"]').should('exist')
     })
