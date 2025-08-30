@@ -5,6 +5,7 @@
 {{- $text := . }}
 {{- $align := "no-center" }}
 {{- $testAttr := "" }}
+{{- $link := "" }}
 
 {{- if reflect.IsMap . }}
     {{- with .text }}
@@ -18,10 +19,19 @@
     {{- with .test }}
         {{- $testAttr = . }}
     {{- end }}
+    {{- with .link }}
+    {{- $link = . }}
+    {{- end }}
 {{- end }}
 
 {{- if in $validAlign $align }}
-<h1 id="page-title-main" {{ if $testAttr }} data-cy="{{$testAttr}}" {{ end }} class="text-3xl font-bold dark:text-white {{ if eq $align "center"}}text-center{{end}}">{{ $text }}</h1>
+{{- if ne $link "" }}
+<a class="hover:underline  inline-flex" rel="noopener noreferrer" href="{{$link}}" target="_blank">
+{{- end }}
+<h1 id="page-title-main" {{ if $testAttr }} data-cy="{{$testAttr}}" {{ end }} class="text-3xl  font-bold dark:text-white {{ if eq $align "center"}}text-center{{end}}">{{ $text }}</h1>{{- if ne $link "" }}<i class="w-3 h-3 ms-5" data-feather="external-link"></i>{{- end}}
+{{- if ne $link "" }}
+</a>
+{{- end }}
 {{- else }}
 {{- errorf $msg2 }}
 {{- end -}}

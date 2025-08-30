@@ -292,7 +292,7 @@ func (q *Queries) GetHugoHighwayTypes(ctx context.Context) ([]GetHugoHighwayType
 }
 
 const getHugoHighways = `-- name: GetHugoHighways :many
-SELECT id, highway_name, slug, sort_number, image_name, highway_type_slug, highway_type_name, cast (states as text[]), cast (counties as text[]), cast (places as text[]), cast (previous_features as int[]), cast (next_features as int[]), display_name FROM sign.vwhugohighway
+SELECT id, highway_name, slug, sort_number, image_name, highway_type_slug, highway_type_name, cast (states as text[]), cast (counties as text[]), cast (places as text[]), cast (previous_features as int[]), cast (next_features as int[]), display_name, external_link FROM sign.vwhugohighway
 `
 
 type GetHugoHighwaysRow struct {
@@ -309,6 +309,7 @@ type GetHugoHighwaysRow struct {
 	PreviousFeatures []int32
 	NextFeatures     []int32
 	DisplayName      pgtype.Text
+	ExternalLink     pgtype.Text
 }
 
 func (q *Queries) GetHugoHighways(ctx context.Context) ([]GetHugoHighwaysRow, error) {
@@ -334,6 +335,7 @@ func (q *Queries) GetHugoHighways(ctx context.Context) ([]GetHugoHighwaysRow, er
 			&i.PreviousFeatures,
 			&i.NextFeatures,
 			&i.DisplayName,
+			&i.ExternalLink,
 		); err != nil {
 			return nil, err
 		}

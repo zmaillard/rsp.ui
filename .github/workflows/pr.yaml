@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     services:
       postgres:
-        image: ghcr.io/zmaillard/rsp.db:v1.1.1
+        image: ghcr.io/zmaillard/rsp.db:v1.2.2
         env:
             POSTGRES_USER: admin
             POSTGRES_PASSWORD: rsp

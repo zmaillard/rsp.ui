@@ -105,6 +105,7 @@ type SignHighway struct {
 	AdminAreaCountryID pgtype.Int4
 	AdminAreaStateID   pgtype.Int4
 	DisplayName        pgtype.Text
+	ExternalLink       pgtype.Text
 }
 
 type SignHighwayHighwayName struct {
@@ -316,6 +317,7 @@ type SignVwhugohighway struct {
 	PreviousFeatures interface{}
 	NextFeatures     interface{}
 	DisplayName      pgtype.Text
+	ExternalLink     pgtype.Text
 }
 
 type SignVwhugohighwaysign struct {
