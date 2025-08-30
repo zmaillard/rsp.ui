@@ -5,12 +5,10 @@ on:
   pull_request:
     branches: [main]
 
-env:
-  DATABASE_VERSION: v1.1.1
-
 jobs:
   generate-test-data:
     runs-on: ubuntu-latest
+    environment: Staging
     services:
       postgres:
         image: ghcr.io/zmaillard/rsp.db:v1.2.2
