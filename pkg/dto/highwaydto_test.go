@@ -18,10 +18,11 @@ func TestHighwayDto_ToMarkdown(t *testing.T) {
 		{
 			name: "complete highway data",
 			input: dto.HighwayDto{
-				Name:        "Interstate 90",
-				DisplayName: "I-90",
-				Slug:        "i90",
-				Image:       "i90-featured.jpg",
+				Name:         "Interstate 90",
+				DisplayName:  "I-90",
+				Slug:         "i90",
+				Image:        "i90-featured.jpg",
+				ExternalLink: "https://en.wikipedia.org/wiki/Interstate_90",
 				HighwayTypeSlug: dto.AdminAreaSlimDto{
 					Slug: "interstate",
 				},
