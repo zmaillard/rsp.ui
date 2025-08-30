@@ -25,11 +25,12 @@ func (h highwayConverter) Convert() iter.Seq[generator.Generator] {
 	return func(yield func(generator.Generator) bool) {
 		for _, hw := range *h.highways {
 			highwayDto := dto.HighwayDto{
-				Name:        hw.HighwayName.String,
-				DisplayName: hw.DisplayName.String,
-				Slug:        hw.Slug.String,
-				Image:       hw.ImageName.String,
-				Sort:        int(hw.SortNumber.Int32),
+				Name:         hw.HighwayName.String,
+				DisplayName:  hw.DisplayName.String,
+				ExternalLink: hw.ExternalLink.String,
+				Slug:         hw.Slug.String,
+				Image:        hw.ImageName.String,
+				Sort:         int(hw.SortNumber.Int32),
 				HighwayTypeSlug: dto.AdminAreaSlimDto{
 					Name: hw.HighwayTypeName.String,
 					Slug: hw.HighwayTypeSlug.String,

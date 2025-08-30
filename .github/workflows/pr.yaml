@@ -5,15 +5,13 @@ on:
   pull_request:
     branches: [main]
 
-env:
-  DATABASE_VERSION: v1.1.1
-
 jobs:
   generate-test-data:
     runs-on: ubuntu-latest
+    environment: Staging
     services:
       postgres:
-        image: ghcr.io/zmaillard/rsp.db:v1.1.1
+        image: ghcr.io/zmaillard/rsp.db:v1.2.2
         env:
             POSTGRES_USER: admin
             POSTGRES_PASSWORD: rsp
@@ -47,8 +45,8 @@ jobs:
           HUGO_PARAMS_SEARCHKEY: ${{ secrets.HUGO_PARAMS_SEARCHKEY }}
           HUGO_PARAMS_SEARCHURL: ${{ secrets.HUGO_PARAMS_SEARCHURL }}
           HUGO_PARAMS_VERSION: 'v1.0.0'
-          HUGO_PARAMS_SIGNBASEURL: ${{ vars.HUGO_PARAMS_SIGNBASEURL }}
-          HUGO_PARAMS_SHIELDBASEURL: ${{ vars.HUGO_PARAMS_SHIELDBASEURL }}
+          HUGO_PARAMS_SIGNBASEURL: ${{ vars.HUGO_PARAMS_SIGNPRIVATEBASEURL }}
+          HUGO_PARAMS_SHIELDBASEURL: ${{ vars.HUGO_PARAMS_SHIELDPRIVATEBASEURL }}
           HUGO_PARAMS_MAPTILE: ${{ vars.HUGO_PARAMS_MAPTILE }}
           HUGO_PARAMS_MAPBOXTOKEN: ${{ secrets.HUGO_PARAMS_MAPBOXTOKEN }}
           HUGO_PARAMS_RANDOMURL: ${{ vars.HUGO_PARAMS_RANDOMURL }}

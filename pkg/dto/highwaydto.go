@@ -2,12 +2,14 @@ package dto
 
 import (
 	"fmt"
+
 	"gopkg.in/yaml.v3"
 )
 
 type HighwayDto struct {
 	Name            string           `yaml:"name"`
 	DisplayName     string           `yaml:"displayName,omitempty"`
+	ExternalLink    string           `yaml:"externalLink,omitempty"`
 	Slug            string           `yaml:"slug"`
 	Image           string           `yaml:"imageName"`
 	HighwayTypeSlug AdminAreaSlimDto `yaml:"highwayType"`
