@@ -21,7 +21,7 @@ func (ht HighwayTypeDto) ToMarkdown() ([]byte, error) {
 		return nil, err
 	}
 
-	formattedYaml := addYamlFrontAndEndMatter(y)
+	formattedYaml := AddYamlFrontAndEndMatter(y)
 
 	return formattedYaml, nil
 }

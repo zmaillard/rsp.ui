@@ -2,7 +2,7 @@
 {{ $placeSlug := . }}
 {{ $path := printf "/%s/%s" "place" $placeSlug }}
 {{ with $.Site.GetPage $path }}
-<a itemprop="place" class="p-0 text-xs text-gray-700 dark:text-gray-400 underline hover:no-underline" href="{{.RelPermalink}}">{{ .Params.name }}</a>
+<a itemprop="place" data-cy="place-link" class="p-0 text-xs text-gray-700 dark:text-gray-400 underline hover:no-underline" href="{{.RelPermalink}}">{{ .Params.name }}</a>
 {{ end }}
 {{ end }}
 
@@ -10,19 +10,19 @@
 {{ $countySlug := . }}
 {{ $path := printf "/%s/%s" "county" $countySlug  }}
 {{ with $.Site.GetPage $path }}
-<a itemprop="county" class="p-0 text-xs text-gray-700 dark:text-gray-400 underline hover:no-underline" href="{{.RelPermalink}}">{{ .Params.name }}</a>
+<a itemprop="county" data-cy="county-link" class="p-0 text-xs text-gray-700 dark:text-gray-400 underline hover:no-underline" href="{{.RelPermalink}}">{{ .Params.name }}</a>
 {{ end }}
 {{ end }}
 
 {{ $stateSlug := .Params.state }}
 {{ $path := printf "/%s/%s" "state" $stateSlug }}
 {{ with $.Site.GetPage $path }}
-<a itemprop="state" class="p-0 text-xs text-gray-700 dark:text-gray-400 underline hover:no-underline" href="{{.RelPermalink}}">{{ .Params.name }}</a>
+<a itemprop="state" data-cy="state-link" class="p-0 text-xs text-gray-700 dark:text-gray-400 underline hover:no-underline" href="{{.RelPermalink}}">{{ .Params.name }}</a>
 {{ end }}
 
 
 {{ $countrySlug := .Params.country }}
 {{ $path := printf "/%s/%s" "country" $countrySlug }}
 {{ with $.Site.GetPage $path }}
-<a itemprop="country" class="p-0 text-xs text-gray-700 dark:text-gray-400 underline hover:no-underline" href="{{.RelPermalink}}">{{ .Params.name }}</a>
+<a itemprop="country" data-cy="country-link" class="p-0 text-xs text-gray-700 dark:text-gray-400 underline hover:no-underline" href="{{.RelPermalink}}">{{ .Params.name }}</a>
 {{ end }}

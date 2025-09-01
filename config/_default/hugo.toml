@@ -2,7 +2,6 @@ languageCode = 'en-us'
 title = 'Roadsign Pictures'
 ignoreErrors = ["error-output-taxonomy"]
 enableRobotsTXT = true
-
 [outputFormats]
   [outputFormats.list]
     mediatype = "text/html"
@@ -31,3 +30,6 @@ enableRobotsTXT = true
   [[module.mounts]]
     source = "node_modules/flowbite/dist"
     target = "assets/js/flowbite"
+
+[markup.goldmark.renderer]
+unsafe= true
