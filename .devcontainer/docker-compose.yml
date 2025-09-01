@@ -8,8 +8,8 @@ services:
     stdin_open: true
   database:
     hostname: psql_db
-    image: ghcr.io/zmaillard/rsp.db:v1.1.1
+    image: ghcr.io/zmaillard/rsp.db:v1.2.2
     environment:
-      - POSTGRES_PASSWORD=ginger
+      - POSTGRES_PASSWORD=secret
       - POSTGRES_USER=admin
       - POSTGRES_DB=roadsign
