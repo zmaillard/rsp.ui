@@ -5,9 +5,10 @@
   "workspaceFolder": "/workspace",
   "features": {
     "ghcr.io/devcontainers/features/hugo:1": {
-      "extended": true
+      "extended": true,
+      "version": "0.139.0"
     },
-    "ghcr.io/devcontainers/features/go:1": {"version":  "1.20"},
+    "ghcr.io/devcontainers/features/go:1": {"version":  "1.24"},
     "ghcr.io/devcontainers/features/node:1": {"version":  "20"},
     "ghcr.io/devcontainers-extra/features/rclone:1": {},
     "ghcr.io/devcontainers-extra/features/starship:1": {}
@@ -15,7 +16,6 @@
   "customizations": {
     "vscode": {
       "extensions": [
-        "betterthantomorrow.calva",
         "vscodevim.vim",
         "ms-azuretools.vscode-containers"]
     }
