@@ -1,4 +1,5 @@
 [tools]
-go = "1.24"
+go = "1.24.6"
 babashka = "latest"
 nodejs = "20.11.1"
+hugo = "0.139.0"

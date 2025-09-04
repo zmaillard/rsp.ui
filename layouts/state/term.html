@@ -130,10 +130,11 @@
     {{ $stateSlug := $.Params.slug }}
     {{ $countyParams := .Params.counties }}
     {{ with .Params.subdivisionname }}
+    {{ $subdivisionName := . }}
+    {{ with $countyParams }}
     <div class="max-w-full m-4 p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-        <h4 class="text-2xl font-bold dark:text-white">{{ . }}</h4>
+        <h4 class="text-2xl font-bold dark:text-white">{{ $subdivisionName }}</h4>
 
-        {{ with $countyParams }}
         <ul class="flex flex-wrap items-center justify-center text-gray-900 dark:text-white browse-flat-list">
             {{ range $idx, $counties := sort . "name" }}
             {{ $countypath := printf "/%s/%s_%s" "county" $stateSlug $counties.slug }}
@@ -148,12 +149,12 @@
             {{ end }}
             {{ end }}
         </ul>
-        {{ end }}
     </div>
     {{ end }}
+    {{ end }}
+    {{ with .Params.places }}
     <div class="max-w-full  m-4 p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
         <h4 class="text-2xl font-bold dark:text-white">Localities</h4>
-        {{ with .Params.places }}
         <ul class="flex flex-wrap items-center justify-center text-gray-900 dark:text-white browse-flat-list">
             {{ range $idx, $places := sort . "name" }}
             {{ $placepath := printf "/%s/%s_%s" "place" $stateSlug $places.slug }}
@@ -168,8 +169,8 @@
             {{ end }}
             {{ end }}
         </ul>
-        {{ end }}
     </div>
+    {{ end }}
     {{ $highwayNames := .Params.highwayNames }}
     {{ with $highwayTypeMapScratch.Get "highway-type-page" }}
     <div class="max-w-full  m-4 p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
