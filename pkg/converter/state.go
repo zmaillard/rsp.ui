@@ -27,6 +27,11 @@ func (c stateConverter) Convert() iter.Seq[generator.Generator] {
 	return func(yield func(generator.Generator) bool) {
 		for _, state := range *c.states {
 
+			// Filter blank places
+			validPlaces := util.SliceFilter(state.Places, func(highway types.AdminArea) bool {
+				return highway.Name != "" && highway.Slug != ""
+			})
+
 			var featured string
 			if state.Featured != nil {
 				featured = state.Featured.String()
@@ -48,7 +53,7 @@ func (c stateConverter) Convert() iter.Seq[generator.Generator] {
 						Slug: county.Slug,
 					}
 				}),
-				Places: util.SliceMap(state.Places, func(place types.AdminArea) dto.AdminAreaSlimDto {
+				Places: util.SliceMap(validPlaces, func(place types.AdminArea) dto.AdminAreaSlimDto {
 					return dto.AdminAreaSlimDto{
 						Name: place.Name,
 						Slug: place.Slug,

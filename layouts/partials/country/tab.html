@@ -73,7 +73,7 @@
 {{ $pageCount := len .Pages }}
 
 
-{{ if le $pageCount 50 }}
+{{ if le $pageCount 10 }}
 {{ partial "country/all.html" .  }}
 {{ else }}
 {{ $browseSubTitle := printf "Browse By %s" .Params.subdivisionname }}
