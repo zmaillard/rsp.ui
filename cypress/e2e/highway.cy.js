@@ -58,7 +58,7 @@ describe('Highway Page Tests', () => {
             cy.get('[data-cy="highway-shield"]').should('be.visible')
             cy.get('[data-cy="highway-title"]').should('be.visible')
             cy.get('[data-cy="highway-title"]').parent('a').should('have.attr', 'href')
-            cy.get('[data-cy="highway-title"]').parent().children('svg').should('be.visible')
+            cy.get('[data-cy="highway-title"]').parent().children('svg').should('be.visible').should('have.class', 'dark:text-white')
         })
 
         it('should open external link in new tab', () => {
