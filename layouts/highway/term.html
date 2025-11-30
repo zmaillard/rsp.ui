@@ -73,6 +73,9 @@
         <img data-cy="highway-shield" class="h-auto max-w-lg mx-auto" onerror="this.onerror=null; this.remove();" src="{{site.Params.SHIELDBASEURL}}Shields/{{$highway.Params.imagename}}"/>
         {{ template "partials/widgets/pagetitle.html" (dict "text" $displayName  "test"  "highway-title" "link" $externalLink ) }}
     </div>
+    {{ with $externalLink }}
+    <p id="wiki-search" data-external-link="{{ $externalLink }}" class="mb-3 text-body text-gray-700 dark:text-gray-400 "></p>
+    {{ end }}
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
     {{ range $highway.Params.features }}
         {{ $fpath := printf "/%s/%v" "feature" . }}
@@ -117,6 +120,9 @@
         {{ end }}
         </h2>
     </div>
+    {{ with $externalLink }}
+    <p id="wiki-search" data-external-link="{{ $externalLink }}" class="mb-3 text-body text-gray-700 dark:text-gray-400 "></p>
+    {{ end }}
     {{ range $k, $v :=  $orderedStates }}
     {{ $scratchIndex := (string (add $k 1)) }}
     {{ $statePagePath := printf "/%s/%s" "state" $v }}
@@ -138,6 +144,9 @@
         <img data-cy="highway-shield" class="h-auto max-w-lg mx-auto" onerror="this.onerror=null; this.remove();" src="{{site.Params.SHIELDBASEURL}}Shields/{{$highway.Params.imagename}}"/>
         {{ template "partials/widgets/pagetitle.html" (dict "text" $displayName "test" "highway-title"  "link" $externalLink ) }}
     </div>
+    {{ with $externalLink }}
+    <p id="wiki-search" data-external-link="{{ $externalLink }}" class="mb-3 text-body text-gray-700 dark:text-gray-400 "></p>
+    {{ end }}
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {{range index .Site.Taxonomies.highway $highway.Params.slug }}
         {{ partial "sign/tile.html" . }}
@@ -146,5 +155,23 @@
     {{ end }}
 
 </section>
+{{ with $externalLink }}
+    {{ with resources.Get "js/wiki.js" }}
+        {{$opts := dict
+            "minify" (not hugo.IsDevelopment)
+            "sourceMap" (cond hugo.IsDevelopment "external" "")
+            "targetPath" "js/wiki.js"
+        }}
+        {{ with . | js.Build $opts }}
+            {{ if hugo.IsDevelopment }}
+            <script src="{{ .RelPermalink }}"></script>
+            {{ else }}
+                {{ with . | fingerprint }}
+                <script src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous"></script>
+                {{ end }}
+            {{ end }}
+        {{ end }}
+    {{ end }}
+{{ end }}
 
 {{ end }}
