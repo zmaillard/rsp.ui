@@ -199,15 +199,18 @@ describe('Highway Page Tests', () => {
     })
 
     context('Wikipedia API error handling', () => {
+        /*
         beforeEach(() => {
             cy.visit('/highway/az195')
         })
+        */
 
         it('should handle API failure gracefully', () => {
             cy.intercept('GET', '**/en.wikipedia.org/w/api.php*', {
                 statusCode: 500,
                 body: 'Internal Server Error'
             }).as('wikiApiFail')
+            cy.visit('/highway/az195')
 
             cy.wait('@wikiApiFail')
 
@@ -225,6 +228,7 @@ describe('Highway Page Tests', () => {
                     }
                 }
             }).as('wikiApiEmpty')
+            cy.visit('/highway/az195')
 
             cy.wait('@wikiApiEmpty')
 
@@ -246,6 +250,7 @@ describe('Highway Page Tests', () => {
                     }
                 }
             }).as('wikiApiNoExtract')
+            cy.visit('/highway/az195')
 
             cy.wait('@wikiApiNoExtract')
 
