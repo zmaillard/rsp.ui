@@ -3,7 +3,7 @@
     if (!domWikiSearch) {
         return;
     }
-    let externalPageLink =  domWikiSearch.dataset.externalLink;  "{{ $externalLink }}";
+    let externalPageLink =  domWikiSearch.dataset.externalLink;
     if (!externalPageLink) {
         return;
     }
@@ -11,7 +11,11 @@
         return;
     }
 
-    let path = URL.parse(externalPageLink).pathname;
+    let url = URL.parse(externalPageLink);
+    if (url.hash) {
+        return;
+    }
+    let path = url.pathname;
     let title = path.substring(path.lastIndexOf('/') + 1);
     if (!title) return;
     let wikiApiUrl = `https://en.wikipedia.org/w/api.php?action=query&redirects=1&explaintext=true&exintro=true&prop=extracts&titles=${title}&format=json&origin=*`;
@@ -25,7 +29,7 @@
                 let text = f.query.pages[pageId].extract;
 
                 if (text) {
-                    domWikiSearch.innerHTML = `${text} Source: <a class="hover:underline  inline-flex" rel="noopener noreferrer" target='_blank' href='${externalPageLink}'>Wikipedia</a>`;
+                    domWikiSearch.innerHTML = `${text} Source: <a data-cy="wiki-source-link" class="hover:underline  inline-flex" rel="noopener noreferrer" target='_blank' href='${externalPageLink}'>Wikipedia</a>`;
                 }
             }
         });

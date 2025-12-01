@@ -74,7 +74,7 @@
         {{ template "partials/widgets/pagetitle.html" (dict "text" $displayName  "test"  "highway-title" "link" $externalLink ) }}
     </div>
     {{ with $externalLink }}
-    <p id="wiki-search" data-external-link="{{ $externalLink }}" class="mb-3 text-body text-gray-700 dark:text-gray-400 "></p>
+    <p id="wiki-search" data-cy="wiki-search" data-external-link="{{ $externalLink }}" class="mb-3 text-body text-gray-700 dark:text-gray-400 "></p>
     {{ end }}
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
     {{ range $highway.Params.features }}
@@ -121,7 +121,7 @@
         </h2>
     </div>
     {{ with $externalLink }}
-    <p id="wiki-search" data-external-link="{{ $externalLink }}" class="mb-3 text-body text-gray-700 dark:text-gray-400 "></p>
+    <p id="wiki-search" data-cy="wiki-search" data-external-link="{{ $externalLink }}" class="mb-3 text-body text-gray-700 dark:text-gray-400 "></p>
     {{ end }}
     {{ range $k, $v :=  $orderedStates }}
     {{ $scratchIndex := (string (add $k 1)) }}
@@ -145,7 +145,7 @@
         {{ template "partials/widgets/pagetitle.html" (dict "text" $displayName "test" "highway-title"  "link" $externalLink ) }}
     </div>
     {{ with $externalLink }}
-    <p id="wiki-search" data-external-link="{{ $externalLink }}" class="mb-3 text-body text-gray-700 dark:text-gray-400 "></p>
+    <p id="wiki-search" data-cy="wiki-search" data-external-link="{{ $externalLink }}" class="mb-3 text-body text-gray-700 dark:text-gray-400 "></p>
     {{ end }}
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {{range index .Site.Taxonomies.highway $highway.Params.slug }}
