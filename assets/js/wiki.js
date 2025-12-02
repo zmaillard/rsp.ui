@@ -1,4 +1,6 @@
-(function() {
+import * as params from '@params';
+
+function loadWikiExcerpt(version) {
     let domWikiSearch = document.getElementById('wiki-search');
     if (!domWikiSearch) {
         return;
@@ -20,7 +22,7 @@
     if (!title) return;
     let wikiApiUrl = `https://en.wikipedia.org/w/api.php?action=query&redirects=1&explaintext=true&exintro=true&prop=extracts&titles=${title}&format=json&origin=*`;
 
-    fetch(wikiApiUrl, {method: "GET", headers: { "Api-User-Agent": "admin@roadsign.pictures" }})
+    fetch(wikiApiUrl, {method: "GET", headers: { "Api-User-Agent": `Roadsign Pictures/${version} (https://roadsign.pictures admin@roadsign.pictures)` }})
         .then(f=> f.json())
         .then(f=>{
             let keys = Object.keys(f.query.pages);
@@ -33,4 +35,6 @@
                 }
             }
         });
-})();
+}
+
+loadWikiExcerpt(params.version);
