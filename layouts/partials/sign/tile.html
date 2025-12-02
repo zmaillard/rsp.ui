@@ -1,6 +1,6 @@
 {{ $dimClass := "" }}
 {{ if gt .Params.imageHeight .Params.imageWidth }} {{ $dimClass = "is-3by4" }}  {{ else }} {{ $dimClass = "is-4by3" }}  {{ end }}
-<div
+<div data-cy="sign-tile"
         class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
     <a  href="{{.RelPermalink}}">
         <img class="rounded-t-lg" loading="lazy" src="{{site.Params.SIGNBASEURL}}{{  .Params.imageid}}/{{  .Params.imageid}}_m.jpg" alt="{{.Params.title}}" >
