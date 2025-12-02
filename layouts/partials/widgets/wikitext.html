@@ -1,0 +1,13 @@
+{{- $msg1 := "no external link" }}
+
+{{- $externalLink := . }}
+
+{{- if reflect.IsMap . }}
+{{- with .link }}
+{{- $externalLink = . }}
+{{- else }}
+{{- errorf $msg1 }}
+{{- end }}
+{{- end }}
+
+<p id="wiki-search" data-cy="wiki-search" data-external-link="{{ $externalLink }}" class="mb-3 text-body text-gray-700 dark:text-gray-400 "></p>

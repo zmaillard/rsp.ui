@@ -283,7 +283,7 @@ describe('Highway Page Tests', () => {
         it('should include custom User-Agent header', () => {
             cy.wait('@wikiApi').then((interception) => {
                 expect(interception.request.headers)
-                    .to.have.property('api-user-agent', 'admin@roadsign.pictures')
+                    .to.have.property('api-user-agent', 'Roadsign Pictures/v1.0.0 (https://roadsign.pictures admin@roadsign.pictures)')
             })
         })
 
