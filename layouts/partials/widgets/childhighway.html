@@ -1,0 +1,53 @@
+{{ with . }}
+{{ $businessLoop := slice }}
+{{ $interstateHighway := slice }}
+{{ $other := slice }}
+{{ range . }}
+    {{ $path := printf "/%s/%s" "highway" . }}
+    {{ with site.GetPage $path }}
+        {{ $highwayParams := .Params }}
+        {{ $highwayLink := .RelPermalink }}
+        {{ $typePath := printf "/%s/%s" "highwaytype" .Params.highwayType.slug }}
+        {{ with site.GetPage $typePath }}
+            {{ if eq .Params.slug "business-loop"}}
+                {{ $businessLoop = $businessLoop | append (dict "attrs" $highwayParams "link" $highwayLink) }}
+            {{ else if eq .Params.slug "interstate-highway"}}
+                {{ $interstateHighway = $interstateHighway | append  (dict "attrs" $highwayParams "link" $highwayLink)  }}
+            {{ else }}
+                {{ $other = $other | append (dict "attrs" $highwayParams "link" $highwayLink)  }}
+            {{ end }}
+        {{ end }}
+    {{ end }}
+{{end }}
+
+{{ with $interstateHighway }}
+<h4 class="text-xl font-bold text-heading dark:text-white text-center">
+    Auxiliary Routes:
+    {{ range . }}
+    {{$link := index . "link" }}
+    {{$name :=  (index (index . "attrs") "name" ) }}
+    <a href="{{ $link }}">{{ $name }}</a>
+    {{ end }}
+</h4>
+{{ end }}
+{{ with $businessLoop }}
+<h4 class="text-xl font-bold text-heading dark:text-white text-center">
+    Business Loops and Spurs:
+    {{ range . }}
+    {{$link := index . "link" }}
+    {{$name :=  (index (index . "attrs") "name" ) }}
+    <a href="{{ $link }}">{{ $name }}</a>
+    {{ end }}
+</h4>
+{{ end }}
+{{ with $other }}
+<h4 class="text-xl font-bold text-heading dark:text-white text-center">
+    Other Child Highways:
+    {{ range . }}
+    {{$link := index . "link" }}
+    {{$name :=  (index (index . "attrs") "name" ) }}
+    <a href="{{ $link }}">{{ $name }}</a>
+    {{ end }}
+</h4>
+{{ end }}
+{{ end }}

@@ -1,0 +1,39 @@
+{{ $parentHighway := "" }}
+{{ $childHighwayType := "" }}
+{{ $msg1 := "Error: 'parentHighway' attribute is required for 'parenthighway' widget." }}
+{{ $msg2 := "Error: 'childHighwayType' attribute is required for 'parenthighway' widget." }}
+
+{{- if reflect.IsMap . }}
+    {{- with .parentHighway }}
+        {{- $parentHighway = . }}
+    {{- else }}
+        {{- errorf $msg1 }}
+    {{- end }}
+    {{- with .childHighwayType }}
+        {{- $childHighwayType = . }}
+    {{- else }}
+        {{- errorf $msg2 }}
+    {{- end }}
+{{- end }}
+
+
+
+{{ with . }}
+{{ $path := printf "/%s/%s" "highway" $parentHighway }}
+{{ with site.GetPage $path }}
+    {{ $highwayParams := .Params }}
+    {{ $highwayLink := .RelPermalink }}
+    {{ $typePath := printf "/%s/%s" "highwaytype" $childHighwayType }}
+    {{ with site.GetPage $typePath }}
+        <h4 class="text-xl font-bold text-heading dark:text-white text-center">
+        {{ if eq .Params.slug "business-loop"}}
+            Business Loop of <a href="{{ $highwayLink }}">{{ $highwayParams.name }}</a>
+        {{ else if eq .Params.slug "interstate-highway"}}
+            Auxiliary Route of <a href="{{ $highwayLink }}">{{ $highwayParams.name }}</a>
+        {{ else }}
+            Child Route of <a href="{{ $highwayLink }}">{{ $highwayParams.name }}</a>
+        {{ end }}
+        </h4>
+    {{ end }}
+{{ end }}
+{{ end }}
