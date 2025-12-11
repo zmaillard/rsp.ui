@@ -8,3 +8,7 @@
 /dataSources.local.xml
 # GitHub Copilot persisted chat sessions
 /copilot/chatSessions
+#Copilot migration
+copilot.data.migration*
+#Datasource mapping
+data_source_mapping.xml
