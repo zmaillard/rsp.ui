@@ -1,9 +1,13 @@
 {{ $parentHighway := "" }}
 {{ $childHighwayType := "" }}
+{{ $style := "block" }}
 {{ $msg1 := "Error: 'parentHighway' attribute is required for 'parenthighway' widget." }}
 {{ $msg2 := "Error: 'childHighwayType' attribute is required for 'parenthighway' widget." }}
 
 {{- if reflect.IsMap . }}
+    {{- with .style }}
+        {{- $style = . }}
+    {{- end }}
     {{- with .parentHighway }}
         {{- $parentHighway = . }}
     {{- else }}
@@ -25,15 +29,19 @@
     {{ $highwayLink := .RelPermalink }}
     {{ $typePath := printf "/%s/%s" "highwaytype" $childHighwayType }}
     {{ with site.GetPage $typePath }}
-        <h4 class="text-xl font-bold text-heading dark:text-white text-center">
-        {{ if eq .Params.slug "business-loop"}}
-            Business Loop of <a href="{{ $highwayLink }}">{{ $highwayParams.name }}</a>
-        {{ else if eq .Params.slug "interstate-highway"}}
-            Auxiliary Route of <a href="{{ $highwayLink }}">{{ $highwayParams.name }}</a>
-        {{ else }}
-            Child Route of <a href="{{ $highwayLink }}">{{ $highwayParams.name }}</a>
+        {{ if eq $style "block" }}
+        <h4 data-cy="parent-highway-header" class="text-xl font-bold text-heading dark:text-white text-center">
         {{ end }}
+        {{ if eq .Params.slug "business-loop"}}
+            Business Loop of <a data-cy="parent-highway-link" class="text-blue-600 dark:text-blue-500 hover:underline" href="{{ $highwayLink }}">{{ $highwayParams.name }}</a>
+        {{ else if eq .Params.slug "interstate-highway"}}
+            Auxiliary Route of <a data-cy="parent-highway-link" class="text-blue-600 dark:text-blue-500 hover:underline" href="{{ $highwayLink }}">{{ $highwayParams.name }}</a>
+        {{ else }}
+            Child Route of <a data-cy="parent-highway-link" class="text-blue-600 dark:text-blue-500 hover:underline" href="{{ $highwayLink }}">{{ $highwayParams.name }}</a>
+        {{ end }}
+        {{ if eq $style "block" }}
         </h4>
+        {{ end }}
     {{ end }}
 {{ end }}
 {{ end }}

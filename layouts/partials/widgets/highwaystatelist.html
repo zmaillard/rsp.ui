@@ -4,7 +4,7 @@
     {{ $path := printf "/%s/%s" "state" $stateSlug }}
     {{ with $.Site.GetPage $path }}
     {{ if gt $i 0 }} | {{ end }}
-    <a class="is-text is-marginless is-paddingless is-small" href="{{.RelPermalink}}">{{ .Params.name }}</a>
+    <a data-cy="state-links" class="is-text is-marginless is-paddingless is-small" href="{{.RelPermalink}}">{{ .Params.name }}</a>
     {{ end }}
     {{ end }}
 {{ end }}

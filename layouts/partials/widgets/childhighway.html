@@ -1,4 +1,20 @@
-{{ with . }}
+{{- $validStyle := slice "term" "tile" }}
+
+{{- $childHighway := . }}
+{{- $style := "term" }}
+
+{{- if reflect.IsMap . }}
+{{- with .childHighway }}
+{{- $childHighway = . }}
+{{- end }}
+{{- with .style }}
+{{- $style = lower . }}
+{{- end }}
+{{- end }}
+
+
+
+{{ with $childHighway }}
 {{ $businessLoop := slice }}
 {{ $interstateHighway := slice }}
 {{ $other := slice }}
@@ -21,33 +37,47 @@
 {{end }}
 
 {{ with $interstateHighway }}
-<h4 class="text-xl font-bold text-heading dark:text-white text-center">
-    Auxiliary Routes:
+{{ if eq $style "term" }}
+<h4 data-cy="child-highways-header" class="text-xl font-bold text-heading dark:text-white text-center">
+{{ end }}
+
+    {{ if eq $style "tile" }}<br/><b>{{ end }}Auxiliary Routes:{{ if eq $style "tile" }}</b>{{ end }}
     {{ range . }}
     {{$link := index . "link" }}
     {{$name :=  (index (index . "attrs") "name" ) }}
-    <a href="{{ $link }}">{{ $name }}</a>
+    <a data-cy="child-highway-link" {{ if eq $style "term" }} class="text-blue-600 dark:text-blue-500 hover:underline" {{ end }} href="{{ $link }}">{{ $name }}</a>
     {{ end }}
+{{ if eq $style "tile" }}
 </h4>
+{{ end }}
 {{ end }}
 {{ with $businessLoop }}
-<h4 class="text-xl font-bold text-heading dark:text-white text-center">
-    Business Loops and Spurs:
+{{ if eq $style "term" }}
+<h4 data-cy="child-highways-header" class="text-xl font-bold text-heading dark:text-white text-center">
+{{ end }}
+    {{ if eq $style "tile" }}<br/><b>{{ end }}Business Loops and Spurs:{{ if eq $style "tile" }}</b>{{ end }}
+
     {{ range . }}
     {{$link := index . "link" }}
     {{$name :=  (index (index . "attrs") "name" ) }}
-    <a href="{{ $link }}">{{ $name }}</a>
+    <a data-cy="child-highway-link" {{ if eq $style "term" }} class="text-blue-600 dark:text-blue-500 hover:underline" {{ end }} href="{{ $link }}">{{ $name }}</a>
     {{ end }}
+{{ if eq $style "tile" }}
 </h4>
 {{ end }}
+{{ end }}
 {{ with $other }}
-<h4 class="text-xl font-bold text-heading dark:text-white text-center">
-    Other Child Highways:
+{{ if eq $style "term" }}
+<h4 data-cy="child-highways-header" class="text-xl font-bold text-heading dark:text-white text-center">
+{{ end }}
+    {{ if eq $style "tile" }}<br/><b>{{ end }}Other Child Highways:{{ if eq $style "tile" }}</b>{{ end }}
     {{ range . }}
     {{$link := index . "link" }}
     {{$name :=  (index (index . "attrs") "name" ) }}
-    <a href="{{ $link }}">{{ $name }}</a>
+    <a data-cy="child-highway-link" {{ if eq $style "term" }} class="text-blue-600 dark:text-blue-500 hover:underline"{{ end }} href="{{ $link }}">{{ $name }}</a>
     {{ end }}
+{{ if eq $style "tile" }}
 </h4>
+{{ end }}
 {{ end }}
 {{ end }}

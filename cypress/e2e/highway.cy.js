@@ -49,23 +49,69 @@ describe('Highway Page Tests', () => {
         })
     })
 
-    context('Highway with external link (az195)', () => {
+    context('Highway with child highways', () => {
         beforeEach(() => {
-            cy.visit('/highway/az195')
+            cy.visit('/highway/i10')
         })
 
-        it('should display the highway title with external link', () => {
-            cy.get('[data-cy="highway-shield"]').should('be.visible')
-            cy.get('[data-cy="highway-title"]').should('be.visible')
-            cy.get('[data-cy="highway-title"]').parent('a').should('have.attr', 'href')
-            cy.get('[data-cy="highway-title"]').parent().children('svg').should('be.visible').should('have.class', 'dark:text-white')
+        it('should display child highways header when child highways exist', () => {
+            cy.get('[data-cy="child-highways-header"]').should('be.visible')
         })
 
-        it('should open external link in new tab', () => {
-            cy.get('[data-cy="highway-title"]').parent('a').should('have.attr', 'target', '_blank')
-            cy.get('[data-cy="highway-title"]').parent('a').should('have.attr', 'rel', 'noopener noreferrer')
+        it('should display child highway links', () => {
+            cy.get('[data-cy="child-highway-link"]')
+                .should('have.length.at.least', 1)
+        })
+
+        it('should navigate to child highway when clicked', () => {
+            cy.get('[data-cy="child-highway-link"]').first().click()
+            cy.url().should('include', '/highway/')
+        })
+
+    })
+
+    context('Highway without child highways', () => {
+        beforeEach(() => {
+            cy.visit('/highway/id1')
+        })
+
+        it('should not display child highways header when no child highways exist', () => {
+            cy.get('[data-cy="child-highways-header"]').should('not.exist')
         })
     })
+    context('Highway with parent highway', () => {
+        beforeEach(() => {
+            cy.visit('/highway/bl10blythe/')
+        })
+
+        it('should display parent highway header when parent highway exists', () => {
+            cy.get('[data-cy="parent-highway-header"]').should('be.visible')
+        })
+
+        it('should display parent highway link', () => {
+            cy.get('[data-cy="parent-highway-link"]')
+                .should('be.visible')
+                .should('have.attr', 'href')
+        })
+
+        it('should navigate to parent highway when clicked', () => {
+            cy.get('[data-cy="parent-highway-link"]').click()
+            cy.url().should('include', '/highway/')
+        })
+
+    })
+
+    context('Highway without parent highway', () => {
+        beforeEach(() => {
+            cy.visit('/highway/i80/')
+        })
+
+        it('should not display parent highway header when no parent highway exists', () => {
+            cy.get('[data-cy="parent-highway-header"]').should('not.exist')
+            cy.get('[data-cy="parent-highway-link"]').should('not.exist')
+        })
+    })
+
 
     context('Multi-state highways', () => {
         beforeEach(() => {
