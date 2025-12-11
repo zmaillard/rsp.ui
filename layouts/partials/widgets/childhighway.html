@@ -1,0 +1,83 @@
+{{- $validStyle := slice "term" "tile" }}
+
+{{- $childHighway := . }}
+{{- $style := "term" }}
+
+{{- if reflect.IsMap . }}
+{{- with .childHighway }}
+{{- $childHighway = . }}
+{{- end }}
+{{- with .style }}
+{{- $style = lower . }}
+{{- end }}
+{{- end }}
+
+
+
+{{ with $childHighway }}
+{{ $businessLoop := slice }}
+{{ $interstateHighway := slice }}
+{{ $other := slice }}
+{{ range . }}
+    {{ $path := printf "/%s/%s" "highway" . }}
+    {{ with site.GetPage $path }}
+        {{ $highwayParams := .Params }}
+        {{ $highwayLink := .RelPermalink }}
+        {{ $typePath := printf "/%s/%s" "highwaytype" .Params.highwayType.slug }}
+        {{ with site.GetPage $typePath }}
+            {{ if eq .Params.slug "business-loop"}}
+                {{ $businessLoop = $businessLoop | append (dict "attrs" $highwayParams "link" $highwayLink) }}
+            {{ else if eq .Params.slug "interstate-highway"}}
+                {{ $interstateHighway = $interstateHighway | append  (dict "attrs" $highwayParams "link" $highwayLink)  }}
+            {{ else }}
+                {{ $other = $other | append (dict "attrs" $highwayParams "link" $highwayLink)  }}
+            {{ end }}
+        {{ end }}
+    {{ end }}
+{{end }}
+
+{{ with $interstateHighway }}
+{{ if eq $style "term" }}
+<h4 data-cy="child-highways-header" class="text-xl font-bold text-heading dark:text-white text-center">
+{{ end }}
+
+    {{ if eq $style "tile" }}<br/><b>{{ end }}Auxiliary Routes:{{ if eq $style "tile" }}</b>{{ end }}
+    {{ range . }}
+    {{$link := index . "link" }}
+    {{$name :=  (index (index . "attrs") "name" ) }}
+    <a data-cy="child-highway-link" {{ if eq $style "term" }} class="text-blue-600 dark:text-blue-500 hover:underline" {{ end }} href="{{ $link }}">{{ $name }}</a>
+    {{ end }}
+{{ if eq $style "tile" }}
+</h4>
+{{ end }}
+{{ end }}
+{{ with $businessLoop }}
+{{ if eq $style "term" }}
+<h4 data-cy="child-highways-header" class="text-xl font-bold text-heading dark:text-white text-center">
+{{ end }}
+    {{ if eq $style "tile" }}<br/><b>{{ end }}Business Loops and Spurs:{{ if eq $style "tile" }}</b>{{ end }}
+
+    {{ range . }}
+    {{$link := index . "link" }}
+    {{$name :=  (index (index . "attrs") "name" ) }}
+    <a data-cy="child-highway-link" {{ if eq $style "term" }} class="text-blue-600 dark:text-blue-500 hover:underline" {{ end }} href="{{ $link }}">{{ $name }}</a>
+    {{ end }}
+{{ if eq $style "tile" }}
+</h4>
+{{ end }}
+{{ end }}
+{{ with $other }}
+{{ if eq $style "term" }}
+<h4 data-cy="child-highways-header" class="text-xl font-bold text-heading dark:text-white text-center">
+{{ end }}
+    {{ if eq $style "tile" }}<br/><b>{{ end }}Other Child Highways:{{ if eq $style "tile" }}</b>{{ end }}
+    {{ range . }}
+    {{$link := index . "link" }}
+    {{$name :=  (index (index . "attrs") "name" ) }}
+    <a data-cy="child-highway-link" {{ if eq $style "term" }} class="text-blue-600 dark:text-blue-500 hover:underline"{{ end }} href="{{ $link }}">{{ $name }}</a>
+    {{ end }}
+{{ if eq $style "tile" }}
+</h4>
+{{ end }}
+{{ end }}
+{{ end }}

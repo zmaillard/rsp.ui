@@ -35,10 +35,16 @@ func (h highwayConverter) Convert() iter.Seq[generator.Generator] {
 					Name: hw.HighwayTypeName.String,
 					Slug: hw.HighwayTypeSlug.String,
 				},
-				Features: getFromTo(hw.PreviousFeatures, hw.NextFeatures),
-				Places:   hw.Places,
-				States:   hw.States,
-				Counties: hw.Counties,
+				Features:      getFromTo(hw.PreviousFeatures, hw.NextFeatures),
+				Places:        hw.Places,
+				States:        hw.States,
+				Counties:      hw.Counties,
+				ChildHighways: hw.ChildHighways,
+			}
+
+			if hw.ParentHighway.Valid {
+				parentHwy := hw.ParentHighway.String
+				highwayDto.ParentHighway = &parentHwy
 			}
 
 			var aliases []string

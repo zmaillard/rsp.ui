@@ -1,9 +1,10 @@
 {{ $signCount := len .Pages }}
-<li class="pb-3 sm:pb-4" xmlns="http://www.w3.org/1999/html">
+{{ $currentHighwayType := .Params.highwayType.slug }}
+<li data-cy="highway-item" class="pb-3 sm:pb-4" xmlns="http://www.w3.org/1999/html">
     <div class="flex items-center space-x-4">
         <div class="flex-shrink-0">
-            <a href="{{.RelPermalink}}">
-            <img alt="{{.Params.name}}" class="w-8 w-8" onerror="this.onerror=null; this.remove();" src="{{site.Params.SHIELDBASEURL}}Shields/{{.Params.imageName}}">
+            <a data-cy="highway-link" href="{{.RelPermalink}}">
+            <img data-cy="highway-shield" alt="{{.Params.name}}" class="w-8 w-8" onerror="this.onerror=null; this.remove();" src="{{site.Params.SHIELDBASEURL}}Shields/{{.Params.imageName}}">
             </a>
         </div>
         <div class="flex-1 min-w-0 text-gray-900  dark:text-white">
@@ -36,7 +37,7 @@
             {{ end }}
 
             {{ if gt (len .Params.states ) 1 }}
-            <br /> <strong>{{$defaultName | pluralize }}:</strong> {{ partial "widgets/highwaystatelist.html" . }}
+            <br /> <strong data-cy="state-heading">{{$defaultName | pluralize }}:</strong> {{ partial "widgets/highwaystatelist.html" . }}
             {{ else }}
             <br /> <strong>{{$defaultName}}:</strong> {{ partial "widgets/highwaystatelist.html" . }}
             {{ if isset .Params "counties" }}
@@ -44,6 +45,12 @@
             {{ end }}
             <br /> <strong>Places:</strong> {{ partial "widgets/highwayplacelist.html" . }}
             {{ end }}
+            {{ with .Params.parentHighway }}
+                <br /> {{ partial "partials/widgets/parenthighway.html" (dict "parentHighway" . "childHighwayType" $currentHighwayType "style" "inline")  }}
+            {{ end }}
+                {{ with .Params.childHighways }}
+                {{ partial "partials/widgets/childhighway.html" (dict "childHighway" . "style" "tile") }}
+                {{ end }}
             {{ end }}
             </p>
 

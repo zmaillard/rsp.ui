@@ -5,7 +5,7 @@ SELECT id, country_name, country_slug, subdivision_name, image_count, states, fe
 SELECT id, county_name, county_slug, image_count, state_name, state_slug FROM sign.vwhugocounty WHERE image_count is not null;
 
 -- name: GetHugoHighways :many
-SELECT id, highway_name, slug, sort_number, image_name, highway_type_slug, highway_type_name, cast (states as text[]), cast (counties as text[]), cast (places as text[]), cast (previous_features as int[]), cast (next_features as int[]), display_name, external_link FROM sign.vwhugohighway;
+SELECT id, highway_name, slug, sort_number, image_name, highway_type_slug, highway_type_name, cast (states as text[]), cast (counties as text[]), cast (places as text[]), cast (previous_features as int[]), cast (next_features as int[]), display_name, external_link, cast(child_highways as text[]), parent_highway FROM sign.vwhugohighway;
 
 
 -- name: GetHugoHighwaySigns :many

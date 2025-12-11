@@ -15,6 +15,10 @@
 {{ $externalLink = .Params.externalLink }}
 {{ end }}
 
+{{ $childHighways := .Params.childHighways }}
+{{ $parentHighway := .Params.parentHighway }}
+{{ $currentHighwayType := .Params.highwayType.slug }}
+
 {{$highway := . }}
 {{$stateCount := len $highway.Params.states }}
 {{ $orderedStates := slice }}
@@ -72,7 +76,11 @@
     {{ if (and (eq $stateCount 1) ( isset $highway.Params "features" )) }}
     <div class="mx-auto max-w-fit">
         <img data-cy="highway-shield" class="h-auto max-w-lg mx-auto" onerror="this.onerror=null; this.remove();" src="{{site.Params.SHIELDBASEURL}}Shields/{{$highway.Params.imagename}}"/>
-        {{ template "partials/widgets/pagetitle.html" (dict "text" $displayName  "test"  "highway-title" "link" $externalLink ) }}
+        {{ template "partials/widgets/pagetitle.html" (dict "text" $displayName  "test"  "highway-title" ) }}
+        {{ partial "partials/widgets/childhighway.html" $childHighways  }}
+        {{ with $parentHighway }}
+        {{ partial "partials/widgets/parenthighway.html" (dict "parentHighway" . "childHighwayType" $currentHighwayType)  }}
+        {{ end }}
     </div>
     {{ with $externalLink }}
     {{ template "partials/widgets/wikitext.html" $externalLink  }}
@@ -88,7 +96,7 @@
     {{ else if .Page.Params.features }}
     <div class="mx-auto max-w-fit">
         <img data-cy="highway-shield" class="h-auto max-w-lg mx-auto" onerror="this.onerror=null; this.remove();" src="{{site.Params.SHIELDBASEURL}}Shields/{{$highway.Params.imagename}}"/>
-        {{ template "partials/widgets/pagetitle.html" (dict "text" $displayName "test" "highway-title"  "link" $externalLink "align" "center") }}
+        {{ template "partials/widgets/pagetitle.html" (dict "text" $displayName "test" "highway-title"   "align" "center" ) }}
     {{ with .Page.Params.features }}
     {{ $allFeatures := . }}
 
@@ -120,6 +128,10 @@
         {{ end }}
         {{ end }}
         </h2>
+        {{ partial "partials/widgets/childhighway.html" $childHighways  }}
+        {{ with $parentHighway }}
+        {{ partial "partials/widgets/parenthighway.html" (dict "parentHighway" . "childHighwayType" $currentHighwayType)  }}
+        {{ end }}
     </div>
     {{ with $externalLink }}
     {{ template "partials/widgets/wikitext.html" $externalLink  }}
@@ -143,7 +155,11 @@
     {{ else }}
     <div class="mx-auto max-w-fit">
         <img data-cy="highway-shield" class="h-auto max-w-lg mx-auto" onerror="this.onerror=null; this.remove();" src="{{site.Params.SHIELDBASEURL}}Shields/{{$highway.Params.imagename}}"/>
-        {{ template "partials/widgets/pagetitle.html" (dict "text" $displayName "test" "highway-title"  "link" $externalLink ) }}
+        {{ template "partials/widgets/pagetitle.html" (dict "text" $displayName "test" "highway-title" ) }}
+        {{ partial "partials/widgets/childhighway.html" $childHighways  }}
+        {{ with $parentHighway }}
+        {{ partial "partials/widgets/parenthighway.html" (dict "parentHighway" . "childHighwayType" $currentHighwayType)  }}
+        {{ end }}
     </div>
     {{ with $externalLink }}
     {{ template "partials/widgets/wikitext.html" $externalLink  }}
