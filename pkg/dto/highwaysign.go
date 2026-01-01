@@ -2,9 +2,10 @@ package dto
 
 import (
 	"fmt"
-	"gopkg.in/yaml.v3"
 	"highway-sign-portal-builder/pkg/generator"
 	"time"
+
+	"gopkg.in/yaml.v3"
 )
 
 type Converter interface {
@@ -37,6 +38,7 @@ type HighwaySignDto struct {
 	Categories           []string `yaml:"categories,omitempty"`
 	Quality              int      `yaml:"quality"`
 	PlusCode             string   `yaml:"plusCode"`
+	LQIP                 *string  `yaml:"lqip,omitempty"`
 }
 
 func (s HighwaySignDto) OutFile() string {

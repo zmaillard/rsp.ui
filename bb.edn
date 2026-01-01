@@ -9,6 +9,7 @@
          build {:task (shell "go run .") :doc "Build exports"}
          index {:task index/-main :doc "Update indexes"}
          sqlc {:task (shell "sqlc generate") :doc "Generate SQLC"}
+         sync-db {:task (shell "git submodule update --recursive --remote") :doc "Update rsp.db submodule"}
          static-site {:task (shell "hugo --gc --minify") 
                       :doc "Build static site"}
          static-site-debug {:task (shell "hugo --gc --minify --logLevel debug") 
@@ -17,6 +18,8 @@
                        :doc "import new images into Eagle"}
          eagle-quality {:task eagle-import/batch-update-quality 
                         :doc "Update Quality for each image"}
+         gen-lqip {:task lqip/-main 
+                   :doc "Generate low quality image placeholders"}
          sync-quality {:task sync-quality/-main
                                     :doc "Update Quality for each image"}
          sync-tags {:task sync-tags/-main 

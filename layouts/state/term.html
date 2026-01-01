@@ -87,6 +87,7 @@
     {{ with $.Site.GetPage $path }}
     <a id="state-featured" href="{{.RelPermalink}}">
         <img class="h-auto max-w-full rounded-lg" id="state-featured-img"
+             style="--lqip:{{.Params.lqip}}"
              src="{{site.Params.SIGNBASEURL}}{{.Params.imageid}}/{{.Params.imageid}}_l.jpg"
              alt="{{.Params.title}}" />
     </a>

@@ -6,6 +6,7 @@
 
             {{ $signpage := printf "/%s/%s" "sign" .Params.imageid }}
             {{ $imageid := .Params.imageid }}
+            {{ $lqip := .Params.lqip }}
             {{ $dimClass := "is-3by4" }}
             {{ if gt .Params.imageHeight .Params.imageWidth }} {{ $dimClass = "is-3by4" }}  {{ else }} {{ $dimClass = "is-4by3" }}  {{ end }}
             {{ $title := .Title }}
@@ -13,6 +14,7 @@
                 <img id="main-sign-img"
                      data-cy="sign-image"
                      class="h-auto max-w-full mx-auto"
+                     style="--lqip:{{$lqip}}"
                      data-src="{{site.Params.SIGNBASEURL}}{{ $imageid}}/{{ $imageid}}_l.jpg"
                      src="{{site.Params.SIGNBASEURL}}{{ $imageid}}/{{ $imageid}}_l.jpg"
                      data-zoom-src="{{site.Params.SIGNBASEURL}}{{ $imageid}}/{{ $imageid}}.jpg"

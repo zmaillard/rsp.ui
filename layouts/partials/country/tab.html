@@ -85,11 +85,21 @@
     {{ $statePath := printf "/%s/%s" "state" $name }}
     {{ with $.Site.GetPage $statePath }}
     {{ if .Params.featured }}
+
+    {{/* get lqip value */}}
+    {{ $signpath := printf "/%s/%s" "sign" .Params.featured }}
+    {{ $signPage := $.Site.GetPage $signpath }}
+    {{ $lqip := "" }}
+    {{ if $signPage }}
+    {{ $lqip = $signPage.Params.lqip }}
+    {{ end }}
+    {{/* end get lqip value*/}}
     <a data-cy="state-link-{{.Params.Slug}}" href="{{.RelPermalink}}">
     <div
             class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
 
             <img class="rounded-t-lg" loading="lazy"
+                 style="--lqip:{{$lqip}}"
                  src="{{site.Params.SIGNBASEURL}}{{.Params.featured}}/{{.Params.featured}}_m.jpg">
         <div class="p-2 md:p-5">
             <p class="mb-2 text-lg md:text-xl font-bold tracking-tight text-gray-900 dark:text-white">{{.Params.name}}
@@ -117,10 +127,20 @@
     {{ $name := .slug }}
     {{ $hwyTypePath := printf "/%s/%s" "highwaytype" $name }}
     {{ with $.Site.GetPage $hwyTypePath }}
+
+    {{/* get lqip value */}}
+    {{ $signpath := printf "/%s/%s" "sign" .Params.featured }}
+    {{ $signPage := $.Site.GetPage $signpath }}
+    {{ $lqip := "" }}
+    {{ if $signPage }}
+    {{ $lqip = $signPage.Params.lqip }}
+    {{ end }}
+    {{/* end get lqip value*/}}
+
     <a data-cy="highway-link-{{.Params.Slug}}" href="{{.RelPermalink}}">
 
     <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                <img  class="rounded-t-lg" loading="lazy" src="{{site.Params.SIGNBASEURL}}{{.Params.featured}}/{{.Params.featured}}_m.jpg">
+                <img  class="rounded-t-lg" loading="lazy" style="--lqip:{{$lqip}}"  src="{{site.Params.SIGNBASEURL}}{{.Params.featured}}/{{.Params.featured}}_m.jpg">
         <div class="p-2 md:p-5">
         <p class="mb-2 text-lg md:text-xl font-bold tracking-tight text-gray-900 dark:text-white">{{.Params.name}}
             <span
