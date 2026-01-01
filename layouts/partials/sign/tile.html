@@ -1,7 +1,7 @@
 {{ $dimClass := "" }}
 {{ if gt .Params.imageHeight .Params.imageWidth }} {{ $dimClass = "is-3by4" }}  {{ else }} {{ $dimClass = "is-4by3" }}  {{ end }}
 <div data-cy="sign-tile"
-        class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+        class="max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
     <a  href="{{.RelPermalink}}">
         <img
                 class="rounded-t-lg"

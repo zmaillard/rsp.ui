@@ -27,13 +27,13 @@
 
         {{- with .First }}
         <li>
-            <a href="{{ .URL }}" aria-label="First" class="flex items-center justify-center text-body bg-neutral-secondary-medium box-border border border-default-medium hover:bg-neutral-tertiary-medium hover:text-heading font-medium rounded-s-base text-sm w-9 h-9 focus:outline-none  text-gray-900 dark:text-white " data-cy="pagination-first" ><span aria-hidden="true">&laquo;&laquo;</span></a>
+            <a href="{{ .URL }}" aria-label="First" class="flex items-center justify-center text-body bg-neutral-secondary-medium box-border border border-default-medium hover:bg-neutral-tertiary-medium hover:text-heading font-medium rounded-s-base text-sm w-9 h-9 focus:outline-hidden  text-gray-900 dark:text-white " data-cy="pagination-first" ><span aria-hidden="true">&laquo;&laquo;</span></a>
         </li>
         {{- end }}
 
         {{- with .Prev }}
         <li>
-            <a href="{{ .URL }}" aria-label="Previous" class="flex items-center justify-center text-body bg-neutral-secondary-medium box-border border border-default-medium hover:bg-neutral-tertiary-medium hover:text-heading font-medium text-sm w-9 h-9 focus:outline-none  text-gray-900 dark:text-white" role="button" data-cy="pagination-prev"><span aria-hidden="true">&laquo;</span></a>
+            <a href="{{ .URL }}" aria-label="Previous" class="flex items-center justify-center text-body bg-neutral-secondary-medium box-border border border-default-medium hover:bg-neutral-tertiary-medium hover:text-heading font-medium text-sm w-9 h-9 focus:outline-hidden  text-gray-900 dark:text-white" role="button" data-cy="pagination-prev"><span aria-hidden="true">&laquo;</span></a>
         </li>
         {{- end }}
 
@@ -47,24 +47,24 @@
         {{- range $k := seq $start $end }}
         {{- if eq $.Paginator.PageNumber $k }}
         <li>
-            <a aria-current="page" aria-label="Page {{ $k }}" class="flex items-center justify-center text-fg-brand bg-neutral-tertiary-medium box-border border border-default-medium hover:text-fg-brand font-medium text-sm w-9 h-9 focus:outline-none  text-gray-900 dark:text-white" role="button"  data-cy="pagination-page-current" data-page="{{ $k }}">{{ $k }}</a>
+            <a aria-current="page" aria-label="Page {{ $k }}" class="flex items-center justify-center text-fg-brand bg-neutral-tertiary-medium box-border border border-default-medium hover:text-fg-brand font-medium text-sm w-9 h-9 focus:outline-hidden  text-gray-900 dark:text-white" role="button"  data-cy="pagination-page-current" data-page="{{ $k }}">{{ $k }}</a>
         </li>
         {{- else }}
         <li>
-            <a href="{{ (index $.Paginator.Pagers (sub $k 1)).URL }}" aria-label="Page {{ $k }}" class="flex items-center justify-center text-fg-brand bg-neutral-tertiary-medium box-border border border-default-medium hover:text-fg-brand font-medium text-sm w-9 h-9 focus:outline-none  text-gray-900 dark:text-white" role="button" data-cy="pagination-page" data-page="{{ $k }}" >{{ $k }}</a>
+            <a href="{{ (index $.Paginator.Pagers (sub $k 1)).URL }}" aria-label="Page {{ $k }}" class="flex items-center justify-center text-fg-brand bg-neutral-tertiary-medium box-border border border-default-medium hover:text-fg-brand font-medium text-sm w-9 h-9 focus:outline-hidden  text-gray-900 dark:text-white" role="button" data-cy="pagination-page" data-page="{{ $k }}" >{{ $k }}</a>
         </li>
         {{- end }}
         {{- end }}
 
         {{- with .Next }}
         <li>
-            <a href="{{ .URL }}" aria-label="Next" class="flex items-center justify-center text-body bg-neutral-secondary-medium box-border border border-default-medium hover:bg-neutral-tertiary-medium hover:text-heading font-medium text-sm w-9 h-9 focus:outline-none  text-gray-900 dark:text-white"   data-cy="pagination-next"  role="button"><span aria-hidden="true">&raquo;</span></a>
+            <a href="{{ .URL }}" aria-label="Next" class="flex items-center justify-center text-body bg-neutral-secondary-medium box-border border border-default-medium hover:bg-neutral-tertiary-medium hover:text-heading font-medium text-sm w-9 h-9 focus:outline-hidden  text-gray-900 dark:text-white"   data-cy="pagination-next"  role="button"><span aria-hidden="true">&raquo;</span></a>
         </li>
         {{- end }}
 
         {{- with .Last }}
         <li>
-            <a href="{{ .URL }}" aria-label="Last" class="flex items-center justify-center text-body bg-neutral-secondary-medium box-border border border-default-medium hover:bg-neutral-tertiary-medium hover:text-heading font-medium rounded-e-base text-sm w-9 h-9 focus:outline-none  text-gray-900 dark:text-white" role="button" data-cy="pagination-last"><span aria-hidden="true">&raquo;&raquo;</span></a>
+            <a href="{{ .URL }}" aria-label="Last" class="flex items-center justify-center text-body bg-neutral-secondary-medium box-border border border-default-medium hover:bg-neutral-tertiary-medium hover:text-heading font-medium rounded-e-base text-sm w-9 h-9 focus:outline-hidden  text-gray-900 dark:text-white" role="button" data-cy="pagination-last"><span aria-hidden="true">&raquo;&raquo;</span></a>
         </li>
         {{- end }}
         {{- end }}

@@ -15,7 +15,7 @@
         {{ $recent := printf "/recent/%s" (.Site.Data.images.mostRecent | time.Format "2006-01") }}
         {{ $page := $.Site.GetPage $recent }}
         {{ $aboutPage := $.Site.GetPage "/about" }}
-        <div class="mx-auto max-w-screen-xl text-center">
+        <div class="mx-auto max-w-(--breakpoint-xl) text-center">
             <a href="#" class="flex justify-center items-center text-2xl font-semibold text-gray-900 dark:text-white">
                 <img class="mr-2 h-8" src="/images/manifest192.png" />
                 roadsign.pictures

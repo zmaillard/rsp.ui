@@ -112,9 +112,9 @@ const infiniteHits = connectInfiniteHits(
                 hit =>
                     `<li class="pb-3 sm:pb-4">
                         <div class="flex items-center space-x-4">
-                            <div class="flex-shrink-0">
+                            <div class="shrink-0">
                                 <a href="/sign/${hit.id}">
-                                    <img class="w-32 h-32 rounded" src="${SIGNBASEURL}${hit.id}/${hit.id}_t.jpg" alt="${hit.title}" />
+                                    <img class="w-32 rounded-sm" src="${SIGNBASEURL}${hit.id}/${hit.id}_t.jpg" alt="${hit.title}" />
                                 </a>
                             </div>
                                      <div class="flex-1 min-w-0">

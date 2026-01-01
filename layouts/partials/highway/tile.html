@@ -2,7 +2,7 @@
 {{ $currentHighwayType := .Params.highwayType.slug }}
 <li data-cy="highway-item" class="pb-3 sm:pb-4" xmlns="http://www.w3.org/1999/html">
     <div class="flex items-center space-x-4">
-        <div class="flex-shrink-0">
+        <div class="shrink-0">
             <a data-cy="highway-link" href="{{.RelPermalink}}">
             <img data-cy="highway-shield" alt="{{.Params.name}}" class="w-8 w-8" onerror="this.onerror=null; this.remove();" src="{{site.Params.SHIELDBASEURL}}Shields/{{.Params.imageName}}">
             </a>

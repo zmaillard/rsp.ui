@@ -42,7 +42,7 @@ jobs:
           extended: true
       - uses: actions/setup-node@v3
         with:
-          node-version: '^16.17.1'
+          node-version: '^20.11.1'
       - uses: actions/setup-go@v4
         with:
           go-version: '^1.20.0'
@@ -50,7 +50,7 @@ jobs:
         env:
           RSP_DATABASE_URL: ${{ secrets.DATABASE_URL }}
       - run: npm install
-      - run: npx tailwindcss -i ./assets/css/input.css -o ./assets/css/index.css --jit --minify
+      - run: npx @tailwindcss/cli -i ./assets/css/input.css -o ./assets/css/index.css --jit --minify
       - run: hugo --gc --minify --environment preview
         env:
           HUGO_PARAMS_SEARCHINDEX: ${{ secrets.HUGO_PARAMS_SEARCHINDEX }}
@@ -86,7 +86,7 @@ jobs:
           extended: true
       - uses: actions/setup-node@v3
         with:
-          node-version: '^16.17.1'
+          node-version: '^20.11.1'
       - uses: actions/setup-go@v4
         with:
           go-version: '^1.20.0'
@@ -110,7 +110,7 @@ jobs:
 
       - run: npm install
 
-      - run: npx tailwindcss -i ./assets/css/input.css -o ./assets/css/index.css --jit --minify
+      - run: npx @tailwindcss/cli -i ./assets/css/input.css -o ./assets/css/index.css --jit --minify
 
       - run: hugo --gc --minify  --environment production
         env:
