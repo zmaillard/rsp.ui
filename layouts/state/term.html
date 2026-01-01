@@ -106,7 +106,7 @@
     </div>
 
     {{ with .Params.stateCategories }}
-    <div class="max-w-full m-4 p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+    <div class="max-w-full m-4 p-6 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
         <h4 class="text-2xl font-bold dark:text-white">Sign Types</h4>
         <ul class="flex flex-wrap items-center justify-center text-gray-900 dark:text-white browse-flat-list">
             {{ range . }}
@@ -133,7 +133,7 @@
     {{ with .Params.subdivisionname }}
     {{ $subdivisionName := . }}
     {{ with $countyParams }}
-    <div class="max-w-full m-4 p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+    <div class="max-w-full m-4 p-6 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
         <h4 class="text-2xl font-bold dark:text-white">{{ $subdivisionName }}</h4>
 
         <ul class="flex flex-wrap items-center justify-center text-gray-900 dark:text-white browse-flat-list">
@@ -154,7 +154,7 @@
     {{ end }}
     {{ end }}
     {{ with .Params.places }}
-    <div class="max-w-full  m-4 p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+    <div class="max-w-full  m-4 p-6 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
         <h4 class="text-2xl font-bold dark:text-white">Localities</h4>
         <ul class="flex flex-wrap items-center justify-center text-gray-900 dark:text-white browse-flat-list">
             {{ range $idx, $places := sort . "name" }}
@@ -174,7 +174,7 @@
     {{ end }}
     {{ $highwayNames := .Params.highwayNames }}
     {{ with $highwayTypeMapScratch.Get "highway-type-page" }}
-    <div class="max-w-full  m-4 p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+    <div class="max-w-full  m-4 p-6 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
         <h4 class="text-2xl font-bold dark:text-white">Highways</h4>
         {{ range sort . ".Params.Sort" }}
         {{ $typ := .Params.name }}

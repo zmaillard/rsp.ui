@@ -10,7 +10,7 @@
         {{ with $.Site.GetPage $signpage}}
         <div
                 data-cy="feature-summary"
-                class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                class="max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
                   <a id="{{$featureId}}" href="{{$link}}">
                       <img class="rounded-t-lg" loading="lazy" style="--lqip:{{.Params.lqip}}"  src="{{site.Params.SIGNBASEURL}}{{  .Params.imageid}}/{{  .Params.imageid}}_m.jpg" alt="{{.Params.title}}" >
                   </a>

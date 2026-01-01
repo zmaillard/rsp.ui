@@ -2,7 +2,7 @@
 <section class="container mx-auto">
     <div class="flex justify-center">
         <div itemscope
-                class="max-w-2xl bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                class="max-w-2xl bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
 
             {{ $signpage := printf "/%s/%s" "sign" .Params.imageid }}
             {{ $imageid := .Params.imageid }}
@@ -64,7 +64,7 @@
                     {{ $tagDisplay := index (where  $.Site.Data.tags "slug" $tagName) 0 }}
                     <a href="{{.RelPermalink}}">
                         <span itemprop="tag"
-                                class="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-400 border border-gray-500">{{ $tagDisplay.display }}</span>
+                                class="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-sm dark:bg-gray-700 dark:text-gray-400 border border-gray-500">{{ $tagDisplay.display }}</span>
                     </a>
                     {{ end }}
                     {{ end }}
