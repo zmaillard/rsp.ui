@@ -50,7 +50,7 @@ jobs:
         env:
           RSP_DATABASE_URL: ${{ secrets.DATABASE_URL }}
       - run: npm install
-      - run: npx tailwindcss -i ./assets/css/input.css -o ./assets/css/index.css --jit --minify
+      - run: npx tailwindcss/cli -i ./assets/css/input.css -o ./assets/css/index.css --jit --minify
       - run: hugo --gc --minify --environment preview
         env:
           HUGO_PARAMS_SEARCHINDEX: ${{ secrets.HUGO_PARAMS_SEARCHINDEX }}
@@ -110,7 +110,7 @@ jobs:
 
       - run: npm install
 
-      - run: npx tailwindcss -i ./assets/css/input.css -o ./assets/css/index.css --jit --minify
+      - run: npx tailwindcss/cli -i ./assets/css/input.css -o ./assets/css/index.css --jit --minify
 
       - run: hugo --gc --minify  --environment production
         env:

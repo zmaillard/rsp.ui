@@ -4,7 +4,7 @@
   "description": "Road Sign Pictures CMS In Hugo",
   "main": "index.js",
   "scripts": {
-    "tailwind": "npx tailwindcss -i ./assets/css/input.css -o ./assets/css/index.css --jit --watch"
+    "tailwind": "npx tailwindcss/cli -i ./assets/css/input.css -o ./assets/css/index.css --jit --watch"
   },
   "author": "",
   "license": "ISC",
