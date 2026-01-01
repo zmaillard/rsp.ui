@@ -37,7 +37,7 @@ jobs:
         env:
           RSP_DATABASE_URL: postgresql://admin:rsp@localhost/roadsign
       - run: npm install
-      - run: npx tailwindcss/cli -i ./assets/css/input.css -o ./assets/css/index.css --jit --minify
+      - run: npx @tailwindcss/cli -i ./assets/css/input.css -o ./assets/css/index.css --jit --minify
       - run: hugo --gc --minify --environment development
         env:
           HUGO_PARAMS_SEARCHINDEX: ${{ secrets.HUGO_PARAMS_SEARCHINDEX }}
