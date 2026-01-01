@@ -1,3 +1,5 @@
+/* From Article Image placeholders in pure CSS — or: Defying gods with math and color
+ * by Freek: https://frzi.medium.com/lqip-css-73dc6dda2529 */
 [data-lqip] {
     --lqip-c: attr(data-lqip type(<color>), white);
 }

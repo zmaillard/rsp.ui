@@ -1,3 +1,5 @@
+; Calculate Low Qualtiy Image Placeholder for Image
+; Adopted from article here: https://frzi.medium.com/lqip-css-73dc6dda2529
 (ns lqip
   (:require [clojure.math :refer [round]]
             [core :as core]
@@ -45,17 +47,16 @@
   (let [imageid-int (biginteger imageid)]
    (pg/execute! core/db ["UPDATE sign.highwaysign SET lqip_hash = ? WHERE imageid = ?" new-lqip imageid-int])))
 
+(defn get-existing-signs
+  []
+  (pg/execute! core/db ["select imageid::text as imageid, lqip_hash as lqip from sign.highwaysign"]))
 
 (defn -main
   [& args]
-  (let [signs (map (fn[s] {:imageId (:annotation s) :palette (build-palette s)})(core/get-imported-signs))]
+  (let [ext-signs (map (fn[s] {:imageid (:imageid s) :ext-palette (:lqip s) }) (get-existing-signs))
+        signs (map (fn[s] {:imageId (:annotation s) :palette (build-palette s)})(core/get-imported-signs))]
     (doseq [{i :imageId c :palette} signs] 
-     (update-lqip i (combine-colors (:c0 c)(:c1 c)(:c2 c))))))
+      (let [color(combine-colors (:c0 c)(:c1 c)(:c2 c))
+            match (filter (fn[x] (and (= color (:ext-palette x))(= i (:imageId x)))) ext-signs)]
+        (if (not(nil?(seq match))) (update-lqip i color)(prn (format "no change for %s" i)))))))
 
-;(defn -main 
-;  [& _args]
-;  (let [signs (map (fn[s] {:imageid (:annotation s) :eagle-star (:star s)})  (core/get-imported-signs))
-;        ext-signs (map (fn[s] {:imageid (:imageid s) :db-star (:vwindexsign/quality s) }) (core/get-signs))]
-;    (doseq [to-update (filter (fn[x] (not= (:eagle-star x) (:db-star x)))  (join signs ext-signs))]
-;      (update-quality (:imageid to-update) (:eagle-star to-update)))))
-  
