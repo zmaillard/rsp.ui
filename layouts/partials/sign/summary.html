@@ -10,6 +10,7 @@
     {{with .GetPage $signpage}}
     <a href="/sign/{{ .Params.imageid}}">
         <img class="h-auto max-w-full mx-auto"
+             style="--lqip:{{.Params.lqip}}"
              data-src="{{site.Params.SIGNBASEURL}}{{ $imageid}}/{{ $imageid}}_l.jpg"
              src="{{site.Params.SIGNBASEURL}}{{ $imageid}}/{{ $imageid}}_l.jpg"
              alt="{{ .Title }}" style="opacity: 1; transition: opacity 0.15s linear 0s;"></a>

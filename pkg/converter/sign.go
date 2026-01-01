@@ -4,12 +4,13 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	pluscode "github.com/google/open-location-code/go"
-	"github.com/mmcloughlin/geohash"
 	"highway-sign-portal-builder/pkg/db"
 	"highway-sign-portal-builder/pkg/dto"
 	"highway-sign-portal-builder/pkg/generator"
 	"iter"
+
+	pluscode "github.com/google/open-location-code/go"
+	"github.com/mmcloughlin/geohash"
 )
 
 type SignConverter struct {
@@ -57,6 +58,10 @@ func (s SignConverter) Convert() iter.Seq[generator.Generator] {
 				Quality:              int(sign.Quality),
 				Tags:                 sign.Tags,
 				PlusCode:             pc,
+			}
+
+			if sign.LqipHash.Valid {
+				highwaySignDto.LQIP = &sign.LqipHash.String
 			}
 
 			// Add state name to categories

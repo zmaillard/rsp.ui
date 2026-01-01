@@ -9,7 +9,7 @@ SELECT id, highway_name, slug, sort_number, image_name, highway_type_slug, highw
 
 
 -- name: GetHugoHighwaySigns :many
-SELECT id, title, sign_description, feature_id, date_taken, imageid, flickrid, point, country_slug, state_slug, place_slug, county_slug, tags, categories, highways, is_to, image_height, image_width, quality FROM sign.vwhugohighwaysign;
+SELECT id, title, sign_description, feature_id, date_taken, imageid, flickrid, point, country_slug, state_slug, place_slug, county_slug, tags, categories, highways, is_to, image_height, image_width, quality, lqip_hash FROM sign.vwhugohighwaysign;
 
 -- name: GetHugoHighwayTypes :many
 SELECT id, highway_type_name, highway_type_slug, sort, coalesce(imagecount,0), imageid, cast(highways as text[]), country FROM sign.vwhugohighwaytype;

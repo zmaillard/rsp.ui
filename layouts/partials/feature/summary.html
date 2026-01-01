@@ -12,7 +12,7 @@
                 data-cy="feature-summary"
                 class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                   <a id="{{$featureId}}" href="{{$link}}">
-                      <img class="rounded-t-lg" loading="lazy" src="{{site.Params.SIGNBASEURL}}{{  .Params.imageid}}/{{  .Params.imageid}}_m.jpg" alt="{{.Params.title}}" >
+                      <img class="rounded-t-lg" loading="lazy" style="--lqip:{{.Params.lqip}}"  src="{{site.Params.SIGNBASEURL}}{{  .Params.imageid}}/{{  .Params.imageid}}_m.jpg" alt="{{.Params.title}}" >
                   </a>
             <div class="p-5">
                 <p class="font-semibold text-lg text-gray-900 dark:text-white">{{$featureName}}</p>
