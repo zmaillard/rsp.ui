@@ -86,10 +86,14 @@
     {{ $path := printf "/%s/%s" "sign" .Params.featured}}
     {{ with $.Site.GetPage $path }}
     <a id="state-featured" href="{{.RelPermalink}}">
+        <div class="w-full h-full">
         <img class="h-auto max-w-full rounded-lg" id="state-featured-img"
              style="--lqip:{{.Params.lqip}}"
+             width="1024"
+             height="768"
              src="{{site.Params.SIGNBASEURL}}{{.Params.imageid}}/{{.Params.imageid}}_l.jpg"
              alt="{{.Params.title}}" />
+        </div>
     </a>
     {{ end }}
     <div class="p-0 text-s text-gray-700 dark:text-gray-400  justify-self-start">

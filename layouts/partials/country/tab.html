@@ -98,9 +98,13 @@
     <div
             class="max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
 
+        <div class="w-full h-full">
             <img class="rounded-t-lg" loading="lazy"
+                 width="500"
+                 height="375"
                  style="--lqip:{{$lqip}}"
                  src="{{site.Params.SIGNBASEURL}}{{.Params.featured}}/{{.Params.featured}}_m.jpg">
+            </div>
         <div class="p-2 md:p-5">
             <p class="mb-2 text-lg md:text-xl font-bold tracking-tight text-gray-900 dark:text-white">{{.Params.name}}
                 <span
@@ -140,7 +144,11 @@
     <a data-cy="highway-link-{{.Params.Slug}}" href="{{.RelPermalink}}">
 
     <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
-                <img  class="rounded-t-lg" loading="lazy" style="--lqip:{{$lqip}}"  src="{{site.Params.SIGNBASEURL}}{{.Params.featured}}/{{.Params.featured}}_m.jpg">
+
+
+        <div class="w-full h-full">
+                <img width="500" height="375"  class="rounded-t-lg" loading="lazy" style="--lqip:{{$lqip}}"  src="{{site.Params.SIGNBASEURL}}{{.Params.featured}}/{{.Params.featured}}_m.jpg">
+        </div>
         <div class="p-2 md:p-5">
         <p class="mb-2 text-lg md:text-xl font-bold tracking-tight text-gray-900 dark:text-white">{{.Params.name}}
             <span
