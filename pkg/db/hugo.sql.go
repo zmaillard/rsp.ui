@@ -204,7 +204,7 @@ func (q *Queries) GetHugoHighwayNames(ctx context.Context) ([]GetHugoHighwayName
 }
 
 const getHugoHighwaySigns = `-- name: GetHugoHighwaySigns :many
-SELECT id, title, sign_description, feature_id, date_taken, imageid, flickrid, point, country_slug, state_slug, place_slug, county_slug, tags, categories, highways, is_to, image_height, image_width, quality, lqip_hash FROM sign.vwhugohighwaysign
+SELECT id, title, sign_description, feature_id, date_taken, imageid, flickrid, point, country_slug, state_slug, place_slug, county_slug, tags, categories, highways, is_to, image_height, image_width, quality, lqip_hash, has_processed FROM sign.vwhugohighwaysign
 `
 
 func (q *Queries) GetHugoHighwaySigns(ctx context.Context) ([]SignVwhugohighwaysign, error) {
@@ -237,6 +237,7 @@ func (q *Queries) GetHugoHighwaySigns(ctx context.Context) ([]SignVwhugohighways
 			&i.ImageWidth,
 			&i.Quality,
 			&i.LqipHash,
+			&i.HasProcessed,
 		); err != nil {
 			return nil, err
 		}

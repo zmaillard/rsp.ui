@@ -160,6 +160,7 @@ type SignHighwaysign struct {
 	AdminAreaPlaceID   pgtype.Int4
 	Quality            int32
 	LqipHash           pgtype.Text
+	HasProcessed       pgtype.Bool
 }
 
 type SignHighwaysignHighway struct {
@@ -346,6 +347,7 @@ type SignVwhugohighwaysign struct {
 	ImageWidth      pgtype.Int4
 	Quality         int32
 	LqipHash        pgtype.Text
+	HasProcessed    pgtype.Bool
 }
 
 type SignVwhugohighwaytype struct {
