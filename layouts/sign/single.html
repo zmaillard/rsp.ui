@@ -7,6 +7,11 @@
             {{ $signpage := printf "/%s/%s" "sign" .Params.imageid }}
             {{ $imageid := .Params.imageid }}
             {{ $lqip := .Params.lqip }}
+            {{ $hasProcessed := .Params.hasProcessed }}
+            {{ $prefix := "" }}
+            {{ if $hasProcessed }}
+            {{ $prefix = "/edited"}}
+            {{ end }}
             {{ $dimClass := "is-3by4" }}
             {{ if gt .Params.imageHeight .Params.imageWidth }} {{ $dimClass = "is-3by4" }}  {{ else }} {{ $dimClass = "is-4by3" }}  {{ end }}
             {{ $title := .Title }}
@@ -15,9 +20,9 @@
                      data-cy="sign-image"
                      class="h-auto max-w-full mx-auto"
                      style="--lqip:{{$lqip}}"
-                     data-src="{{site.Params.SIGNBASEURL}}{{ $imageid}}/{{ $imageid}}_l.jpg"
-                     src="{{site.Params.SIGNBASEURL}}{{ $imageid}}/{{ $imageid}}_l.jpg"
-                     data-zoom-src="{{site.Params.SIGNBASEURL}}{{ $imageid}}/{{ $imageid}}.jpg"
+                     data-src="{{site.Params.SIGNBASEURL}}{{ $imageid}}{{$prefix}}/{{ $imageid}}_l.jpg"
+                     src="{{site.Params.SIGNBASEURL}}{{ $imageid}}{{$prefix}}/{{ $imageid}}_l.jpg"
+                     data-zoom-src="{{site.Params.SIGNBASEURL}}{{ $imageid}}{{$prefix}}/{{ $imageid}}.jpg"
                      alt="{{ .Title }}" style="opacity: 1; transition: opacity 0.15s linear 0s;">
             {{ end }}
 
