@@ -38,7 +38,7 @@
                 {{ $plusCodeEncode := replace $plusCode "+" "%2B"  }}
                 {{ with .Params.point }}
                 <img
-                        src="https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/geojson(%7B%22type%22%3A%22Point%22%2C%22coordinates%22%3A%5B{{.longitude}}%2C{{.latitude}}%20%5D%7D)/{{.longitude}},{{.latitude}},11/1024x200?access_token=pk.eyJ1Ijoic2FnZWJydXNoZ2lzIiwiYSI6ImNqZnQxMjdodDA0Y28zNHB0OXpvNnMyYjQifQ.ut3IkXblOzLoHDYQzymKhQ">
+                        src="https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/geojson(%7B%22type%22%3A%22Point%22%2C%22coordinates%22%3A%5B{{.longitude}}%2C{{.latitude}}%20%5D%7D)/{{.longitude}},{{.latitude}},11/1024x200?access_token={{ .Site.Params.MAPBOXTOKEN }}">
                 {{ end }}
                 <div class="gap-8 sm:grid sm:grid-cols-2">
                     <div class="underline hover:no-underline text-xs justify-self-start text-gray-700 dark:text-gray-400 ">
