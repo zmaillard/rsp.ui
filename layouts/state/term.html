@@ -85,13 +85,21 @@
     {{ if .Params.featured }}
     {{ $path := printf "/%s/%s" "sign" .Params.featured}}
     {{ with $.Site.GetPage $path }}
+
+    {{ $hasProcessed := .Params.hasProcessed }}
+    {{ $prefix := "" }}
+    {{ if $hasProcessed }}
+    {{ $prefix = "/edited"}}
+    {{ end }}
+
+
     <a id="state-featured" href="{{.RelPermalink}}">
         <div class="w-full h-full">
         <img class="h-auto max-w-full rounded-lg" id="state-featured-img"
              style="--lqip:{{.Params.lqip}}"
              width="1024"
              height="768"
-             src="{{site.Params.SIGNBASEURL}}{{.Params.imageid}}/{{.Params.imageid}}_l.jpg"
+             src="{{site.Params.SIGNBASEURL}}{{.Params.imageid}}{{$prefix}}/{{.Params.imageid}}_l.jpg"
              alt="{{.Params.title}}" />
         </div>
     </a>

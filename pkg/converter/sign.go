@@ -58,6 +58,7 @@ func (s SignConverter) Convert() iter.Seq[generator.Generator] {
 				Quality:              int(sign.Quality),
 				Tags:                 sign.Tags,
 				PlusCode:             pc,
+				HasProcessed:         sign.HasProcessed.Bool,
 			}
 
 			if sign.LqipHash.Valid {

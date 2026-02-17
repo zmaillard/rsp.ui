@@ -1,3 +1,8 @@
+{{ $hasProcessed := .Params.hasProcessed }}
+{{ $prefix := "" }}
+{{ if $hasProcessed }}
+{{ $prefix = "/edited"}}
+{{ end }}
 {{ $dimClass := "" }}
 {{ if gt .Params.imageHeight .Params.imageWidth }} {{ $dimClass = "is-3by4" }}  {{ else }} {{ $dimClass = "is-4by3" }}  {{ end }}
 <div data-cy="sign-tile"
@@ -9,7 +14,7 @@
                 loading="lazy"
                 width="500"
                 height="375"
-                src="{{site.Params.SIGNBASEURL}}{{  .Params.imageid}}/{{  .Params.imageid}}_m.jpg"
+                src="{{site.Params.SIGNBASEURL}}{{  .Params.imageid}}{{$prefix}}/{{  .Params.imageid}}_m.jpg"
                 alt="{{.Params.title}}" >
     </a>
     <div class="p-5">

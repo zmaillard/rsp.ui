@@ -11,7 +11,7 @@ jobs:
     environment: Staging
     services:
       postgres:
-        image: ghcr.io/zmaillard/rsp.db:v1.6.0
+        image: ghcr.io/zmaillard/rsp.db:v1.7.0
         env:
             POSTGRES_USER: admin
             POSTGRES_PASSWORD: rsp

@@ -7,14 +7,19 @@
     {{ $dimClass := "is-3by4" }}
     {{ if gt .Params.imageHeight .Params.imageWidth }} {{ $dimClass = "is-3by4" }}  {{ else }} {{ $dimClass = "is-4by3" }}  {{ end }}
     {{ $title := .Title }}
+    {{ $hasProcessed := .Params.hasProcessed }}
+    {{ $prefix := "" }}
+    {{ if $hasProcessed }}
+    {{ $prefix = "/edited"}}
+    {{ end }}
     {{with .GetPage $signpage}}
     <a href="/sign/{{ .Params.imageid}}">
             <img class="h-auto max-w-full mx-auto"
                  style="--lqip:{{.Params.lqip}}"
                  width="1024"
                  height="768"
-                 data-src="{{site.Params.SIGNBASEURL}}{{ $imageid}}/{{ $imageid}}_l.jpg"
-                 src="{{site.Params.SIGNBASEURL}}{{ $imageid}}/{{ $imageid}}_l.jpg"
+                 data-src="{{site.Params.SIGNBASEURL}}{{ $imageid}}{{$prefix}}/{{ $imageid}}_l.jpg"
+                 src="{{site.Params.SIGNBASEURL}}{{ $imageid}}{{$prefix}}/{{ $imageid}}_l.jpg"
                  alt="{{ .Title }}" style="opacity: 1; transition: opacity 0.15s linear 0s;">
 
     </a>
