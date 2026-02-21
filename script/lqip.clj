@@ -2,12 +2,8 @@
 ; Adopted from article here: https://frzi.medium.com/lqip-css-73dc6dda2529
 (ns lqip
   (:require [clojure.math :refer [round]]
-            [clojure.tools.cli :refer [parse-opts]]
             [core :as core]
             [pod.babashka.postgresql :as pg]))
-
-
-(def app-specs [["-n" "--new" "Only New" :default false]])
 
 (defrecord RGB [r g b])
 
