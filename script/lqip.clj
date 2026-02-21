@@ -2,15 +2,12 @@
 ; Adopted from article here: https://frzi.medium.com/lqip-css-73dc6dda2529
 (ns lqip
   (:require [clojure.math :refer [round]]
+            [clojure.tools.cli :refer [parse-opts]]
             [core :as core]
-            [pod.babashka.postgresql :as pg]
-            [babashka.http-client :as http]
-            [cheshire.core :as json]))
+            [pod.babashka.postgresql :as pg]))
 
 
-(def base-eagle-url (System/getenv "EAGLE_URL"))
-(def eagle-token (System/getenv "EAGLE_TOKEN"))
-
+(def app-specs [["-n" "--new" "Only New" :default false]])
 
 (defrecord RGB [r g b])
 
@@ -49,14 +46,17 @@
 
 (defn get-existing-signs
   []
-  (pg/execute! core/db ["select imageid::text as imageid, lqip_hash as lqip from sign.highwaysign"]))
+  (pg/execute! core/db ["select imageid::text as imageid, lqip_hash from sign.highwaysign"]))
 
 (defn -main
   [& args]
-  (let [ext-signs (map (fn[s] {:imageid (:imageid s) :ext-palette (:lqip s) }) (get-existing-signs))
+  (let [ext-signs (map (fn[s] {:imageid (:imageid s) :ext-palette (:highwaysign/lqip_hash s) }) (get-existing-signs))
         signs (map (fn[s] {:imageId (:annotation s) :palette (build-palette s)})(core/get-imported-signs))]
+    (doseq [{i :imageId c :palette} (filter (fn[s] (nil? (:ext-palette s))) ext-signs)] 
+      (let [color(combine-colors (:c0 c)(:c1 c)(:c2 c))]
+        (update-lqip i color)))
     (doseq [{i :imageId c :palette} signs] 
       (let [color(combine-colors (:c0 c)(:c1 c)(:c2 c))
-            match (filter (fn[x] (and (= color (:ext-palette x))(= i (:imageId x)))) ext-signs)]
+            match (filter (fn[x] ( and (= color (:ext-palette x))(= i (:imageId x)))) ext-signs)]
         (if (not(nil?(seq match))) (update-lqip i color)(prn (format "no change for %s" i)))))))
 
