@@ -25,6 +25,7 @@
                      src="{{site.Params.SIGNBASEURL}}{{ $imageid}}{{$prefix}}/{{ $imageid}}_l.jpg"
                      data-zoom-src="{{site.Params.SIGNBASEURL}}{{ $imageid}}{{$prefix}}/{{ $imageid}}.jpg"
                      alt="{{ .Title }}" style="opacity: 1; transition: opacity 0.15s linear 0s;">
+                <meta itemprop="edited" content="{{$hasProcessed}}" />
             {{ end }}
 
             <div data-cy="sign-metadata" class="p-5">
