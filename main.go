@@ -2,11 +2,12 @@ package main
 
 import (
 	"context"
-	"github.com/spf13/afero"
 	"highway-sign-portal-builder/pkg/config"
 	"highway-sign-portal-builder/pkg/converter"
 	"highway-sign-portal-builder/pkg/db"
 	"highway-sign-portal-builder/pkg/generator"
+
+	"github.com/spf13/afero"
 )
 
 func main() {

@@ -11,9 +11,9 @@
 {{ $country := $.Site.GetPage $countryPath }}
 <section class="container mx-auto">
     <!-- Breadcrumb -->
-    <nav class="flex  pb-5" aria-label="Breadcrumb">
+    <nav data-cy="breadcrumb" class="flex  pb-5" aria-label="Breadcrumb">
         <ol class="inline-flex items-center space-x-1 md:space-x-3">
-            <li class="inline-flex items-center">
+            <li data-cy="breadcrumb-home" class="inline-flex items-center">
                 <a href="/"
                    class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
                     <svg class="w-3 h-3 mr-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
@@ -24,7 +24,7 @@
                     Home
                 </a>
             </li>
-            <li>
+            <li data-cy="breadcrumb-country">
                 <div class="flex items-center">
                     <svg class="w-3 h-3 mx-1 text-gray-400" aria-hidden="true"
                          xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
@@ -35,7 +35,7 @@
                        class="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white">{{$country.Params.name}}</a>
                 </div>
             </li>
-            <li>
+            <li data-cy="breadcrumb-state">
                 <div class="flex items-center">
                     <svg class="w-3 h-3 mx-1 text-gray-400" aria-hidden="true"
                          xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
@@ -46,7 +46,7 @@
                        class="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white">{{$state.Params.name}}</a>
                 </div>
             </li>
-            <li aria-current="page">
+            <li data-cy="breadcrumb-current" aria-current="page">
                 <div class="flex items-center">
                     <svg class="w-3 h-3 mx-1 text-gray-400" aria-hidden="true"
                          xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
@@ -68,18 +68,21 @@
 {{ end }}
 
 {{ $signTotal := where .Pages "Params.place" "!=" nil }}
-
+{{ $counter := 0 }}
 {{ $groupedPlaces := $signTotal.GroupByParam "place" }}
-    <h5 class="text-xl font-bold dark:text-white">Localities:
-{{ if gt (len $groupedPlaces) 1 }}
+    <h5 data-cy="localities-header" class="text-xl font-bold dark:text-white">Localities:
+{{ if gt (len $groupedPlaces) 0 }}
 {{ range $idx, $val := $groupedPlaces }}
 {{ $placePath := printf "/%s/%s" "place" $val.Key}}
 {{ with $.Site.GetPage $placePath}}
-{{ if ne $idx 0 }}
-|
+{{ if .Params.name }}
+{{ if gt $counter 0 }}
+<span data-cy="locality-delimiter">|</span>
 {{ end }}
-<a href="#{{.Params.slug}}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ .Params.name }}</a>
+{{ $counter = add $counter 1 }}
+<a data-cy="locality-link" href="#{{.Params.slug}}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ .Params.name }}</a>
 {{ end }}
+        {{end}}
 {{ end }}
 </h5>
 
@@ -91,10 +94,14 @@
 {{ $placePage := $.Site.GetPage $placePath}}
 {{ if $placePage }}
 {{ with $.Site.GetPage $placePath }}
-    <h4 id="{{.Params.slug}}" class="text-2xl font-bold dark:text-white"><a href="{{.RelPermalink}}">{{ .Params.name }}</a></h4>
+    {{ if .Params.name }}
+    <h4 data-cy="place-heading" id="{{.Params.slug}}" class="text-2xl font-bold dark:text-white"><a href="{{.RelPermalink}}">{{ .Params.name }}</a></h4>
+    {{ else }}
+    <h4 data-cy="place-heading" class="text-2xl font-bold dark:text-white"  >No Place Associated</h4>
+    {{ end }}
 {{ end }}
 {{ else }}
-<h4 class="text-2xl font-bold dark:text-white"  >No Place Associated</h4>
+<h4 data-cy="place-heading" class="text-2xl font-bold dark:text-white"  >No Place Associated</h4>
 {{ end }}
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
 
@@ -110,7 +117,7 @@
 
     {{ $noPlaces := where .Pages "Params.place" "==" nil }}
     {{ with $noPlaces }}
-    <h4 class="text-2xl font-bold dark:text-white"  >No Place Associated</h4>
+    <h4 data-cy="no-place-heading" class="text-2xl font-bold dark:text-white"  >No Place Associated</h4>
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
 
         {{ range . }}
@@ -130,7 +137,7 @@
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M16 1v5h-5M2 19v-5h5m10-4a8 8 0 0 1-14.947 3.97M1 10a8 8 0 0 1 14.947-3.97" />
         </svg>
-        <a href="{{$.Site.Params.RANDOMURL}}/statesubdivision/{{$stateSlug}}_{{$countySlug}}" id="refresh-random" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Show Random Sign From {{$countyName}}</a>
+        <a href="{{$.Site.Params.RANDOMURL}}/statesubdivision/{{$stateSlug}}_{{$countySlug}}" data-cy="random-sign-link" id="refresh-random" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Show Random Sign From {{$countyName}}</a>
     </div>
 
 </div>
