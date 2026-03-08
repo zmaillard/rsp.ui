@@ -68,18 +68,21 @@
 {{ end }}
 
 {{ $signTotal := where .Pages "Params.place" "!=" nil }}
-
+{{ $counter := 0 }}
 {{ $groupedPlaces := $signTotal.GroupByParam "place" }}
     <h5 class="text-xl font-bold dark:text-white">Localities:
-{{ if gt (len $groupedPlaces) 1 }}
+{{ if gt (len $groupedPlaces) 0 }}
 {{ range $idx, $val := $groupedPlaces }}
 {{ $placePath := printf "/%s/%s" "place" $val.Key}}
 {{ with $.Site.GetPage $placePath}}
-{{ if ne $idx 0 }}
+{{ if .Params.name }}
+{{ if gt $counter 0 }}
 |
 {{ end }}
+{{ $counter = add $counter 1 }}
 <a href="#{{.Params.slug}}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ .Params.name }}</a>
 {{ end }}
+        {{end}}
 {{ end }}
 </h5>
 
@@ -91,7 +94,11 @@
 {{ $placePage := $.Site.GetPage $placePath}}
 {{ if $placePage }}
 {{ with $.Site.GetPage $placePath }}
+    {{ if .Params.name }}
     <h4 id="{{.Params.slug}}" class="text-2xl font-bold dark:text-white"><a href="{{.RelPermalink}}">{{ .Params.name }}</a></h4>
+    {{ else }}
+    <h4 class="text-2xl font-bold dark:text-white"  >No Place Associated</h4>
+    {{ end }}
 {{ end }}
 {{ else }}
 <h4 class="text-2xl font-bold dark:text-white"  >No Place Associated</h4>
