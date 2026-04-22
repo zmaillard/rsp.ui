@@ -18,7 +18,27 @@
                 data-cy="feature-summary"
                 class="max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
                   <a id="{{$featureId}}" href="{{$link}}">
-                          <img class="rounded-t-lg" width="1024" height="768" loading="lazy" style="--lqip:{{.Params.lqip}}"  src="{{site.Params.SIGNBASEURL}}{{  .Params.imageid}}{{$prefix}}/{{  .Params.imageid}}_m.jpg" alt="{{.Params.title}}" >
+                          <img
+                                  class="rounded-t-lg"
+                                  width="1024"
+                                  height="768"
+                                  loading="lazy"
+                                  style="background-image: url('data:image/svg+xml;charset=utf-8,\
+                <svg xmlns=&quot;http://www.w3.org/2000/svg&quot;>\
+                    <filter id=&quot;b&quot; color-interpolation-filters=&quot;sRGB&quot;>\
+                        <feGaussianBlur stdDeviation=&quot;20&quot;/>\
+                            <feComponentTransfer>\
+                                <feFuncA type=&quot;discrete&quot; tableValues=&quot;1 1&quot;/>\
+                            </feComponentTransfer>\
+                    </filter>\
+                    <g filter=&quot;url(%23b)&quot;>\
+                        <image width=&quot;100%&quot; height=&quot;100%&quot; href=&quot;data:image/jpeg;base64,{{ .Params.thumbnail }}&quot;/>\
+                    </g>\
+                </svg>\
+                ');
+                "
+                                  src="{{site.Params.SIGNBASEURL}}{{  .Params.imageid}}{{$prefix}}/{{  .Params.imageid}}_m.jpg"
+                                  alt="{{.Params.title}}" >
                   </a>
             <div class="p-5">
                 <p class="font-semibold text-lg text-gray-900 dark:text-white">{{$featureName}}</p>

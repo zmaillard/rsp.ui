@@ -65,6 +65,10 @@ func (s SignConverter) Convert() iter.Seq[generator.Generator] {
 				highwaySignDto.LQIP = &sign.LqipHash.String
 			}
 
+			if sign.Thumbnail.Valid {
+				highwaySignDto.Thumbnail = &sign.Thumbnail.String
+			}
+
 			// Add state name to categories
 			var cats []string
 			for _, v := range sign.Categories {
