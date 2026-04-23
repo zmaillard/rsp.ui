@@ -61,6 +61,24 @@ func TestHighwaySignDto_ToMarkdown(t *testing.T) {
 			description: "",
 			wantErr:     false,
 		},
+		{
+			name: "sign with thumbnail",
+			input: dto.HighwaySignDto{
+				ID:          3,
+				Title:       "Sign With Thumbnail",
+				DateTaken:   testTime,
+				ImageId:     "sign-with-thumbnail",
+				StateSlug:   "washington",
+				CountrySlug: "us",
+				Highways:    []string{"i-5"},
+				ImageWidth:  1920,
+				ImageHeight: 1080,
+				Quality:     4,
+				Thumbnail:   stringPtr("/9j/4AAQSkZJRg=="),
+			},
+			description: "",
+			wantErr:     false,
+		},
 	}
 
 	for _, tt := range tests {
@@ -98,6 +116,17 @@ func TestHighwaySignDto_ToMarkdown(t *testing.T) {
 			// Verify description is included correctly
 			if tt.description != "" && !bytes.Contains(result, []byte(tt.description)) {
 				t.Errorf("ToMarkdown() does not contain description: %s", tt.description)
+			}
+
+			// Verify thumbnail is serialized when present, omitted when nil
+			if tt.input.Thumbnail != nil {
+				if !bytes.Contains(result, []byte("thumbnail: "+*tt.input.Thumbnail)) {
+					t.Errorf("ToMarkdown() does not contain expected thumbnail value")
+				}
+			} else {
+				if bytes.Contains(result, []byte("thumbnail:")) {
+					t.Errorf("ToMarkdown() should not contain thumbnail key when Thumbnail is nil")
+				}
 			}
 		})
 	}

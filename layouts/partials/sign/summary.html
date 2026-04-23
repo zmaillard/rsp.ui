@@ -15,9 +15,21 @@
     {{with .GetPage $signpage}}
     <a href="/sign/{{ .Params.imageid}}">
             <img class="h-auto max-w-full mx-auto"
-                 style="--lqip:{{.Params.lqip}}"
                  width="1024"
                  height="768"
+                 style="background-image: url('data:image/svg+xml;charset=utf-8,\
+                                <svg xmlns=&quot;http://www.w3.org/2000/svg&quot;>\
+                                    <filter id=&quot;b&quot; color-interpolation-filters=&quot;sRGB&quot;>\
+                                        <feGaussianBlur stdDeviation=&quot;20&quot;/>\
+                                            <feComponentTransfer>\
+                                                <feFuncA type=&quot;discrete&quot; tableValues=&quot;1 1&quot;/>\
+                                            </feComponentTransfer>\
+                                    </filter>\
+                                    <g filter=&quot;url(%23b)&quot;>\
+                                        <image width=&quot;100%&quot; height=&quot;100%&quot; href=&quot;data:image/jpeg;base64,{{ .Params.thumbnail }}&quot;/>\
+                                    </g>\
+                                </svg>\
+                                ');"
                  data-src="{{site.Params.SIGNBASEURL}}{{ $imageid}}{{$prefix}}/{{ $imageid}}_l.jpg"
                  src="{{site.Params.SIGNBASEURL}}{{ $imageid}}{{$prefix}}/{{ $imageid}}_l.jpg"
                  alt="{{ .Title }}" style="opacity: 1; transition: opacity 0.15s linear 0s;">

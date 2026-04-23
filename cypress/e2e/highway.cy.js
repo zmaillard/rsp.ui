@@ -47,6 +47,22 @@ describe('Highway Page Tests', () => {
                 }
             })
         })
+
+        it('should render sign tile images with embedded svg base64 placeholder background', () => {
+            cy.get('body').then($body => {
+                if ($body.find('[data-cy="sign-tile"]').length > 0) {
+                    cy.get('[data-cy="sign-tile"] img')
+                        .first()
+                        .should('have.attr', 'style')
+                        .and('include', 'data:image/svg+xml')
+                } else if ($body.find('[data-cy="feature-summary"]').length > 0) {
+                    cy.get('[data-cy="feature-summary"] img')
+                        .first()
+                        .should('have.attr', 'style')
+                        .and('include', 'data:image/svg+xml')
+                }
+            })
+        })
     })
 
     context('Highway with child highways', () => {

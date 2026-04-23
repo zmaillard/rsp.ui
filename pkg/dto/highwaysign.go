@@ -40,6 +40,7 @@ type HighwaySignDto struct {
 	PlusCode             string   `yaml:"plusCode"`
 	LQIP                 *string  `yaml:"lqip,omitempty"`
 	HasProcessed         bool     `yaml:"hasProcessed"`
+	Thumbnail            *string  `yaml:"thumbnail,omitempty"`
 }
 
 func (s HighwaySignDto) OutFile() string {

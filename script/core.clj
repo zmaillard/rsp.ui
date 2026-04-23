@@ -1,8 +1,11 @@
 (ns core 
   (:require
-   [babashka.http-client :as http]
-   [cheshire.core :as json]
-   [pod.babashka.postgresql :as pg]))
+     [babashka.http-client :as http]
+     [cheshire.core :as json]
+     [clojure.string :as str]
+     [pod.babashka.postgresql :as pg])
+  (:import 
+     [java.net URLDecoder]))
 
 
 (def base-eagle-url (System/getenv "EAGLE_URL"))
@@ -41,5 +44,14 @@
     (http/get (str base-eagle-url "/api/library/info"){:query-params {:token eagle-token}})
     (as-> r (json/parse-string (:body r) true))
     (get-in [:data :tagsGroups])))
+
+(defn get-thumbnail-path
+  [id]
+  (->
+    (http/get (str base-eagle-url "/api/item/thumbnail"){:query-params {:token eagle-token :id id}})
+    (as-> r (json/parse-string (:body r) true))
+    (:data)
+    (URLDecoder/decode)))
+
 
 

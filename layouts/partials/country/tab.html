@@ -86,16 +86,16 @@
     {{ with $.Site.GetPage $statePath }}
     {{ if .Params.featured }}
 
-    {{/* get lqip value */}}
+    {{/* get thumbnail value */}}
     {{ $signpath := printf "/%s/%s" "sign" .Params.featured }}
     {{ $signPage := $.Site.GetPage $signpath }}
-    {{ $lqip := "" }}
+    {{ $thumbnail := "" }}
     {{ $hasProcessed := false }}
     {{ if $signPage }}
-    {{ $lqip = $signPage.Params.lqip }}
+    {{ $thumbnail = $signPage.Params.thumbnail }}
     {{ $hasProcessed = $signPage.Params.hasProcessed }}
     {{ end }}
-    {{/* end get lqip value*/}}
+    {{/* end get thumbnail value*/}}
     {{ $prefix := "" }}
     {{ if $hasProcessed }}
     {{ $prefix = "/edited"}}
@@ -138,16 +138,16 @@
     {{ $hwyTypePath := printf "/%s/%s" "highwaytype" $name }}
     {{ with $.Site.GetPage $hwyTypePath }}
 
-    {{/* get lqip value */}}
+    {{/* get thumbnail value */}}
     {{ $signpath := printf "/%s/%s" "sign" .Params.featured }}
     {{ $signPage := $.Site.GetPage $signpath }}
-    {{ $lqip := "" }}
+    {{ $thumbnail := "" }}
     {{ $hasProcessed := false }}
     {{ if $signPage }}
-    {{ $lqip = $signPage.Params.lqip }}
+    {{ $thumbnail = $signPage.Params.thumbnail }}
     {{ $hasProcessed = $signPage.Params.hasProcessed }}
     {{ end }}
-    {{/* end get lqip value*/}}
+    {{/* end get thumbnail value*/}}
 
     {{ $prefix := "" }}
     {{ if $hasProcessed }}
@@ -160,7 +160,26 @@
 
 
         <div class="w-full h-full">
-                <img width="500" height="375"  class="rounded-t-lg" loading="lazy" style="--lqip:{{$lqip}}"  src="{{site.Params.SIGNBASEURL}}{{.Params.featured}}{{$prefix}}/{{.Params.featured}}_m.jpg">
+                <img
+                        width="500"
+                        height="375"
+                        class="rounded-t-lg"
+                        loading="lazy"
+                        style="background-image: url('data:image/svg+xml;charset=utf-8,\
+                                <svg xmlns=&quot;http://www.w3.org/2000/svg&quot;>\
+                                    <filter id=&quot;b&quot; color-interpolation-filters=&quot;sRGB&quot;>\
+                                        <feGaussianBlur stdDeviation=&quot;20&quot;/>\
+                                            <feComponentTransfer>\
+                                                <feFuncA type=&quot;discrete&quot; tableValues=&quot;1 1&quot;/>\
+                                            </feComponentTransfer>\
+                                    </filter>\
+                                    <g filter=&quot;url(%23b)&quot;>\
+                                        <image width=&quot;100%&quot; height=&quot;100%&quot; href=&quot;data:image/jpeg;base64,{{ $thumbnail }}&quot;/>\
+                                    </g>\
+                                </svg>\
+                                ');
+                                "
+                        src="{{site.Params.SIGNBASEURL}}{{.Params.featured}}{{$prefix}}/{{.Params.featured}}_m.jpg">
         </div>
         <div class="p-2 md:p-5">
         <p class="mb-2 text-lg md:text-xl font-bold tracking-tight text-gray-900 dark:text-white">{{.Params.name}}

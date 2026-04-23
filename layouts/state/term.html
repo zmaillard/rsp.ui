@@ -96,7 +96,20 @@
     <a id="state-featured" href="{{.RelPermalink}}">
         <div class="w-full h-full">
         <img class="h-auto max-w-full rounded-lg" id="state-featured-img"
-             style="--lqip:{{.Params.lqip}}"
+             style="background-image: url('data:image/svg+xml;charset=utf-8,\
+                <svg xmlns=&quot;http://www.w3.org/2000/svg&quot;>\
+                    <filter id=&quot;b&quot; color-interpolation-filters=&quot;sRGB&quot;>\
+                        <feGaussianBlur stdDeviation=&quot;20&quot;/>\
+                            <feComponentTransfer>\
+                                <feFuncA type=&quot;discrete&quot; tableValues=&quot;1 1&quot;/>\
+                            </feComponentTransfer>\
+                    </filter>\
+                    <g filter=&quot;url(%23b)&quot;>\
+                        <image width=&quot;100%&quot; height=&quot;100%&quot; href=&quot;data:image/jpeg;base64,{{ .Params.thumbnail }}&quot;/>\
+                    </g>\
+                </svg>\
+                ');
+                "
              width="1024"
              height="768"
              src="{{site.Params.SIGNBASEURL}}{{.Params.imageid}}{{$prefix}}/{{.Params.imageid}}_l.jpg"
