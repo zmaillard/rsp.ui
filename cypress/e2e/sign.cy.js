@@ -48,6 +48,12 @@ describe('Sign Page Tests', () => {
             }
         })
     })
+    it('should render sign image with embedded svg base64 placeholder background', () => {
+        cy.get('[data-cy="sign-image"]')
+            .should('have.attr', 'style')
+            .and('include', 'data:image/svg+xml')
+    })
+
     it('should have mediumZoom enabled on the sign image', () => {
         // Check that the main sign image exists and has required attributes
         cy.get('#main-sign-img')
