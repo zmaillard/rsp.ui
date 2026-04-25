@@ -1,0 +1,67 @@
+{{- $prefix := "" }}
+{{- $noImageMsg := "No imageId provided for signimage widget" }}
+{{- $imageId := "" }}
+{{- $title := "" }}
+{{- $imageSuffix := "_l" }}
+{{- if reflect.IsMap . }}
+    {{- with .prefix }}
+    {{- $prefix = . }}
+    {{- end }}
+    {{- with .imageSuffix }}
+    {{- $imageSuffix = . }}
+    {{- end }}
+    {{- with .imageId }}
+    {{- $imageId = . }}
+    {{- else }}
+    {{- errorf $noImageMsg }}
+    {{- end }}
+    {{- with .title }}
+    {{- $title = . }}
+    {{- end }}
+<img data-src="{{site.Params.SIGNBASEURL}}{{$imageId}}{{$prefix}}/{{ $imageId }}{{$imageSuffix}}.jpg"
+     src="{{site.Params.SIGNBASEURL}}{{ $imageId}}{{$prefix}}/{{ $imageId}}{{$imageSuffix}}.jpg"
+     {{- with .id }}
+     id="{{.}}"
+     {{- end }}
+     {{- with .cy }}
+     data-cy="{{ . }}"
+     {{- end }}
+     decoding="async"
+     {{- with .class }}
+     class="{{.}}"
+     {{- end }}
+     {{- with .width }}
+     width="{{.}}"
+     {{- end }}
+     {{- with .height }}
+     height="{{.}}"
+     {{- end }}
+     {{- with .lazy }}
+     loading="lazy"
+     {{- end }}
+     {{- with .zoom }}
+     data-zoom-src="{{site.Params.SIGNBASEURL}}{{ $imageId}}{{$prefix}}/{{ $imageId}}.jpg"
+     {{- end }}
+     {{- with .thumbnail }}
+     style="
+                color: transparent;
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-image: url('data:image/svg+xml;charset=utf-8,\
+                        <svg xmlns=&quot;http://www.w3.org/2000/svg&quot;>\
+                            <filter id=&quot;b&quot; color-interpolation-filters=&quot;sRGB&quot;>\
+                                <feGaussianBlur stdDeviation=&quot;20&quot;/>\
+                                <feComponentTransfer>\
+                                    <feFuncA type=&quot;discrete&quot; tableValues=&quot;1 1&quot;/>\
+                                </feComponentTransfer>\
+                            </filter>\
+                            <g filter=&quot;url(%23b)&quot;>\
+                                <image width=&quot;100%&quot; height=&quot;100%&quot; href=&quot;data:image/jpeg;base64,{{ . }}&quot;/>\
+                            </g>\
+                        </svg>\
+                    ');
+     "
+     {{- end }}
+     alt="{{ $title }}">
+{{- end }}
