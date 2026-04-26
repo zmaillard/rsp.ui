@@ -43,6 +43,7 @@
      data-zoom-src="{{site.Params.SIGNBASEURL}}{{ $imageId}}{{$prefix}}/{{ $imageId}}.jpg"
      {{- end }}
      {{- with .thumbnail }}
+     {{ $thumbnail := . | safeHTML }}
      style="
                 color: transparent;
                 background-size: cover;
@@ -57,7 +58,7 @@
                                 </feComponentTransfer>\
                             </filter>\
                             <g filter=&quot;url(%23b)&quot;>\
-                                <image width=&quot;100%&quot; height=&quot;100%&quot; href=&quot;data:image/jpeg;base64,{{ . }}&quot;/>\
+                                <image width=&quot;100%&quot; height=&quot;100%&quot; href=&quot;data:image/jpeg;base64,{{ $thumbnail }}&quot;/>\
                             </g>\
                         </svg>\
                     ');

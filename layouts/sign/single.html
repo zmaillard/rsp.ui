@@ -17,7 +17,7 @@
             {{ if gt .Params.imageHeight .Params.imageWidth }} {{ $dimClass = "is-3by4" }}  {{ else }} {{ $dimClass = "is-4by3" }}  {{ end }}
             {{ $title := .Title }}
             {{with .GetPage $signpage}}
-                {{ $img := dict "title" .Title "id" "main-sign-img" "cy" "sign-image"  "thumbnail" $thumbnail "width" "1024" "height" "768" "class" "h-auto max-w-full mx-auto" "lazy" "true" "prefix" $prefix "imageSuffix" "_l" "imageId" $imageid }}
+                {{ $img := dict "title" .Title "id" "main-sign-img" "cy" "sign-image"  "thumbnail" $thumbnail "width" "1024" "height" "768" "class" "h-auto max-w-full mx-auto" "lazy" "true" "zoom" "true" "prefix" $prefix "imageSuffix" "_l" "imageId" $imageid }}
                 {{ partial "widgets/signimage.html" $img }}
                 <meta itemprop="edited" content="{{$hasProcessed}}" />
             {{ end }}
