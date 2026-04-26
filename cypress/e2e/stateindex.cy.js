@@ -42,4 +42,12 @@ describe('States Page Tests', () => {
         // Get all US state elements and verify count is reasonable
         cy.get('a:contains("United States")').parent().find('ul > li').should('have.length.at.least', 40)
     })
+
+    it('should not have URL-encoded characters in any inline style attributes', () => {
+        cy.get('[style]').each(($el) => {
+            const styleValue = $el.attr('style')
+            expect(styleValue).to.not.match(/%20|%2[Bb]|%2[Ff]|%3[Dd]/i)
+        })
+    })
+
 })
