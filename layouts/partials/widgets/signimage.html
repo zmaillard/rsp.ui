@@ -43,7 +43,7 @@
      data-zoom-src="{{site.Params.SIGNBASEURL}}{{ $imageId}}{{$prefix}}/{{ $imageId}}.jpg"
      {{- end }}
      {{- with .thumbnail }}
-     {{ $thumbnail := . | safeHTML }}
+     {{ $thumbnail := . | safeURL }}
      style="
                 color: transparent;
                 background-size: cover;
