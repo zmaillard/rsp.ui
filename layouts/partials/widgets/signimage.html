@@ -43,26 +43,9 @@
      data-zoom-src="{{site.Params.SIGNBASEURL}}{{ $imageId}}{{$prefix}}/{{ $imageId}}.jpg"
      {{- end }}
      {{- with .thumbnail }}
-     {{ $thumbnail := . | safeURL }}
-     style="
-                color: transparent;
-                background-size: cover;
-                background-position: center;
-                background-repeat: no-repeat;
-                background-image: url('data:image/svg+xml;charset=utf-8,\
-                        <svg xmlns=&quot;http://www.w3.org/2000/svg&quot;>\
-                            <filter id=&quot;b&quot; color-interpolation-filters=&quot;sRGB&quot;>\
-                                <feGaussianBlur stdDeviation=&quot;20&quot;/>\
-                                <feComponentTransfer>\
-                                    <feFuncA type=&quot;discrete&quot; tableValues=&quot;1 1&quot;/>\
-                                </feComponentTransfer>\
-                            </filter>\
-                            <g filter=&quot;url(%23b)&quot;>\
-                                <image width=&quot;100%&quot; height=&quot;100%&quot; href=&quot;data:image/jpeg;base64,{{ $thumbnail }}&quot;/>\
-                            </g>\
-                        </svg>\
-                    ');
-     "
+     {{ $style := printf "\"background-image: url('data:image/svg+xml;charset=utf-8,<svg xmlns=&quot;http://www.w3.org/2000/svg&quot;><filter id=&quot;b&quot; color-interpolation-filters=&quot;sRGB&quot;><feGaussianBlur stdDeviation=&quot;20&quot;/><feComponentTransfer><feFuncA type=&quot;discrete&quot; tableValues=&quot;1 1&quot;/></feComponentTransfer></filter><g filter=&quot;url(%%23b)&quot;><image width=&quot;100%%&quot; height=&quot;100%%&quot; href=&quot;data:image/jpeg;base64,%s&quot;/></g></svg>');\"" . }}
+    {{ printf "style=%s" $style | safeHTMLAttr }}
+
      {{- end }}
      alt="{{ $title }}">
 {{- end }}
