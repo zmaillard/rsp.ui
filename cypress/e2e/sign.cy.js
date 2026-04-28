@@ -46,7 +46,10 @@ describe('Sign Page Tests', () => {
                     cy.url().should('not.include', '/sign/909981781')
                 }
             }
-        })
+})
+
+
+
     })
     it('should render sign image with embedded svg base64 placeholder background', () => {
         cy.get('[data-cy="sign-image"]')
