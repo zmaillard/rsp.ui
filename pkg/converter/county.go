@@ -29,7 +29,7 @@ func (c countyConverter) Convert() iter.Seq[generator.Generator] {
 				Name:       county.CountyName.String,
 				Slug:       county.CountySlug.String,
 				ImageCount: int(county.ImageCount),
-				Output:     []string{"json"},
+				Output:     []string{"html", "json"},
 				StateSlug:  county.StateSlug.String,
 				Aliases:    []string{fmt.Sprintf("/county/%s/%s", county.StateSlug.String, county.CountySlug.String)},
 			}

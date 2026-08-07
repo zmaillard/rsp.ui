@@ -30,7 +30,7 @@ func (h highwayTypeConverter) Convert() iter.Seq[generator.Generator] {
 				ImageCount:      int(ht.Imagecount),
 				HighwayTaxomomy: ht.Highways,
 				Country:         ht.Country.String,
-				Output:          []string{"json"},
+				Output:          []string{"html", "json"},
 			}
 			if ht.Imageid != nil {
 				highwayTypeDto.Featured = ht.Imageid.String()
