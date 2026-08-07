@@ -21,6 +21,7 @@ type HighwayDto struct {
 	Aliases         []string         `yaml:"aliases,omitempty"`
 	ParentHighway   *string          `yaml:"parentHighway,omitempty"`
 	ChildHighways   []string         `yaml:"childHighways,omitempty"`
+	Output          []string         `yaml:"outputs,omitempty"`
 }
 
 func (h HighwayDto) ToMarkdown() ([]byte, error) {

@@ -2,6 +2,9 @@ languageCode = 'en-us'
 title = 'Roadsign Pictures'
 ignoreErrors = ["error-output-taxonomy"]
 enableRobotsTXT = true
+[outputs]
+home = ['html', 'json']
+
 [outputFormats]
   [outputFormats.list]
     mediatype = "text/html"
