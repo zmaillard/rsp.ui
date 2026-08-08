@@ -29,6 +29,7 @@ func (c placeConverter) Convert() iter.Seq[generator.Generator] {
 				Slug:       place.PlaceSlug.String,
 				ImageCount: int(place.ImageCount),
 				StateSlug:  place.StateSlug.String,
+				Output:     []string{"html", "list", "json"},
 			}
 
 			yield(placeDto)

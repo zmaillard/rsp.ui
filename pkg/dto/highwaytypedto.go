@@ -2,6 +2,7 @@ package dto
 
 import (
 	"fmt"
+
 	"gopkg.in/yaml.v3"
 )
 
@@ -13,6 +14,7 @@ type HighwayTypeDto struct {
 	Featured        string   `yaml:"featured,omitempty"`
 	HighwayTaxomomy []string `yaml:"highways"`
 	Country         string   `yaml:"country"`
+	Output          []string `yaml:"outputs,omitempty"`
 }
 
 func (ht HighwayTypeDto) ToMarkdown() ([]byte, error) {

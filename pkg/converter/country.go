@@ -29,6 +29,7 @@ func (c countryConverter) Convert() iter.Seq[generator.Generator] {
 				Slug:            country.CountrySlug.String,
 				SubdivisionName: country.SubdivisionName.String,
 				ImageCount:      int(country.ImageCount),
+				Output:          []string{"html", "json"},
 				Featured:        country.Featured.String(),
 				States: util.SliceMap(country.States, func(state types.AdminArea) dto.AdminAreaSlimDto {
 					return dto.AdminAreaSlimDto{

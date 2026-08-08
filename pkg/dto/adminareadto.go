@@ -18,7 +18,8 @@ type AdminAreaCountryDto struct {
 	ImageCount      int
 	States          []AdminAreaSlimDto
 	HighwayTypes    []AdminAreaSlimDto
-	Featured        string `yaml:"featured,omitempty"`
+	Output          []string `yaml:"outputs,omitempty"`
+	Featured        string   `yaml:"featured,omitempty"`
 }
 
 func (c AdminAreaCountryDto) ToMarkdown() ([]byte, error) {
@@ -75,6 +76,7 @@ type AdminAreaCountyDto struct {
 	ImageCount int
 	StateSlug  string
 	Aliases    []string
+	Output     []string `yaml:"outputs,omitempty"`
 }
 
 func (s AdminAreaCountyDto) ToMarkdown() ([]byte, error) {
@@ -97,6 +99,7 @@ type AdminAreaPlaceDto struct {
 	Slug       string
 	ImageCount int
 	StateSlug  string
+	Output     []string `yaml:"outputs,omitempty"`
 }
 
 func (s AdminAreaPlaceDto) ToMarkdown() ([]byte, error) {

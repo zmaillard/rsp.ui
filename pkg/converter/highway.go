@@ -40,6 +40,7 @@ func (h highwayConverter) Convert() iter.Seq[generator.Generator] {
 				States:        hw.States,
 				Counties:      hw.Counties,
 				ChildHighways: hw.ChildHighways,
+				Output:        []string{"html", "list", "json"},
 			}
 
 			if hw.ParentHighway.Valid {

@@ -42,7 +42,7 @@ func (c stateConverter) Convert() iter.Seq[generator.Generator] {
 				SubdivisionName: state.SubdivisionName.String,
 				ImageCount:      int(state.ImageCount),
 				Layout:          "state",
-				Output:          []string{"html", "list"},
+				Output:          []string{"html", "list", "json"},
 				Highways:        state.Highways,
 				CountrySlug:     state.CountrySlug.String,
 				Featured:        featured,
