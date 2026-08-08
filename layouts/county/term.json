@@ -1,1 +1,6 @@
+{{- $p := newScratch -}}
+{{- $p.Add "name" .Params.name -}}
+{{- $p.Add "slug" .Params.slug -}}
+{{- $p.Add "stateSlug" .Params.stateSlug -}}
+{{- $p.Add "imageCount" .Params.imagecount -}}
 {{- .Params  | jsonify -}}

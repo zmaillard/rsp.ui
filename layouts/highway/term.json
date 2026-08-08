@@ -1,1 +1,27 @@
-{{- .Params  | jsonify -}}
+{{- $p := newScratch -}}
+{{- $p.Add "name" .Params.name -}}
+{{- $p.Add "slug" .Params.slug -}}
+{{- $p.Add "displayName" .Params.displayName -}}
+{{- $p.Add "imageName" .Params.displayName -}}
+{{- range .Params.states -}}
+{{- $statepath := printf "/%s/%s" "state" . -}}
+{{- with $.Site.GetPage $statepath -}}
+{{- $st := dict "name" .Params.name "slug" .Params.slug "url" (printf "%s%s" .Permalink "index.json") -}}
+{{- $p.Add "states" (slice $st) -}}
+{{- end -}}
+{{- end -}}
+{{- range .Params.counties -}}
+{{- $countypath := printf "/%s/%s" "county" . -}}
+{{- with $.Site.GetPage $countypath -}}
+{{- $ct := dict "name" .Params.name "slug" .Params.slug "url" (printf "%s%s" .Permalink "index.json") -}}
+{{- $p.Add "counties" (slice $ct) -}}
+{{- end -}}
+{{- end -}}
+{{- with .Params.highwayType -}}
+{{ $hwyTypePath := printf "/%s/%s" "highwayType" .slug }}
+{{- with $.Site.GetPage $hwyTypePath -}}
+{{- $ht := dict "name" .Params.name "slug" .Params.slug "url" (printf "%s%s" .Permalink "index.json") -}}
+{{- $p.Add "highwayTypes" (slice $ht) -}}
+{{- end -}}
+{{- end -}}
+{{- $p.Values  | jsonify -}}
