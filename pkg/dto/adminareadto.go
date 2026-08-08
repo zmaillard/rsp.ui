@@ -99,6 +99,7 @@ type AdminAreaPlaceDto struct {
 	Slug       string
 	ImageCount int
 	StateSlug  string
+	Output     []string `yaml:"outputs,omitempty"`
 }
 
 func (s AdminAreaPlaceDto) ToMarkdown() ([]byte, error) {

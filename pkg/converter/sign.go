@@ -27,7 +27,7 @@ func NewHighwaySignConverter(ctx context.Context, db db.Querier) (Converter, err
 
 func (s SignConverter) Convert() iter.Seq[generator.Generator] {
 	return func(yield func(generator.Generator) bool) {
-		for _, sign := range *s.signs {
+		for idx, sign := range *s.signs {
 			gh := geohash.EncodeWithPrecision(sign.Point.Y(), sign.Point.X(), 5)
 
 			pc := pluscode.Encode(sign.Point.Y(), sign.Point.X(), 10)
@@ -59,7 +59,10 @@ func (s SignConverter) Convert() iter.Seq[generator.Generator] {
 				Tags:                 sign.Tags,
 				PlusCode:             pc,
 				HasProcessed:         sign.HasProcessed.Bool,
+				Output:               []string{"html", "json"},
 			}
+			aliases := []string{fmt.Sprintf("/signindex/%v", idx)}
+			highwaySignDto.Aliases = aliases
 
 			if sign.LqipHash.Valid {
 				highwaySignDto.LQIP = &sign.LqipHash.String
