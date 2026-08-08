@@ -22,7 +22,7 @@
                class="{{$tabDefault}}" {{ end }}>
                 United States
 
-                <span
+                <span data-cy="country-count"
                         class="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300">
                             {{len $usPage.Pages}}
                         </span>
@@ -35,7 +35,7 @@
                class="{{$tabDefault}}" {{ end }}>
                 Canada
 
-                <span
+                <span data-cy="country-count"
                         class="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300">
                             {{len $canadaPage.Pages}}
                         </span>
@@ -48,7 +48,7 @@
                {{ if eq .Params.slug $costaRicaPage.Params.slug }} class="{{$tabActive}}" aria-current="page" {{ else }}
                class="{{$tabDefault}}" {{ end }}>
                 Costa Rica
-                <span
+                <span data-cy="country-count"
                         class="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300">
                             {{len $costaRicaPage.Pages}}
                         </span>
@@ -60,7 +60,7 @@
                href="#" {{ end }} {{ if eq .Params.slug $mexicoPage.Params.slug }} class="{{$tabActive}}"
                aria-current="page" {{ else }} class="{{$tabDefault}}" {{ end }}>
                 México
-                <span
+                <span data-cy="country-count"
                         class="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300">
                             {{len $mexicoPage.Pages}}
                         </span>
