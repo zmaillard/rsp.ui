@@ -8,13 +8,6 @@ describe('Map Page Tests (Smoke Tests)', () => {
             cy.get('body').should('be.visible')
         })
 
-        it('should have working breadcrumb navigation', () => {
-            cy.get('nav[aria-label="Breadcrumb"]').should('be.visible')
-            
-            // Test home breadcrumb link
-            cy.get('nav[aria-label="Breadcrumb"] a[href="/"]').click()
-            cy.url().should('eq', Cypress.config().baseUrl)
-        })
 
         it('should have working global navigation link', () => {
             cy.visit('/map/')

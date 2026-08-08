@@ -22,8 +22,10 @@ describe('Country Page Tests', () => {
             cy.contains('United States').should('be.visible')
             cy.contains('Canada').should('be.visible')
             
-            // Tabs should show sign counts
-            cy.get('.text-blue-600').parent().find('span').should('contain.match', /\d+/)
+            // Tabs should show sign counts - verify each count badge contains numbers
+            cy.get('[data-cy="country-count"]').each(($el) => {
+                cy.wrap($el).invoke('text').should('match', /\d+/)
+            })
         })
 
         it('should navigate to another country via tabs', () => {

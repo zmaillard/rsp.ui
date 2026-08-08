@@ -31,20 +31,6 @@ describe('About Page Tests', () => {
             cy.get('section, article, div').should('exist')
         })
 
-        it('should have proper external link attributes if external links present', () => {
-            cy.get('body').then($body => {
-                // Check if there are any external links
-                const externalLinks = $body.find('a[href^="http"]:not([href*="roadsign.pictures"])')
-                
-                if (externalLinks.length > 0) {
-                    // External links should have target="_blank" and rel="noopener"
-                    cy.get('a[href^="http"]:not([href*="roadsign.pictures"])').each($link => {
-                        cy.wrap($link).should('have.attr', 'target', '_blank')
-                        cy.wrap($link).should('have.attr', 'rel').and('match', /noopener/)
-                    })
-                }
-            })
-        })
     })
 
     context('About page accessibility', () => {

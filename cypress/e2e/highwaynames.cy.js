@@ -25,15 +25,15 @@ describe('Highway Names Page Tests', () => {
             cy.url().should('include', '/map')
         })
 
-        it('should display sign content', () => {
+        it('should display feature content', () => {
             // Named highway pages show signs along that route
-            cy.get('a[href*="/sign/"]').should('exist')
+            cy.get('a[href*="/feature/"]').should('exist')
         })
 
-        it('should navigate to sign page', () => {
+        it('should navigate to feature pages', () => {
             // Click on a sign link
-            cy.get('a[href*="/sign/"]').first().click()
-            cy.url().should('include', '/sign/')
+            cy.get('a[href*="/feature/"]').first().click()
+            cy.url().should('include', '/feature/')
         })
 
         it('should display highway associations if present', () => {

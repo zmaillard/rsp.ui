@@ -1,4 +1,25 @@
 describe('State Page Tests', () => {
+    context('State page with lists - Washington', () => {
+        beforeEach(() => {
+            cy.visit('/state/washington/list.html')
+        })
+
+        it('should display state title and metadata', () => {
+            cy.get('h1').should('be.visible')
+            cy.get('h1').should('contain', 'Washington')
+        })
+
+
+        it('should have pagination', () => {
+            cy.get('[data-cy="pagination"]').should('be.visible')
+            cy.get('[data-cy="pagination-next"]').should('be.visible')
+
+            // Test pagination navigation
+            cy.get('[data-cy="pagination-next"]').click()
+            cy.url().should('include', '/page/')
+        })
+
+    })
     context('State page with full content - Washington', () => {
         beforeEach(() => {
             cy.visit('/state/washington/')
@@ -26,15 +47,6 @@ describe('State Page Tests', () => {
             cy.url().should('include', '/recent')
         })
 
-        it('should display sign tiles and navigate to sign page', () => {
-            cy.get('[data-cy="sign-tile"]').should('be.visible')
-            cy.get('[data-cy="sign-tile"]').should('have.length.at.least', 1)
-            
-            // Test one sign tile link
-            cy.get('[data-cy="sign-tile"]').first().find('a').first().click()
-            cy.url().should('include', '/sign/')
-        })
-
         it('should display and navigate to county', () => {
             // County links appear in sign metadata
             cy.get('[data-cy="county-link"]').should('exist')
@@ -56,14 +68,15 @@ describe('State Page Tests', () => {
             cy.url().should('include', '/place/')
         })
 
-        it('should have pagination', () => {
-            cy.get('[data-cy="pagination"]').should('be.visible')
-            cy.get('[data-cy="pagination-next"]').should('be.visible')
-            
-            // Test pagination navigation
-            cy.get('[data-cy="pagination-next"]').click()
-            cy.url().should('include', '/page/')
+        it('should display sign and navigate to sign page', () => {
+            cy.get('[data-cy="sign-featured"]').should('be.visible')
+            cy.get('[data-cy="sign-featured"]').should('have.length', 1)
+
+            // Test one sign tile link
+            cy.get('[data-cy="sign-featured"]').click()
+            cy.url().should('include', '/sign/')
         })
+
     })
 
     context('State page - California', () => {
@@ -76,7 +89,7 @@ describe('State Page Tests', () => {
         })
 
         it('should have sign content', () => {
-            cy.get('[data-cy="sign-tile"]').should('have.length.at.least', 1)
+            cy.get('[data-cy="sign-featured"]').should('have.length', 1)
         })
 
         it('should have working breadcrumb to country', () => {

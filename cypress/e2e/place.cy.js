@@ -69,10 +69,11 @@ describe('Place Page Tests', () => {
             // Click a place link from sign metadata
             cy.get('[data-cy="place-link"]').first().then($link => {
                 const placeName = $link.text()
+                let places = placeName.trim().split('\n');
                 cy.wrap($link).click()
                 
                 cy.url().should('include', '/place/')
-                cy.get('h1').should('contain', placeName)
+                cy.get('h1').should('contain', places[0])
             })
         })
     })
