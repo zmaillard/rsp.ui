@@ -7,6 +7,10 @@
 {{- $mexicoPage := $.Site.GetPage $mexicoPath -}}
 {{- $costaRicaPath :=  printf "/%s/%s" "country" "costa-rica" -}}
 {{- $costaRicaPage := $.Site.GetPage $costaRicaPath -}}
-{{- $s.Add "countries" (slice $usPage.Params $canadaPage.Params $mexicoPage.Params $costaRicaPage.Params) -}}
-{{- $s.Values  | jsonify -}}
+
+{{- range (slice $usPage $canadaPage $mexicoPage $costaRicaPage) -}}
+{{ $s.Add "countries" (slice (dict "name" .Params.name "slug" .Params.slug "url" (printf "%s%s" .Permalink "index.json") ) )}}
+{{- end -}}
+
+{{- $s.Get "countries"  | jsonify -}}
 
