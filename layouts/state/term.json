@@ -7,14 +7,14 @@
 {{- range .Params.counties -}}
 {{- $countypath := printf "/%s/%s_%s" "county" $stateSlug .slug -}}
 {{- with $.Site.GetPage $countypath -}}
-{{- $c := dict "name" .Params.name "slug" .Params.slug "url" (printf "%s%s" .Permalink "index.json") -}}
+{{- $c := dict "name" .Params.name "slug" (printf "%s_%s" .Params.stateslug .Params.slug) "url" (printf "%s%s" .Permalink "index.json") -}}
 {{- $p.Add "stateSubdivisions" (slice $c) -}}
 {{- end -}}
 {{- end -}}
 {{- range .Params.places -}}
 {{ $placepath := printf "/%s/%s_%s" "place" $stateSlug .slug }}
 {{- with $.Site.GetPage $placepath -}}
-{{- $pl := dict "name" .Params.name "slug" .Params.slug "url" (printf "%s%s" .Permalink "index.json") -}}
+{{- $pl := dict "name" .Params.name "slug" (printf "%s_%s" .Params.stateslug .Params.slug) "url" (printf "%s%s" .Permalink "index.json") -}}
 {{- $p.Add "places" (slice $pl) -}}
 {{- end -}}
 {{- end -}}

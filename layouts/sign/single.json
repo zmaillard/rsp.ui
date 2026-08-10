@@ -21,14 +21,14 @@
 {{- with .Params.county -}}
 {{- $countypath := printf "/%s/%s" "county" . -}}
 {{- with $.Site.GetPage $countypath -}}
-{{- $c := dict "name" .Params.name "slug" .Params.slug "url" (printf "%s%s" .Permalink "index.json") -}}
+{{- $c := dict "name" .Params.name "slug" (printf "%s_%s" .Params.stateslug .Params.slug) "url" (printf "%s%s" .Permalink "index.json") -}}
 {{- $p.Add "stateSubdivision" $c -}}
 {{- end -}}
 {{- end -}}
 {{- with .Params.place -}}
 {{ $placepath := printf "/%s/%s" "place" .}}
 {{- with $.Site.GetPage $placepath -}}
-{{- $pl := dict "name" .Params.name "slug" .Params.slug "url" (printf "%s%s" .Permalink "index.json") -}}
+{{- $pl := dict "name" .Params.name "slug" (printf "%s_%s" .Params.stateslug .Params.slug)  "url" (printf "%s%s" .Permalink "index.json") -}}
 {{- $p.Add "place" $pl -}}
 {{- end -}}
 {{- end -}}

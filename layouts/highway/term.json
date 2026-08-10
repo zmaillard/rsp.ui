@@ -13,7 +13,7 @@
 {{- range .Params.counties -}}
 {{- $countypath := printf "/%s/%s" "county" . -}}
 {{- with $.Site.GetPage $countypath -}}
-{{- $ct := dict "name" .Params.name "slug" .Params.slug "url" (printf "%s%s" .Permalink "index.json") -}}
+{{- $ct := dict "name" .Params.name "slug" (printf "%s_%s" .Params.stateslug .Params.slug)  "url" (printf "%s%s" .Permalink "index.json") -}}
 {{- $p.Add "counties" (slice $ct) -}}
 {{- end -}}
 {{- end -}}
