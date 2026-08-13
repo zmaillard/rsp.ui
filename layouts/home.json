@@ -12,5 +12,6 @@
 {{ $s.Add "countries" (slice (dict "name" .Params.name "slug" .Params.slug "url" (printf "%s%s" .Permalink "index.json") ) )}}
 {{- end -}}
 
-{{- $s.Get "countries"  | jsonify -}}
+{{- $s.Add "imageCount" .Site.Data.images.imageCount -}}
 
+{{- $s.Values  | jsonify -}}
