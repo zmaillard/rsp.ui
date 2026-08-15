@@ -1,9 +1,7 @@
 {
     auto_https off
-    debug
 }
 
-#http://roadsign.pictures/ {
 :80 {
     route {
         # Match signindex paths and create regex captures
