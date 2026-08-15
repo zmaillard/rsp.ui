@@ -24,6 +24,7 @@ assets/jsconfig.json
 netlify/
 layouts/
 data/
+!redirect_routes
 config/
 assets/
 archetypes/

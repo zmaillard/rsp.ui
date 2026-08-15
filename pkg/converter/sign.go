@@ -1,6 +1,8 @@
 package converter
 
 import (
+	"bufio"
+	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -8,6 +10,7 @@ import (
 	"highway-sign-portal-builder/pkg/dto"
 	"highway-sign-portal-builder/pkg/generator"
 	"iter"
+	"text/template"
 
 	pluscode "github.com/google/open-location-code/go"
 	"github.com/mmcloughlin/geohash"
@@ -27,7 +30,7 @@ func NewHighwaySignConverter(ctx context.Context, db db.Querier) (Converter, err
 
 func (s SignConverter) Convert() iter.Seq[generator.Generator] {
 	return func(yield func(generator.Generator) bool) {
-		for idx, sign := range *s.signs {
+		for _, sign := range *s.signs {
 			gh := geohash.EncodeWithPrecision(sign.Point.Y(), sign.Point.X(), 5)
 
 			pc := pluscode.Encode(sign.Point.Y(), sign.Point.X(), 10)
@@ -61,8 +64,6 @@ func (s SignConverter) Convert() iter.Seq[generator.Generator] {
 				HasProcessed:         sign.HasProcessed.Bool,
 				Output:               []string{"html", "json"},
 			}
-			aliases := []string{fmt.Sprintf("/signindex/%v", idx)}
-			highwaySignDto.Aliases = aliases
 
 			if sign.LqipHash.Valid {
 				highwaySignDto.LQIP = &sign.LqipHash.String
@@ -84,6 +85,11 @@ func (s SignConverter) Convert() iter.Seq[generator.Generator] {
 		}
 	}
 
+}
+func (s SignConverter) GetRedirects() generator.Lookup {
+	return &caddySignMap{
+		s.signs,
+	}
 }
 
 func (s SignConverter) GetHighQualityLookup() generator.Lookup {
@@ -341,4 +347,46 @@ type geoJsonFeature struct {
 		ImageId string `json:"imageid"`
 		Title   string `json:"title"`
 	} `json:"properties"`
+}
+
+type caddySignMap struct {
+	signs *[]db.SignVwhugohighwaysign
+}
+
+type templateRedirectData struct {
+	OldPath string
+	NewPath string
+}
+
+func (h caddySignMap) GetLookup() ([]byte, error) {
+	hs := *h.signs
+
+	//Get template
+	tmpl := template.Must(template.ParseFiles("redirect_template.text"))
+	var redirects []templateRedirectData
+	for i, v := range hs {
+		oldPath := fmt.Sprintf("/signindex/%v", i)
+		newPath := fmt.Sprintf("/sign/%s", v.Imageid.String())
+		redirects = append(redirects, templateRedirectData{
+			OldPath: oldPath,
+			NewPath: newPath,
+		})
+	}
+
+	var b bytes.Buffer
+	w := bufio.NewWriter(&b)
+
+	err := tmpl.Execute(w, redirects)
+	if err != nil {
+		return nil, err
+	}
+	err = w.Flush()
+	if err != nil {
+		return nil, err
+	}
+	return b.Bytes(), nil
+}
+
+func (h caddySignMap) OutLookupFiles() []string {
+	return []string{"./redirect_routes"}
 }

@@ -1,0 +1,6 @@
+map {http.regexp.signindex.1}  {new-path} {
+    {{- range . }}
+    {{.OldPath}}  {{.NewPath}}
+    {{- end }}
+    default ""
+}

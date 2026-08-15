@@ -42,7 +42,6 @@ type HighwaySignDto struct {
 	HasProcessed         bool     `yaml:"hasProcessed"`
 	Thumbnail            *string  `yaml:"thumbnail,omitempty"`
 	Output               []string `yaml:"outputs,omitempty"`
-	Aliases              []string `yaml:"aliases,omitempty"`
 }
 
 func (s HighwaySignDto) OutFile() string {

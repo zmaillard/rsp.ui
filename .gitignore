@@ -26,3 +26,4 @@ assets/css/index.css
 bot.db
 
 cypress/screenshots/
+redirect_routes

@@ -85,6 +85,11 @@ func main() {
 		panic(err)
 	}
 
+	err = generator.SaveLookup(appFs, cfg.HugoPath, signLookup.GetRedirects())
+	if err != nil {
+		panic(err)
+	}
+
 	for v := range signConverter.Convert() {
 		err = generator.SaveItem(appFs, cfg.HugoPath, v)
 		if err != nil {
