@@ -1,0 +1,24 @@
+{
+    auto_https off
+}
+
+:80 {
+    route {
+        # Match signindex paths and create regex captures
+        @is_signindex path_regexp signindex ^(/signindex/[0-9]+)(.*)$
+        
+        # Only process signindex paths
+        route @is_signindex {
+            # Import map (uses {http.regexp.signindex.1} as source)
+            import redirect_routes
+            
+            # Rewrite if we have a mapping
+            @has_mapping expression {new-path} != ""
+            rewrite @has_mapping {new-path}{http.regexp.signindex.2}
+        }
+    }
+
+    root * /usr/share/caddy
+    file_server
+
+}
