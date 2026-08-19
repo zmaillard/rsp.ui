@@ -18,6 +18,13 @@
 {{- $p.SetInMap "image" "small" (printf "%s%s/%s_s.jpg" site.Params.SIGNBASEURL .Params.imageid .Params.imageid ) -}}
 {{- $p.SetInMap "image" "thumbnail" (printf "%s%s/%s_t.jpg" site.Params.SIGNBASEURL .Params.imageid .Params.imageid ) -}}
 {{- end -}}
+{{- with .Params.country -}}
+{{- $countrypath := printf "/%s/%s" "country" . -}}
+{{- with $.Site.GetPage $countrypath -}}
+{{- $c := dict "name" .Params.name "slug" .Params.slug "url" (printf "%s%s" .Permalink "index.json") -}}
+{{- $p.Add "country" $c -}}
+{{- end -}}
+{{- end -}}
 {{- with .Params.county -}}
 {{- $countypath := printf "/%s/%s" "county" . -}}
 {{- with $.Site.GetPage $countypath -}}
