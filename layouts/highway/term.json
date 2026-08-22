@@ -3,24 +3,26 @@
 {{- $p.Add "slug" .Params.slug -}}
 {{- $p.Add "displayName" .Params.displayName -}}
 {{- $p.Add "imageName" .Params.displayName -}}
+
+{{- $p.Add "shield"  (dict "small"  (printf "%sShields/20x/%s" site.Params.SHIELDBASEURL .Params.imagename ) "large"  (printf "%sShields/%s" site.Params.SHIELDBASEURL .Params.imagename )) -}}
 {{- range .Params.states -}}
 {{- $statepath := printf "/%s/%s" "state" . -}}
 {{- with $.Site.GetPage $statepath -}}
-{{- $st := dict "name" .Params.name "slug" .Params.slug "url" (printf "%s%s" .Permalink "index.json") -}}
+{{- $st := dict "imageCount" .Params.imageCount "name" .Params.name "slug" .Params.slug "url" (printf "%s%s" .Permalink "index.json") -}}
 {{- $p.Add "states" (slice $st) -}}
 {{- end -}}
 {{- end -}}
 {{- range .Params.counties -}}
 {{- $countypath := printf "/%s/%s" "county" . -}}
 {{- with $.Site.GetPage $countypath -}}
-{{- $ct := dict "name" .Params.name "slug" (printf "%s_%s" .Params.stateslug .Params.slug)  "url" (printf "%s%s" .Permalink "index.json") -}}
+{{- $ct := dict "imageCount" .Params.imageCount "name" .Params.name "slug" (printf "%s_%s" .Params.stateslug .Params.slug)  "url" (printf "%s%s" .Permalink "index.json") -}}
 {{- $p.Add "counties" (slice $ct) -}}
 {{- end -}}
 {{- end -}}
 {{- with .Params.highwayType -}}
 {{ $hwyTypePath := printf "/%s/%s" "highwayType" .slug }}
 {{- with $.Site.GetPage $hwyTypePath -}}
-{{- $ht := dict "name" .Params.name "slug" .Params.slug "url" (printf "%s%s" .Permalink "index.json") -}}
+{{- $ht := dict "imageCount" .Params.imageCount "name" .Params.name "slug" .Params.slug "url" (printf "%s%s" .Permalink "index.json") -}}
 {{- $p.Add "highwayTypes" (slice $ht) -}}
 {{- end -}}
 {{- end -}}

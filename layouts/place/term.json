@@ -3,4 +3,24 @@
 {{- $p.Add "slug" .Params.slug -}}
 {{- $p.Add "stateSlug" .Params.stateSlug -}}
 {{- $p.Add "imageCount" .Params.imagecount -}}
+{{- $p.Set "signs" slice -}}
+{{- range .Page.Pages -}}
+{{- $signId := .Params.imageid -}}
+{{- $signpath := printf "/%s/%s" "sign" $signId -}}
+{{- with $.Site.GetPage $signpath -}}
+
+{{- $s := newScratch -}}
+{{- $s.Add "title" .Params.title -}}
+{{- if .Params.hasProcessed -}}
+{{- $s.SetInMap "image" "medium" (printf "%s%s/edited/%s_m.jpg" site.Params.SIGNBASEURL .Params.imageid .Params.imageid ) -}}
+{{- else -}}
+{{- $s.SetInMap "image" "medium" (printf "%s%s/%s_m.jpg" site.Params.SIGNBASEURL .Params.imageid .Params.imageid ) -}}
+{{- end -}}
+{{- $s.Add "imageid" .Params.imageid -}}
+{{- $s.Add "url" (printf "%s%s" .Permalink "index.json") -}}
+{{- $p.Add "signs" (slice $s.Values )}}
+
+{{- end -}}
+{{- end -}}
+
 {{- $p.Values  | jsonify -}}
