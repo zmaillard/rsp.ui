@@ -3,7 +3,7 @@
 {{- $p.Add "slug" .Params.slug -}}
 {{- $p.Add "displayName" .Params.displayName -}}
 {{- $p.Add "imageName" .Params.displayName -}}
-
+{{- $p.Add "externalLink" .Params.externalLink -}}
 {{- $p.Add "shield"  (dict "small"  (printf "%sShields/20x/%s" site.Params.SHIELDBASEURL .Params.imagename ) "large"  (printf "%sShields/%s" site.Params.SHIELDBASEURL .Params.imagename )) -}}
 {{- range .Params.states -}}
 {{- $statepath := printf "/%s/%s" "state" . -}}

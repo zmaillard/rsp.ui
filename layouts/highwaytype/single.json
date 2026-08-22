@@ -13,7 +13,7 @@
 {{ $highwaypath := printf "/%s/%s" "highway" . }}
 {{- with $.Site.GetPage $highwaypath -}}
 {{- $shieldDict := dict "small"  (printf "%sShields/20x/%s" site.Params.SHIELDBASEURL .Params.imagename ) "large"  (printf "%sShields/%s" site.Params.SHIELDBASEURL .Params.imagename ) -}}
-{{- $hw := dict "shield" $shieldDict "name" .Params.name "slug" .Params.slug "url" (printf "%s%s" .Permalink "index.json") -}}
+{{- $hw := dict "shield" $shieldDict "externalLink" .Params.externalLink "name" .Params.name "slug" .Params.slug "url" (printf "%s%s" .Permalink "index.json") -}}
 {{- $p.Add "highways" (slice $hw) -}}
 {{- end -}}
 {{- end -}}

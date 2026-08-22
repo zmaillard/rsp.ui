@@ -12,9 +12,9 @@
 {{- $s := newScratch -}}
 {{- $s.Add "title" .Params.title -}}
 {{- if .Params.hasProcessed -}}
-{{- $s.SetInMap "image" "medium" (printf "%s%s/edited/%s_m.jpg" site.Params.SIGNBASEURL .Params.imageid .Params.imageid ) -}}
+{{- $s.Add "image" (printf "%s%s/edited/%s_m.jpg" site.Params.SIGNBASEURL .Params.imageid .Params.imageid ) -}}
 {{- else -}}
-{{- $s.SetInMap "image" "medium" (printf "%s%s/%s_m.jpg" site.Params.SIGNBASEURL .Params.imageid .Params.imageid ) -}}
+{{- $s.Add "image"  (printf "%s%s/%s_m.jpg" site.Params.SIGNBASEURL .Params.imageid .Params.imageid ) -}}
 {{- end -}}
 {{- $s.Add "imageid" .Params.imageid -}}
 {{- $s.Add "url" (printf "%s%s" .Permalink "index.json") -}}
