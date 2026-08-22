@@ -21,7 +21,7 @@
 {{- with .Params.country -}}
 {{- $countrypath := printf "/%s/%s" "country" . -}}
 {{- with $.Site.GetPage $countrypath -}}
-{{- $c := dict "name" .Params.name "slug" .Params.slug "url" (printf "%s%s" .Permalink "index.json") -}}
+{{- $c := dict "name" .Params.name "slug" .Params.slug "subdivisionName" .Params.subdivisionname  "url" (printf "%s%s" .Permalink "index.json") -}}
 {{- $p.Add "country" $c -}}
 {{- end -}}
 {{- end -}}
