@@ -9,7 +9,16 @@
 {{- $costaRicaPage := $.Site.GetPage $costaRicaPath -}}
 
 {{- range (slice $usPage $canadaPage $mexicoPage $costaRicaPage) -}}
-{{ $s.Add "countries" (slice (dict "name" .Params.name "slug" .Params.slug "subdivisionName" .Params.subdivisionname "url" (printf "%s%s" .Permalink "index.json") ) )}}
+{{- $st := newScratch -}}
+{{- with .Params.states -}}
+{{- range . -}}
+{{- $statepath := printf "/%s/%s" "state" .slug -}}
+{{- with $.Site.GetPage $statepath -}}
+{{- $st.Add "states" (slice (dict "imageCount"  .Params.imageCount "name" .Params.name "slug" .Params.slug "url" (printf "%s%s" .Permalink "index.json") ) ) -}}
+{{- end -}}
+{{- end -}}
+{{- end -}}
+{{ $s.Add "countries" (slice (dict "imageCount" .Params.imageCount  "states" $st.Values "name" .Params.name "slug" .Params.slug "subdivisionName" .Params.subdivisionname "url" (printf "%s%s" .Permalink "index.json") ) )}}
 {{- end -}}
 
 {{- $s.Add "imageCount" .Site.Data.images.imageCount -}}

@@ -5,14 +5,15 @@
 {{- with .Params.country -}}
 {{- $countrypath := printf "/%s/%s" "country" . -}}
 {{- with $.Site.GetPage $countrypath -}}
-{{- $c := dict "name" .Params.name "slug" .Params.slug "subdivisionName" .Params.subdivisionname  "url" (printf "%s%s" .Permalink "index.json") -}}
+{{- $c := dict "imageCount" .Params.imageCount "name" .Params.name "slug" .Params.slug "subdivisionName" .Params.subdivisionname  "url" (printf "%s%s" .Permalink "index.json") -}}
 {{- $p.Add "country" $c -}}
 {{- end -}}
 {{- end -}}
 {{- range .Params.highways -}}
 {{ $highwaypath := printf "/%s/%s" "highway" . }}
 {{- with $.Site.GetPage $highwaypath -}}
-{{- $hw := dict "imageName" .Params.imageName "name" .Params.name "slug" .Params.slug "url" (printf "%s%s" .Permalink "index.json") -}}
+{{- $shieldDict := dict "small"  (printf "%sShields/20x/%s" site.Params.SHIELDBASEURL .Params.imagename ) "large"  (printf "%sShields/%s" site.Params.SHIELDBASEURL .Params.imagename ) -}}
+{{- $hw := dict "shield" $shieldDict "externalLink" .Params.externalLink "name" .Params.name "slug" .Params.slug "url" (printf "%s%s" .Permalink "index.json") -}}
 {{- $p.Add "highways" (slice $hw) -}}
 {{- end -}}
 {{- end -}}
