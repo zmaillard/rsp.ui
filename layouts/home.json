@@ -9,7 +9,7 @@
 {{- $costaRicaPage := $.Site.GetPage $costaRicaPath -}}
 
 {{- range (slice $usPage $canadaPage $mexicoPage $costaRicaPage) -}}
-{{ $s.Add "countries" (slice (dict "name" .Params.name "slug" .Params.slug "url" (printf "%s%s" .Permalink "index.json") ) )}}
+{{ $s.Add "countries" (slice (dict "name" .Params.name "slug" .Params.slug "subdivisionName" .Params.subdivisionname "url" (printf "%s%s" .Permalink "index.json") ) )}}
 {{- end -}}
 
 {{- $s.Add "imageCount" .Site.Data.images.imageCount -}}
