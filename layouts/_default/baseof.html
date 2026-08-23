@@ -66,6 +66,13 @@
 
     <script>
         feather.replace();
+
+        (function(imageCount) {
+            let randomLink = document.getElementById("random-link");
+            if (randomLink) {
+                randomLink.href = `/signindex/${Math.floor(Math.random() * imageCount)}`
+            }
+        }({{.Site.Data.images.imageCount}}))
     </script>
     {{ if .Store.Get "hasMermaid" }}
     <script type="module" >
