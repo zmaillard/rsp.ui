@@ -18,7 +18,7 @@
 {{- end -}}
 {{- end -}}
 {{- end -}}
-{{ $s.Add "countries" (slice (dict "imageCount" .Params.imageCount  "states" $st.Values "name" .Params.name "slug" .Params.slug "subdivisionName" .Params.subdivisionname "url" (printf "%s%s" .Permalink "index.json") ) )}}
+{{ $s.Add "countries" (slice (dict "imageCount" .Params.imageCount  "states" ($st.Get "states" ) "name" .Params.name "slug" .Params.slug "subdivisionName" .Params.subdivisionname "url" (printf "%s%s" .Permalink "index.json") ) )}}
 {{- end -}}
 
 {{- $s.Add "imageCount" .Site.Data.images.imageCount -}}
