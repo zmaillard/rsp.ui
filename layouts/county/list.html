@@ -88,7 +88,7 @@
 
 {{ end }}
 
-<div class="block">
+<div id="sign-list-container" class="block">
 {{ range $groupedPlaces }}
 {{ $placePath := printf "/%s/%s" "place" .Key}}
 {{ $placePage := $.Site.GetPage $placePath}}
@@ -137,9 +137,27 @@
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M16 1v5h-5M2 19v-5h5m10-4a8 8 0 0 1-14.947 3.97M1 10a8 8 0 0 1 14.947-3.97" />
         </svg>
-        <a href="{{$.Site.Params.RANDOMURL}}/statesubdivision/{{$stateSlug}}_{{$countySlug}}" data-cy="random-sign-link" id="refresh-random" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Show Random Sign From {{$countyName}}</a>
+        <a href="/" data-cy="random-sign-link" id="refresh-random" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Show Random Sign From {{$countyName}}</a>
     </div>
 
 </div>
 </section>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        let signContainer = document.getElementById("sign-list-container");
+        if (!signContainer){
+            return;
+        }
+        let allSigns = signContainer.querySelectorAll('.sign-page-href');
+        let randomPlace =  Math.floor(Math.random() * allSigns.length);
+
+        let randomLink = document.getElementById("refresh-random");
+        if (randomLink) {
+            randomLink.href = allSigns[randomPlace].href;
+        }
+    });
+
+</script>
+
 {{ end }}

@@ -66,7 +66,7 @@ describe('County Page Tests', () => {
         it('should have working random sign link', () => {
             cy.get('[data-cy="random-sign-link"]').should('be.visible')
             cy.get('[data-cy="random-sign-link"]').should('have.attr', 'href')
-                .and('include', 'washington_wahkiakum-county')
+                .and('include', 'sign')
         })
 
         it('should navigate locality anchor link to correct place section', () => {
@@ -243,11 +243,6 @@ describe('County Page Tests', () => {
         it('should display "Localities:" header even if no localities', () => {
             cy.get('[data-cy="localities-header"]').should('be.visible')
             cy.get('[data-cy="localities-header"]').should('contain', 'Localities:')
-        })
-
-        it('should have valid random sign link URL structure', () => {
-            cy.get('[data-cy="random-sign-link"]').should('have.attr', 'href')
-                .and('match', /\/statesubdivision\/\w+_[\w-]+/)
         })
 
         it('should display sign tiles with proper structure', () => {
