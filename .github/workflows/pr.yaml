@@ -49,7 +49,6 @@ jobs:
           HUGO_PARAMS_SHIELDBASEURL: ${{ vars.HUGO_PARAMS_SHIELDPRIVATEBASEURL }}
           HUGO_PARAMS_MAPTILE: ${{ vars.HUGO_PARAMS_MAPTILE }}
           HUGO_PARAMS_MAPBOXTOKEN: ${{ secrets.HUGO_PARAMS_MAPBOXTOKEN }}
-          HUGO_PARAMS_RANDOMURL: ${{ vars.HUGO_PARAMS_RANDOMURL }}
 
       - name: Serve site in background
         run: |

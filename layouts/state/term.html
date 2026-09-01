@@ -233,15 +233,22 @@
         const $img = document.getElementById("state-featured-img");
         const $link = document.getElementById("state-featured");
         const $refreshIcon = document.getElementById("refresh-random-icon");
+        let signs = [];
+        fetch('/state/{{.Params.slug}}/index.json')
+            .then(f=>f.json())
+            .then(f=>{
+                signs = f.signs;
+            })
+
         $button.addEventListener("click", function () {
             $refreshIcon.classList.toggle("animate-spin");
-            fetch('{{$.Site.Params.RANDOMURL}}/state/{{.Params.slug}}?idonly=true')
+            let randomState =  Math.floor(Math.random() * signs.length);
+            fetch(`/sign/${signs[randomState]}/index.json`)
                 .then(f=>f.json())
                 .then(f=>{
-                    $img.src = "{{site.Params.SIGNBASEURL}}" + f.imageId + "/" + f.imageId + '_l.jpg';
-                    $link.href = "/sign/" + f.imageId;
+                    $img.src = f.image.large;
+                    $link.href = "/sign/" + f.imageid;
                     $refreshIcon.classList.toggle("animate-spin");
-
                 });
         });
     })();

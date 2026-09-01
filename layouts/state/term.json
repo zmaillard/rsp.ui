@@ -26,5 +26,12 @@
 {{- $p.Add "highways" (slice $hw) -}}
 {{- end -}}
 {{- end -}}
+{{- range .Page.Pages -}}
+{{- $signId := .Params.imageid -}}
+{{- $signpath := printf "/%s/%s" "sign" $signId -}}
+{{- with $.Site.GetPage $signpath -}}
+{{- $p.Add "signs" (slice .Params.imageId) -}}
+{{- end -}}
+{{- end -}}
 
 {{- $p.Values  | jsonify -}}
