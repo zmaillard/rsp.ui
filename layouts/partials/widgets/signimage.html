@@ -18,6 +18,9 @@
     {{- with .title }}
     {{- $title = . }}
     {{- end }}
+<picture>
+ <source type="image/avif" srcset="{{site.Params.SIGNBASEURL}}{{ $imageId}}{{$prefix}}/{{ $imageId}}{{$imageSuffix}}.avif">
+ <source type="image/webp" srcset="{{site.Params.SIGNBASEURL}}{{ $imageId}}{{$prefix}}/{{ $imageId}}{{$imageSuffix}}.webp">
 <img data-src="{{site.Params.SIGNBASEURL}}{{$imageId}}{{$prefix}}/{{ $imageId }}{{$imageSuffix}}.jpg"
      src="{{site.Params.SIGNBASEURL}}{{ $imageId}}{{$prefix}}/{{ $imageId}}{{$imageSuffix}}.jpg"
      {{- with .id }}
@@ -48,4 +51,5 @@
 
      {{- end }}
      alt="{{ $title }}">
+</picture>
 {{- end }}
