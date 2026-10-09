@@ -80,7 +80,7 @@ describe('Sign Page Tests', () => {
         // The zoomed image should use the high-resolution source
         cy.get('.medium-zoom-image--opened')
             .should('have.attr', 'src')
-            .and('include', '.jpg')
+            .and('match', /\.(avif|webp|jpg)$/i)
     })
 
 })
