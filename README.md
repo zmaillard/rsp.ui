@@ -65,6 +65,5 @@ npm run tailwind
 
 ## Sub Projects
 - [Indexer](index/README.md)
-- [Random Signs](random/README.md)
 - [Map Tiles](tiles/README.md)
 
