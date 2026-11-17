@@ -1,89 +1,118 @@
 {{ define "main" }}
 <section>
-    <div class="h-screen">
+    <div id="mapWrap" class="min-h-[400px]">
         <div id="map" class="h-full z-1"></div>
     </div>
 </section>
+<input type="hidden" id="signBaseUrl" value="{{.Site.Params.SIGNBASEURL}}" />
+<input type="hidden" id="mapTile" value="{{.Site.Params.MAPTILE}}" />
 {{ end }}
 
 {{ define "header" }}
-<script src='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js'></script>
-<link href='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet'/>
+<link rel='stylesheet' href='https://unpkg.com/maplibre-gl@6.18.0/dist/maplibre-gl.css' />
 <style>
 
 </style>
 {{ end }}
 
 {{ define "footer" }}
-<script>
-    (function (signBaseUrl, mapBoxToken, mapTileUrl) {
+<script type="module">
+    import * as maplibregl from 'https://unpkg.com/maplibre-gl@6.18.0/dist/maplibre-gl.mjs';
 
+    let mapTileUrl = document.getElementById('mapTile').value;
+    let signBaseUrl = document.getElementById('signBaseUrl').value;
 
-        mapboxgl.accessToken = mapBoxToken;
-        const map = new mapboxgl.Map({
-            container: 'map', // container ID
-            style: 'mapbox://styles/mapbox/streets-v12', // style URL
-            center: [-95, 40], // starting position [lng, lat]
-            zoom: 4 // starting zoom
-        });
-
-        // When the cursor enters a feature in the point layer, prepare for dragging.
-        map.on("click", "sign", (e) => {
-            if (e.features && e.features.length > 0) {
-                const geom = e.features[0]?.geometry;
-                if (geom.type === "Point") {
-                    const id = e.features[0]?.properties?.id;
-
-                    const point = geom;
-                    const coordinates = point.coordinates;
-                    const title = e.features[0]?.properties?.title;
-                    const aNode = document.createElement("a");
-                    aNode.href = "/sign/" + e.features[0]?.properties?.imageid;
-
-                    const pNode = document.createElement("p");
-                    const titleNode = document.createTextNode(title);
-
-                    pNode.appendChild(titleNode);
-                    aNode.appendChild(pNode);
-                    const img = document.createElement("img");
-                    img.className = "object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg";
-                    img.src = signBaseUrl + e.features[0]?.properties?.imageid + "/" + e.features[0]?.properties?.imageid + "_s.jpg";
-
-                    aNode.appendChild(img);
-
-                    new mapboxgl.Popup()
-                        .setLngLat([coordinates[0], coordinates[1]])
-                        .setDOMContent(aNode)
-                        .addTo(map);
-                }
-            }
-        });
-
-
-        map.on('init', () => {
-            map.resize();
-        });
-
-        map.on("load", () => {
-            map.addSource('signs', {
-                type: 'vector',
-                tiles: [mapTileUrl],
-                minzoom: 0,
-                maxzoom: 16,
-            });
-
-
-            map.addLayer({
-                id: "sign",
-                type: "circle",
-                source: "signs",
-                "source-layer": "signs",
-                paint: {
-                    "circle-radius": 8,
-                    "circle-color": "rgba(55,148,179,1)",
+    const map = new maplibregl.Map({
+        container: 'map',
+        zoom: 4,
+        center: [-95, 40],
+        style: {
+            'version': 8,
+            'sources': {
+                'osm': {
+                    'tiles': ['https://a.tile.openstreetmap.org/{z}/{x}/{y}.png'],
+                    'type': 'raster',
+                    "attribution": "&copy; OpenStreetMap Contributors",
+                    'maxzoom': 19,
                 },
-            });
+                'signs': {
+                    'tiles': [mapTileUrl],
+                    'type': 'vector',
+                    'minzoom': 0,
+                    'maxzoom': 16,
+                },
+            },
+            'layers': [
+                {
+                    'id': 'osm',
+                    'type': 'raster',
+                    'source': 'osm',
+                },
+                {
+                    'id': 'sign',
+                    'type': 'circle',
+                    'source': 'signs',
+                    'source-layer': 'signs',
+                    'paint': {
+                        'circle-radius': 8,
+                        'circle-color': 'rgba(55,148,179,1)',
+                    }
+                },
+            ],
+        }
+    });
+
+    map.on('mouseenter', 'sign', () => {
+        map.getCanvas().style.cursor = 'pointer';
+    });
+
+    map.on('mouseleave', 'sign', () => {
+        map.getCanvas().style.cursor = '';
+    });
+
+    // When a click event occurs on a feature in the states layer, open a popup at the
+    // location of the click, with description HTML from its properties.
+    map.on('click', 'sign', (e) => {
+        const title = e.features[0]?.properties?.title;
+        const aNode = document.createElement("a");
+        aNode.href = "/sign/" + e.features[0]?.properties?.imageid;
+
+        const pNode = document.createElement("p");
+        const titleNode = document.createTextNode(title);
+
+        pNode.appendChild(titleNode);
+        aNode.appendChild(pNode);
+        const img = document.createElement("img");
+        img.className = "object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg";
+        img.src = signBaseUrl + e.features[0]?.properties?.imageid + "/" + e.features[0]?.properties?.imageid + "_s.jpg";
+
+        aNode.appendChild(img);
+
+        new maplibregl.Popup()
+            .setLngLat(e.lngLat)
+            .setHTML(aNode.outerHTML)
+            .addTo(map);
+    });
+    function resizeMap() {
+        const mapWrap = document.getElementById('mapWrap');
+        const nav = document.querySelector('nav');
+        const footer = document.querySelector('footer');
+        const navHeight = nav ? nav.getBoundingClientRect().height : 0;
+        const footerHeight = footer ? footer.getBoundingClientRect().height : 0;
+        const availableHeight = window.innerHeight - navHeight - footerHeight;
+
+        mapWrap.style.height = Math.max(availableHeight, 400) + 'px';
+        map.resize();
+    }
+
+    map.on('load', resizeMap);
+    window.addEventListener('resize', resizeMap);
+
+    const navToggle = document.querySelector('[data-collapse-toggle="navbar-default"]');
+    if (navToggle) {
+        navToggle.addEventListener('click', () => {
+            setTimeout(resizeMap, 300);
         });
-    })('{{.Site.Params.SIGNBASEURL}}', '{{.Site.Params.MAPBOXTOKEN}}', '{{.Site.Params.MAPTILE}}');
+    }
 </script>
 {{ end }}
